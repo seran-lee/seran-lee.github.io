@@ -38,10 +38,6 @@ education:
     school: "Handong Global University"
     year: ""
 
-  - degree: "한국상담심리학회"
-    field: ""
-    school: "1급"
-
 # 경력 (최신순, 현재 근무지가 맨 위)
 experience:
   - position: "교수"
@@ -64,3 +60,7 @@ experience:
     organization: "연세대학교 심리상담센터"
     period: "2019 - 2022"
     current: false
+
+  - position: "한국상담심리학회"
+    field: ""
+    organization: "1급"
