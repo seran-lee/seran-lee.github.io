@@ -12,6 +12,7 @@ const SITE_CONFIG = {
 
 const NAV_ITEMS = [
   { href: 'index.html', label: 'Home', id: 'home' },
+  { href: 'research.html', label: 'Research', id: 'research' },
   // { href: 'lab.html', label: 'Lab', id: 'lab' },
   { href: 'bibliography.html', label: 'Publications', id: 'bibliography' },
   { href: 'contact.html', label: 'Contact', id: 'contact' },
