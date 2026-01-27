@@ -11,6 +11,7 @@
 # - title: "논문/책 제목"
 #   year: 2024                      # 출판 연도 (숫자)
 #   category: "Articles"            # 카테고리 (아래 3가지 중 선택)
+#   author: "저자명"
 #   publisher: "출판사 또는 저널명"
 #   link: "https://..."             # 논문 링크 (없으면 "#" 또는 이 줄 삭제)
 #
@@ -34,41 +35,48 @@
 - title: "Decent work profiles of Korean workers: Antecedents and outcomes of profile membership"
   year: 2025
   category: "Articles"
+  author: "Seran Lee"
   publisher: "Journal of Career Assessment, 33(1), 149–166."
   link: "https://doi.org/10.1177/10690727241254120"
 
 - title: "Digital Palimpsests and the Future of Marginalia Studies"
   year: 2024
   category: "Articles"
+  author: "Seran Lee"
   publisher: "Journal of Digital Humanities"
   link: "https://journalofdigitalhumanities.org/"
 
 - title: "Memory, Identity, and the Archive: A Philosophical Inquiry"
   year: 2024
   category: "Articles"
+  author: "Seran Lee"
   publisher: "Comparative Literature Quarterly"
   link: "https://www.jstor.org/"
 
 - title: "The Tactile Nature of 19th-Century Epistolary Culture"
   year: 2023
   category: "Essays"
+  author: "Seran Lee"
   publisher: "The Atlantic Review"
   link: "https://www.theatlantic.com/"
 
 - title: "Computational Linguistics Meets Close Reading"
   year: 2023
   category: "Articles"
+  author: "Seran Lee"
   publisher: "Digital Scholarship in the Humanities"
   link: "https://academic.oup.com/dsh"
 
 - title: "Voices Lost in Margins: Recovering Institutional Archives"
   year: 2022
   category: "Monographs"
+  author: "Seran Lee"
   publisher: "Cambridge University Press"
   link: "https://www.cambridge.org/"
 
 - title: "The Digital Afterlife of Historical Manuscripts"
   year: 2022
   category: "Essays"
+  author: "Seran Lee"
   publisher: "Humanities Now"
   link: "#"
