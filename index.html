@@ -140,13 +140,18 @@
         // 1. 주요 경력 (현재)
         if (currentExperience) {
           experienceHtml += `
-            <div class="flex items-center gap-3 text-lg">
-              <span class="material-symbols-outlined text-primary text-xl">work</span>
-              <span class="text-slate-800 dark:text-slate-200">
-                <span class="font-semibold">${currentExperience.organization}</span>
-                <span class="text-slate-500"> · ${currentExperience.position}</span>
-                <span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>
-              </span>
+            <div class="flex items-start gap-4">
+              <span class="material-symbols-outlined text-primary text-xl mt-1">work</span>
+              <div>
+                <p class="text-lg">
+                  <span class="font-semibold text-slate-800 dark:text-slate-200">${currentExperience.organization}</span>
+                  <span class="text-slate-500"> · ${currentExperience.position}</span>
+                  <span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>
+                </p>
+                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                  ${currentExperience.organization_en} · ${currentExperience.position_en}
+                </p>
+              </div>
             </div>
           `;
         }

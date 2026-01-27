@@ -41,7 +41,9 @@ education:
 # 경력 (최신순, 현재 근무지가 맨 위)
 experience:
   - position: "교수"
+    position_en: "Professor"
     organization: "한남대학교 상담심리학과"
+    organization_en: "Hannam University, Dept. of Counseling Psychology"
     period: "현재"
     current: true
 
