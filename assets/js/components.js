@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { href: 'index.html', label: 'Home', id: 'home' },
   // { href: 'lab.html', label: 'Lab', id: 'lab' },
   { href: 'bibliography.html', label: 'Publications', id: 'bibliography' },
-  { href: 'assets/files/C.V._Seran Lee.pdf', label: 'CV', id: 'cv' }
+  // { href: 'assets/files/C.V._Seran Lee.pdf', label: 'CV', id: 'cv' }
 ];
 
 /**

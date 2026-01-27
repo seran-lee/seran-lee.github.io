@@ -23,18 +23,18 @@
 
 # 학력 (최신순)
 education:
-  - degree: "Doctor of Philosophy"
+  - degree: "Ph.D."
     field: "School and Career Psychology"
     school: "Yonsei University"
     year: ""
 
-  - degree: "Master of Arts"
+  - degree: "M.A."
     field: "School and Career Psychology"
     school: "Yonsei University"
     year: ""
 
-  - degree: "Bachelor of Arts"
-    field: "Business Administration, Counseling Psychology"
+  - degree: "B.A."
+    field: "Counseling Psychology"
     school: "Handong Global University"
     year: ""
 
