@@ -54,13 +54,13 @@
         </p>
       </div>
       <div class="flex gap-4 mt-8">
-        <a href="https://scholar.google.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+        <a href="https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-xl">school</span>
         </a>
         <!-- <a href="assets/files/cv.pdf" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-xl">description</span>
         </a> -->
-        <a href="mailto:seran.lee@example.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+        <a href="mailto:srlee617@gmail.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
           <span class="material-symbols-outlined text-xl">alternate_email</span>
         </a>
       </div>
@@ -89,9 +89,30 @@
 
     <!-- Headline & Narrative Section -->
     <section class="max-w-2xl mx-auto text-center space-y-8 py-12">
-      <h2 class="text-3xl font-bold leading-tight italic">In Search of Lost Narratives</h2>
+      <h2 class="text-3xl font-bold leading-tight">About Me <span class="block text-lg text-slate-500 dark:text-slate-400 mt-1 font-normal">소개</span></h2>
       <div id="intro-content" class="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
         <!-- intro.md 내용이 여기에 로드됩니다 -->
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-4 text-slate-300 dark:text-slate-700">
+      <span class="material-symbols-outlined text-sm">horizontal_rule</span>
+    </div>
+
+    <!-- Contact Section -->
+    <section class="max-w-2xl mx-auto text-center py-12">
+      <h2 class="text-3xl font-bold leading-tight mb-4">Get in Touch <span class="block text-lg text-slate-500 dark:text-slate-400 mt-1 font-normal">연락하기</span></h2>
+      <div class="text-lg leading-relaxed text-slate-700 dark:text-slate-300 max-w-xl mx-auto">
+        <p>I am always open to research collaborations. Whether you have questions about my work or just want to connect over shared interests, please feel free to reach out.</p>
+        <p class="text-slate-500 dark:text-slate-400 mt-3 text-base">저는 언제나 연구 협력에 열려 있습니다. 제 연구에 대해 궁금한 점이 있거나 공통 관심사를 통해 소통하고 싶으시다면, 언제든지 편하게 연락 주세요.</p>
+      </div>
+      <div class="mt-8">
+        <a href="mailto:srlee617@gmail.com" 
+           class="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline decoration-2 underline-offset-4">
+          <span class="material-symbols-outlined">alternate_email</span>
+          srlee617@gmail.com
+        </a>
       </div>
     </section>
   </main>
@@ -108,7 +129,18 @@
         const response = await fetch(`_includes/intro.md?v=${new Date().getTime()}`);
         const text = await response.text();
         const paragraphs = text.split('\n\n').filter(p => p.trim());
-        document.getElementById('intro-content').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+        let introHtml = '';
+        for (let i = 0; i < paragraphs.length; i += 2) {
+          if (paragraphs[i]) {
+            introHtml += `<div class="mb-6"><p>${paragraphs[i]}</p>`;
+          }
+          if (paragraphs[i+1]) {
+            introHtml += `<p class="text-slate-500 dark:text-slate-400 mt-3 text-base">${paragraphs[i+1]}</p></div>`;
+          } else {
+            introHtml += `</div>`;
+          }
+        }
+        document.getElementById('intro-content').innerHTML = introHtml;
       } catch (e) {
         console.error('Failed to load intro:', e);
       }

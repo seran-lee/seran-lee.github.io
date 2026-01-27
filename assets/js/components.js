@@ -2,9 +2,9 @@
 
 const SITE_CONFIG = {
   author: 'Seran Lee (이세란)',
-  email: 'seran.lee@example.com',
+  email: 'srlee617@gmail.com',
   links: {
-    scholar: 'https://scholar.google.com',
+    scholar: 'https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com'
   }
@@ -69,9 +69,7 @@ function renderFooter() {
     <footer class="max-w-4xl mx-auto px-6 border-t border-slate-200 dark:border-slate-800 pt-12 pb-8 text-center space-y-4">
       <div class="flex justify-center gap-6 text-xs uppercase tracking-widest">
         <a href="${SITE_CONFIG.links.scholar}" class="text-slate-400 hover:text-primary transition-colors">Google Scholar</a>
-        <a href="${SITE_CONFIG.links.github}" class="text-slate-400 hover:text-primary transition-colors">GitHub</a>
         <a href="mailto:${SITE_CONFIG.email}" class="text-slate-400 hover:text-primary transition-colors">Email</a>
-        <a href="${SITE_CONFIG.links.linkedin}" class="text-slate-400 hover:text-primary transition-colors">LinkedIn</a>
       </div>
       <p class="text-xs text-slate-500 font-sans uppercase tracking-tighter">
         © ${year} ${SITE_CONFIG.author}. Academic Research Portfolio.
