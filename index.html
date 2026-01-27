@@ -105,7 +105,7 @@
     // intro.md 로드
     async function loadIntro() {
       try {
-        const response = await fetch('_includes/intro.md');
+        const response = await fetch(`_includes/intro.md?v=${new Date().getTime()}`);
         const text = await response.text();
         const paragraphs = text.split('\n\n').filter(p => p.trim());
         document.getElementById('intro-content').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
@@ -117,7 +117,7 @@
     // profile.yml 로드 및 렌더링
     async function loadProfile() {
       try {
-        const profile = await loadYAML('_data/profile.yml');
+        const profile = await loadYAML(`_data/profile.yml?v=${new Date().getTime()}`);
         
         // 경력 렌더링 (인라인 심플)
         const expList = document.getElementById('experience-list');

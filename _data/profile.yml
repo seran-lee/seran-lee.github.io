@@ -23,20 +23,24 @@
 
 # 학력 (최신순)
 education:
-  - degree: "박사"
-    field: "상담심리"
-    school: "연세대학교"
+  - degree: "Doctor of Philosophy"
+    field: "School and Career Psychology"
+    school: "Yonsei University"
     year: ""
 
-  - degree: "석사"
-    field: "상담심리"
-    school: "연세대학교"
+  - degree: "Master of Arts"
+    field: "School and Career Psychology"
+    school: "Yonsei University"
     year: ""
 
-  - degree: "학사"
+  - degree: "Bachelor of Arts"
+    field: "Business Administration, Counseling Psychology"
+    school: "Handong Global University"
+    year: ""
+
+  - degree: "한국상담심리학회"
     field: ""
-    school: "한동대학교"
-    year: ""
+    school: "1급"
 
 # 경력 (최신순, 현재 근무지가 맨 위)
 experience:
@@ -46,7 +50,17 @@ experience:
     current: true
 
   # 아래에 과거 경력 추가 (예시)
-  # - position: "상담사"
-  #   organization: "OO상담센터"
-  #   period: "2018 - 2022"
-  #   current: false
+  - position: "전문상담사"
+    organization: "위드미 상담센터"
+    period: "2023 - 2026"
+    current: false
+
+  - position: "시간제 상담사"
+    organization: "숭실대학교 심리상담센터"
+    period: "2022 - 2023"
+    current: false
+
+  - position: "인턴 상담사"
+    organization: "연세대학교 심리상담센터"
+    period: "2019 - 2022"
+    current: false

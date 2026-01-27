@@ -31,52 +31,108 @@
 #   - 최신 출판물을 맨 위에 추가하면 정렬이 자연스럽습니다
 #
 # ============================================================
+- title: "The influence of parental abuse and neglect on career identity in high school students: Mediating effects of intrinsic and extrinsic goals"
+  year: 2018
+  category: "Articles"
+  author: "Hwang, H., Lee, E. H., & Lee, S."
+  publisher: "Korean Journal of Counseling and Psychotherapy, 30(1), 195-216."
+  link: "https://doi.org/10.23844/kjcp.2018.02.30.1.195"
+
+- title: "The relation between openness to experience and occupational engagement: Moderated mediation effect of planned happenstance skills and conflict with significant others"
+  year: 2019
+  category: "Articles"
+  author: "Lee, S., & Lee, K.-H."
+  publisher: "The Journal of Career Education Research, 32(3), 201-222."
+  link: "https://doi.org/10.32341/JCER.2019.09.32.3.201"
+
+- title: "Application of the psychology of working theory with Korean emerging adults"
+  year: 2019
+  category: "Articles"
+  author: "Kim, H.J., Duffy, R.D., Lee, S., Lee, J., Lee, K-H."
+  publisher: "Journal of Counseling Psychology, 66, 701-713."
+  link: "https://doi.org/10.1037/cou0000368"
+
+- title: "The relationship between sex discrimination and job and life satisfaction in female employees: The mediating effects of work volition and decent work"
+  year: 2021
+  category: "Articles"
+  author: "Lee, S., & Lee, K.-H."
+  publisher: "Korean Journal of Counseling and Psychotherapy, 33(1), 539-560."
+  link: ""
+
+- title: "A validation study of the Work Need Satisfaction Scale for Korean working adults"
+  year: 2021
+  category: "Articles"
+  author: "Kim, J.-H., Yoo, K., Lee, S., & Lee, K.-H."
+  publisher: "Frontiers in Psychology, 12, 611464."
+  link: "https://doi.org/10.3389/fpsyg.2021.611464"
+
+- title: "The concept map of satisfaction and dissatisfaction factors in video counseling: A comparison of early adult client and counselor perceptions"
+  year: 2024
+  category: "Articles"
+  author: "Lee, S., Heo, C., Han, E., & Lee, K.-H."
+  publisher: "Korean Journal of Counseling and Psychotherapy, 36(4), 1563-1589."
+  link: ""
 
 - title: "Decent work profiles of Korean workers: Antecedents and outcomes of profile membership"
   year: 2025
   category: "Articles"
-  author: "Seran Lee"
-  publisher: "Journal of Career Assessment, 33(1), 149–166."
+  author: "Lee, S., Kim, J.-H., & Lee, K.-H."
+  publisher: "Journal of Career Assessment, 33(1), 149-166."
   link: "https://doi.org/10.1177/10690727241254120"
 
-- title: "Digital Palimpsests and the Future of Marginalia Studies"
+- title: "Profiles of economic constraints and marginalization among Korean working adults: Differences in work and life outcomes"
+  year: 2025
+  category: "Articles"
+  author: "Lee, S., Yang, H., & Lee, K.-H."
+  publisher: "Frontiers in Psychology, 16, 1563787."
+  link: "https://doi.org/10.3389/fpsyg.2025.1563787"
+
+- title: "The Concept Mapping of Clients' Satisfaction/Dissatisfaction Experience in Video Counseling"
   year: 2024
-  category: "Articles"
-  author: "Seran Lee"
-  publisher: "Journal of Digital Humanities"
-  link: "https://journalofdigitalhumanities.org/"
+  category: "Presentations"
+  author: "Lee, S., Heo, C., Han, E., & Lee, K. H."
+  publisher: "Online poster presented at American Psychological Association, Seattle, WA, United States"
+  link: ""
 
-- title: "Memory, Identity, and the Archive: A Philosophical Inquiry"
+- title: "Preliminary Validation Study of the Korean Version of the Critical Consciousness Scale"
   year: 2024
-  category: "Articles"
-  author: "Seran Lee"
-  publisher: "Comparative Literature Quarterly"
-  link: "https://www.jstor.org/"
+  category: "Presentations"
+  author: "Lee, S., Kim, J. H., & Lee, K. H."
+  publisher: "Online poster presented at American Psychological Association, Seattle, WA, United States"
+  link: ""
 
-- title: "The Tactile Nature of 19th-Century Epistolary Culture"
+- title: "Decent Work and Well-being: Mediating effect of survival need satisfaction within the Psychology of Working Theory"
   year: 2023
-  category: "Essays"
-  author: "Seran Lee"
-  publisher: "The Atlantic Review"
-  link: "https://www.theatlantic.com/"
+  category: "Presentations"
+  author: "Kim, J. H. & Lee, S."
+  publisher: "Online poster presented at American Psychological Association, Washington, D. C., United States"
+  link: ""
 
-- title: "Computational Linguistics Meets Close Reading"
+- title: "Social Class and Mental Health: Moderating Role of Marginalization"
   year: 2023
-  category: "Articles"
-  author: "Seran Lee"
-  publisher: "Digital Scholarship in the Humanities"
-  link: "https://academic.oup.com/dsh"
+  category: "Presentations"
+  author: "Lee, S., Kim, J., & Lee, K. H."
+  publisher: "Online poster presented at American Psychological Assocation, Washington, D. C., United States"
+  link: ""
 
-- title: "Voices Lost in Margins: Recovering Institutional Archives"
-  year: 2022
-  category: "Monographs"
-  author: "Seran Lee"
-  publisher: "Cambridge University Press"
-  link: "https://www.cambridge.org/"
+- title: "The effect of intolerance of uncertainty on career engagement among college students: The moderating role of internal locus of control"
+  year: 2019
+  category: "Presentations"
+  author: "Lee, S., & Lee, K."
+  publisher: "Poster presented at the Annual Conference of the Korean Psychological Association, Seoul, South Korea"
+  link: ""
 
-- title: "The Digital Afterlife of Historical Manuscripts"
-  year: 2022
-  category: "Essays"
-  author: "Seran Lee"
-  publisher: "Humanities Now"
-  link: "#"
+- title: "Testing the Psychology of Working Theory among Korean junior college students"
+  year: 2019
+  category: "Presentations"
+  author: "Kim, H.J., Duffy, R.D., Lee, S., Lee, J., & Lee, K-H."
+  publisher: "A student poster presented at the American Psychological Association, Chicago, IL, US"
+  link: ""
+
+- title: "Social class and work volition: Moderating role of perceived economic conditions"
+  year: 2019
+  category: "Presentations"
+  author: "Lee, S., & Kim, H.J."
+  publisher: "A poster presented at the American Psychological Association, Chicago, IL, US"
+  link: ""
+  
