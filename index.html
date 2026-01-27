@@ -119,18 +119,43 @@
       try {
         const profile = await loadYAML(`_data/profile.yml?v=${new Date().getTime()}`);
         
-        // 경력 렌더링 (인라인 심플)
+        // 경력 렌더링 (주요 경력과 상담 경력 분리)
         const expList = document.getElementById('experience-list');
-        expList.innerHTML = profile.experience.map(exp => `
-          <div class="flex items-center gap-3 text-lg">
-            <span class="material-symbols-outlined text-primary text-xl">work</span>
-            <span class="text-slate-800 dark:text-slate-200">
-              <span class="font-semibold">${exp.organization}</span>
-              <span class="text-slate-500"> · ${exp.position}</span>
-              ${exp.current ? '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>' : `<span class="text-slate-400 text-sm"> · ${exp.period}</span>`}
-            </span>
-          </div>
-        `).join('');
+        const currentExperience = profile.experience.find(exp => exp.current);
+        const pastExperiences = profile.experience.filter(exp => !exp.current);
+
+        let experienceHtml = '';
+
+        // 1. 주요 경력 (현재)
+        if (currentExperience) {
+          experienceHtml += `
+            <div class="flex items-center gap-3 text-lg">
+              <span class="material-symbols-outlined text-primary text-xl">work</span>
+              <span class="text-slate-800 dark:text-slate-200">
+                <span class="font-semibold">${currentExperience.organization}</span>
+                <span class="text-slate-500"> · ${currentExperience.position}</span>
+                <span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>
+              </span>
+            </div>
+          `;
+        }
+
+        // 2. 상담 경력 (과거)
+        if (pastExperiences.length > 0) {
+          experienceHtml += `<div class="pt-4 mt-4 space-y-2">`;
+          experienceHtml += pastExperiences.map(exp => `
+            <div class="flex items-center gap-3 text-lg">
+              <span class="w-6 text-center"></span>
+              <span class="text-slate-600 dark:text-slate-400">
+                <span class="font-semibold">${exp.organization}</span>
+                <span class="text-slate-500"> · ${exp.position}</span>
+                <span class="text-slate-400 text-sm"> · ${exp.period}</span>
+              </span>
+            </div>
+          `).join('');
+          experienceHtml += '</div>';
+        }
+        expList.innerHTML = experienceHtml;
 
         // 학력 렌더링 (세로 인라인, 아이콘은 첫 번째만)
         const eduList = document.getElementById('education-list');
