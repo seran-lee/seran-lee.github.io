@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact | Seran Lee (이세란)</title>
+  <meta name="description" content="한남대학교 상담심리학과 교수 이세란에게 연락하기" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#607AFB",
+            "background-light": "#f5f6f8",
+            "background-dark": "#0f1323",
+          },
+          fontFamily: {
+            display: ["Noto Serif", "serif"],
+            sans: ["Noto Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Noto Serif", serif; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <!-- GNB -->
+  <div id="gnb"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+    <section class="text-center">
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white mb-4">Contact</h1>
+      <p class="text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto">
+        연구 협력, 질문, 또는 기타 문의 사항이 있으시면 언제든지 연락 주세요.
+      </p>
+    </section>
+
+    <section class="max-w-2xl mx-auto py-12 lg:py-20">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Google Scholar Card -->
+        <a href="https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao" target="_blank" rel="noopener noreferrer" class="group bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+          <div class="p-4 bg-primary/10 rounded-full mb-6">
+            <span class="material-symbols-outlined text-4xl text-primary">school</span>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Google Scholar</h3>
+          <p class="text-slate-500 dark:text-slate-400 mb-6">
+            저의 출판된 논문 및 연구 성과를 확인하실 수 있습니다.
+          </p>
+          <span class="mt-auto text-primary font-semibold text-sm group-hover:underline decoration-2 underline-offset-4">
+            프로필 방문하기
+          </span>
+        </a>
+
+        <!-- Email Card -->
+        <a href="mailto:srlee617@gmail.com" class="group bg-white dark:bg-slate-800/50 p-8 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col items-center text-center">
+          <div class="p-4 bg-primary/10 rounded-full mb-6">
+            <span class="material-symbols-outlined text-4xl text-primary">alternate_email</span>
+          </div>
+          <h3 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Email</h3>
+          <p class="text-slate-500 dark:text-slate-400 mb-6">
+            가장 빠르게 답변을 받으실 수 있는 방법입니다.
+          </p>
+          <span class="mt-auto text-primary font-semibold text-sm group-hover:underline decoration-2 underline-offset-4">
+            srlee617@gmail.com
+          </span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- 공통 컴포넌트 -->
+  <script src="assets/js/components.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      initLayout('contact');
+    });
+  </script>
+</body>
+</html>
