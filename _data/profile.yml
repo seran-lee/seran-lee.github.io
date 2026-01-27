@@ -49,7 +49,7 @@ experience:
   - position: "1급"
     organization: "한국상담심리학회"
     period: ""
-    current: false
+    current: true
 
   # - position: "전문상담사"
   #   organization: "위드미 상담센터"
