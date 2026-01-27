@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Research | Seran Lee (이세란)</title>
+  <meta name="description" content="The Renaissance Codex Project - Mapping the evolution of marginalia" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#607AFB",
+            "background-light": "#f5f6f8",
+            "background-dark": "#0f1323",
+          },
+          fontFamily: {
+            display: ["Noto Serif", "serif"],
+            sans: ["Noto Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Noto Serif", serif; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <!-- GNB -->
+  <div id="gnb"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+    <!-- Hero Section -->
+    <section class="relative h-80 md:h-96 rounded-2xl overflow-hidden mb-16">
+      <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://images.pexels.com/photos/159711/books-bookstore-book-reading-159711.jpeg?auto=compress&cs=tinysrgb&w=1200');"></div>
+      <div class="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/40"></div>
+      <div class="relative h-full flex flex-col justify-center px-8 md:px-12 text-white">
+        <p class="text-primary text-sm font-semibold uppercase tracking-widest mb-3">Featured Research</p>
+        <h1 class="text-3xl md:text-5xl font-bold mb-4 max-w-xl">The Renaissance Codex Project</h1>
+        <p class="text-lg text-slate-300 max-w-lg">
+          Mapping the evolution of marginalia in digitized monastic manuscripts across European archives.
+        </p>
+        <a href="#archive" class="inline-flex items-center gap-2 mt-6 text-sm font-semibold text-primary hover:underline">
+          Explore the Archive
+          <span class="material-symbols-outlined text-sm">arrow_downward</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Research Description -->
+    <section class="max-w-3xl mx-auto text-center mb-20">
+      <h2 class="text-2xl font-bold mb-6">About This Project</h2>
+      <div class="space-y-4 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+        <p>
+          The Renaissance Codex Project is a collaborative initiative bringing together scholars from digital humanities, medieval studies, and computational linguistics to create a comprehensive digital archive of annotated manuscripts.
+        </p>
+        <p>
+          By employing cutting-edge image recognition and natural language processing techniques, we aim to decode centuries-old marginalia and reconstruct the intellectual conversations that shaped European thought.
+        </p>
+      </div>
+    </section>
+
+    <!-- Collaborators Section -->
+    <section class="mb-20">
+      <div class="mb-8 flex flex-col items-center">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-4">Collaborators</h4>
+        <div class="w-12 h-px bg-primary/30"></div>
+      </div>
+      
+      <div id="collaborators-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <!-- collaborators.yml 데이터가 여기에 렌더링됩니다 -->
+      </div>
+    </section>
+
+    <!-- Archive Gallery -->
+    <section id="archive" class="mb-20">
+      <div class="mb-8 flex flex-col items-center">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-4">Archive Gallery</h4>
+        <div class="w-12 h-px bg-primary/30"></div>
+      </div>
+      
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+        <!-- Gallery Item 1 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/5834/nature-grass-leaf-green.jpg?auto=compress&cs=tinysrgb&w=600" alt="Medieval Manuscript" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Codex Aureus</h5>
+              <p class="text-xs text-slate-300">9th Century, Bavaria</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gallery Item 2 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/267586/pexels-photo-267586.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ancient Text" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Book of Kells</h5>
+              <p class="text-xs text-slate-300">8th Century, Ireland</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gallery Item 3 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/159866/books-book-pages-read-literature-159866.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Illuminated Manuscript" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Lindisfarne Gospels</h5>
+              <p class="text-xs text-slate-300">7th Century, England</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gallery Item 4 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/256431/pexels-photo-256431.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Library Archive" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Vatican Codex</h5>
+              <p class="text-xs text-slate-300">4th Century, Rome</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gallery Item 5 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/1370295/pexels-photo-1370295.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Ancient Scrolls" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Vienna Genesis</h5>
+              <p class="text-xs text-slate-300">6th Century, Syria</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Gallery Item 6 -->
+        <div class="group relative aspect-[4/3] rounded-xl overflow-hidden cursor-pointer">
+          <img src="https://images.pexels.com/photos/207662/pexels-photo-207662.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Rare Books" class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105">
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+            <div class="text-white">
+              <h5 class="font-bold text-sm">Durham Gospels</h5>
+              <p class="text-xs text-slate-300">7th Century, England</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="text-center py-12 px-6 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
+      <h3 class="text-2xl font-bold mb-4">Interested in Collaborating?</h3>
+      <p class="text-slate-600 dark:text-slate-400 mb-6 max-w-lg mx-auto">
+        We welcome researchers, institutions, and archives interested in contributing to this project.
+      </p>
+      <a href="mailto:seran.lee@example.com" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors">
+        <span class="material-symbols-outlined text-sm">mail</span>
+        Get in Touch
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- 공통 컴포넌트 -->
+  <script src="assets/js/components.js"></script>
+  <script>
+    async function loadCollaborators() {
+      try {
+        const collaborators = await loadYAML('_data/collaborators.yml');
+        const grid = document.getElementById('collaborators-grid');
+        grid.innerHTML = collaborators.map(c => `
+          <div class="flex items-center gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 hover:border-primary/50 transition-all">
+            <img src="${c.image}" alt="${c.name}" class="w-14 h-14 rounded-full object-cover flex-shrink-0">
+            <div class="min-w-0">
+              <h4 class="font-bold text-sm text-slate-900 dark:text-white truncate">${c.name}</h4>
+              <p class="text-xs text-slate-500 truncate">${c.affiliation}</p>
+              <p class="text-xs text-primary font-medium">${c.role}</p>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Failed to load collaborators:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLayout('research');
+      loadCollaborators();
+    });
+  </script>
+</body>
+</html>

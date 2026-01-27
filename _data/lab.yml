@@ -1,0 +1,125 @@
+# ============================================================
+# Lab (연구실 정보)
+# ============================================================
+# 이 파일은 Lab 페이지에 표시되는 연구실 정보입니다.
+#
+# ------------------------------------------------------------
+# 📝 멤버 추가 템플릿
+# ------------------------------------------------------------
+#
+# members:
+#   - name: "이름"
+#     role: "박사과정"          # 역할 (박사과정, 석사과정, 학부연구생 등)
+#     research: "연구 주제"     # 연구 관심 분야
+#     email: "email@example.com"
+#     image: "이미지 URL"       # 프로필 사진
+#     year: "2023"              # 입학/합류 연도 (선택)
+#
+# ============================================================
+
+# 연구실 기본 정보
+name: "마음성장 연구실"
+name_en: "Mind Growth Lab"
+slogan: "마음의 성장과 치유를 탐구합니다"
+
+# 연구실 소개
+description: |
+  마음성장 연구실은 인간의 심리적 성장과 치유 과정을 과학적으로 탐구하는 연구 공동체입니다.
+  상담심리학의 이론과 실제를 바탕으로, 개인의 심리적 안녕과 관계의 질을 향상시키는 
+  효과적인 상담 개입 방법을 개발하고 검증하는 데 초점을 맞추고 있습니다.
+
+# 주요 연구 분야
+research_areas:
+  - title: "상담 과정 및 성과 연구"
+    description: "상담의 치료적 요인과 변화 기제를 탐구하고, 효과적인 상담 개입의 핵심 요소를 규명합니다."
+    icon: "psychology"
+
+  - title: "정서 조절과 심리적 안녕"
+    description: "정서 조절 능력이 개인의 심리적 건강과 대인관계에 미치는 영향을 연구합니다."
+    icon: "sentiment_satisfied"
+
+  - title: "관계 및 애착 연구"
+    description: "초기 애착 경험이 성인기 대인관계 패턴과 심리적 적응에 미치는 영향을 분석합니다."
+    icon: "diversity_3"
+
+  - title: "상담자 발달 및 교육"
+    description: "효과적인 상담자 양성을 위한 훈련 모델과 슈퍼비전 방법론을 개발합니다."
+    icon: "school"
+
+# 연구실 멤버
+members:
+  # 지도교수
+  - name: "이세란"
+    name_en: "Seran Lee"
+    role: "지도교수"
+    research: "상담 과정 연구, 정서 조절"
+    email: "seran.lee@hnu.ac.kr"
+    image: "https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=300"
+
+  # 박사과정
+  - name: "김지현"
+    name_en: "Jihyun Kim"
+    role: "박사과정"
+    research: "상담자 발달, 슈퍼비전"
+    email: "jihyun.kim@example.com"
+    image: "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2022"
+
+  - name: "박민수"
+    name_en: "Minsu Park"
+    role: "박사과정"
+    research: "애착과 대인관계 패턴"
+    email: "minsu.park@example.com"
+    image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2023"
+
+  # 석사과정
+  - name: "최예진"
+    name_en: "Yejin Choi"
+    role: "석사과정"
+    research: "정서 조절과 심리적 안녕"
+    email: "yejin.choi@example.com"
+    image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2024"
+
+  - name: "이준호"
+    name_en: "Junho Lee"
+    role: "석사과정"
+    research: "청소년 상담, 학교 적응"
+    email: "junho.lee@example.com"
+    image: "https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2024"
+
+  - name: "정하은"
+    name_en: "Haeun Jung"
+    role: "석사과정"
+    research: "트라우마와 회복"
+    email: "haeun.jung@example.com"
+    image: "https://images.pexels.com/photos/3777943/pexels-photo-3777943.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2025"
+
+  # 학부연구생
+  - name: "강서연"
+    name_en: "Seoyeon Kang"
+    role: "학부연구생"
+    research: "또래 상담, 공감 능력"
+    email: "seoyeon.kang@example.com"
+    image: "https://images.pexels.com/photos/3776932/pexels-photo-3776932.jpeg?auto=compress&cs=tinysrgb&w=300"
+    year: "2025"
+
+# 졸업생 (Alumni)
+alumni:
+  - name: "송민정"
+    role: "박사 졸업"
+    year: "2024"
+    current: "서울대학교 심리학과 박사후연구원"
+
+  - name: "윤재혁"
+    role: "석사 졸업"
+    year: "2024"
+    current: "삼성서울병원 임상심리전문가"
+
+  - name: "한소희"
+    role: "석사 졸업"
+    year: "2023"
+    current: "서울시청소년상담복지센터 상담사"

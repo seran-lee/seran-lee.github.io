@@ -1,0 +1,28 @@
+# Current Endeavors (Home page)
+- title: "The Digital Palimpsest"
+  subtitle: "Research Project | 2023-2025"
+  description: "A collaborative initiative mapping the evolution of marginalia in digitized monastic manuscripts across Europe."
+  icon: "menu_book"
+  link: "research.html"
+  link_text: "Explore Research"
+
+- title: "New Monographs"
+  subtitle: "Forthcoming Publication"
+  description: "\"Echoes of the Inkwell: Epistolary Intimacy in the Industrial Age\" — set to be published by Oxford University Press next spring."
+  icon: "history_edu"
+  link: "bibliography.html"
+  link_text: "View Publications"
+
+- title: "Archive Digitization"
+  subtitle: "Ongoing Initiative | 2024"
+  description: "Partnering with European libraries to digitize and annotate rare epistolary collections from the Victorian era."
+  icon: "archive"
+  link: "research.html"
+  link_text: "Learn More"
+
+- title: "Graduate Seminar"
+  subtitle: "Teaching | Spring 2025"
+  description: "\"Memory & Narrative in the Digital Age\" — an interdisciplinary seminar exploring how technology shapes our understanding of the past."
+  icon: "school"
+  link: "#"
+  link_text: "Course Details"

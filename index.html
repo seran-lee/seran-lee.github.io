@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home | Seran Lee (이세란)</title>
+  <meta name="description" content="한남대학교 상담심리학과 교수 이세란의 학술 포트폴리오" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#607AFB",
+            "background-light": "#f5f6f8",
+            "background-dark": "#0f1323",
+          },
+          fontFamily: {
+            display: ["Noto Serif", "serif"],
+            sans: ["Noto Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Noto Serif", serif; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <!-- GNB -->
+  <div id="gnb"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+    <!-- Profile Header Section -->
+    <section class="flex flex-col items-center mb-16">
+      <div class="relative mb-8 group">
+        <div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
+        <div class="relative bg-center bg-no-repeat aspect-square bg-cover rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl h-48 w-48 overflow-hidden" style='background-image: url("https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=600");'>
+        </div>
+      </div>
+      <div class="text-center space-y-2">
+        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
+          Seran Lee <span class="block text-base md:text-lg text-slate-500 dark:text-slate-400 mt-2">(이세란)</span>
+        </h1>
+        <p class="text-primary text-xl font-medium italic">한남대학교 상담심리학과 교수</p>
+        <p class="text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto">
+          상담심리 전문가로서 연구와 교육에 힘쓰고 있습니다.
+        </p>
+      </div>
+      <div class="flex gap-4 mt-8">
+        <a href="https://scholar.google.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-xl">school</span>
+        </a>
+        <a href="assets/files/cv.pdf" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-xl">description</span>
+        </a>
+        <a href="mailto:seran.lee@example.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-xl">alternate_email</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Experience & Education (인라인 심플) -->
+    <section class="max-w-2xl mx-auto py-12 space-y-8">
+      <!-- 경력 -->
+      <div id="experience-list" class="space-y-2">
+        <!-- profile.yml에서 로드됩니다 -->
+      </div>
+
+      <!-- 구분선 -->
+      <div class="border-t border-slate-200 dark:border-slate-700"></div>
+
+      <!-- 학력 -->
+      <div id="education-list" class="space-y-2">
+        <!-- profile.yml에서 로드됩니다 -->
+      </div>
+    </section>
+
+    <!-- Divider -->
+    <div class="flex justify-center py-4 text-slate-300 dark:text-slate-700">
+      <span class="material-symbols-outlined text-sm">fluid</span>
+    </div>
+
+    <!-- Headline & Narrative Section -->
+    <section class="max-w-2xl mx-auto text-center space-y-8 py-12">
+      <h2 class="text-3xl font-bold leading-tight italic">In Search of Lost Narratives</h2>
+      <div id="intro-content" class="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+        <!-- intro.md 내용이 여기에 로드됩니다 -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- 공통 컴포넌트 -->
+  <script src="assets/js/components.js"></script>
+  <script>
+    // intro.md 로드
+    async function loadIntro() {
+      try {
+        const response = await fetch('_includes/intro.md');
+        const text = await response.text();
+        const paragraphs = text.split('\n\n').filter(p => p.trim());
+        document.getElementById('intro-content').innerHTML = paragraphs.map(p => `<p>${p}</p>`).join('');
+      } catch (e) {
+        console.error('Failed to load intro:', e);
+      }
+    }
+
+    // profile.yml 로드 및 렌더링
+    async function loadProfile() {
+      try {
+        const profile = await loadYAML('_data/profile.yml');
+        
+        // 경력 렌더링 (인라인 심플)
+        const expList = document.getElementById('experience-list');
+        expList.innerHTML = profile.experience.map(exp => `
+          <div class="flex items-center gap-3 text-lg">
+            <span class="material-symbols-outlined text-primary text-xl">work</span>
+            <span class="text-slate-800 dark:text-slate-200">
+              <span class="font-semibold">${exp.organization}</span>
+              <span class="text-slate-500"> · ${exp.position}</span>
+              ${exp.current ? '<span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>' : `<span class="text-slate-400 text-sm"> · ${exp.period}</span>`}
+            </span>
+          </div>
+        `).join('');
+
+        // 학력 렌더링 (세로 인라인, 아이콘은 첫 번째만)
+        const eduList = document.getElementById('education-list');
+        eduList.innerHTML = profile.education.map((edu, index) => `
+          <div class="flex items-center gap-3 text-lg">
+            ${index === 0 
+              ? '<span class="material-symbols-outlined text-primary text-xl">school</span>' 
+              : '<span class="w-5"></span>'}
+            <span class="text-slate-800 dark:text-slate-200">
+              <span class="font-semibold">${edu.degree}</span>
+              <span class="text-slate-500"> · ${edu.school}</span>
+              ${edu.field ? `<span class="text-slate-400"> · ${edu.field}</span>` : ''}
+            </span>
+          </div>
+        `).join('');
+      } catch (e) {
+        console.error('Failed to load profile:', e);
+      }
+    }
+
+    // 페이지 로드 시 실행
+    document.addEventListener('DOMContentLoaded', () => {
+      initLayout('home');
+      loadIntro();
+      loadProfile();
+    });
+  </script>
+</body>
+</html>

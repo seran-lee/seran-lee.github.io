@@ -1,0 +1,36 @@
+# Collaborators list (Research page)
+- name: "Dr. Elena Vasquez"
+  affiliation: "University of Barcelona"
+  role: "Co-Principal Investigator"
+  expertise: "Medieval Manuscript Studies"
+  image: "https://images.pexels.com/photos/3769021/pexels-photo-3769021.jpeg?auto=compress&cs=tinysrgb&w=150"
+
+- name: "Prof. Marcus Chen"
+  affiliation: "Stanford University"
+  role: "Digital Humanities Lead"
+  expertise: "Computational Paleography"
+  image: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?auto=compress&cs=tinysrgb&w=150"
+
+- name: "Dr. Sophie Laurent"
+  affiliation: "Sorbonne Université"
+  role: "Research Associate"
+  expertise: "19th-Century French Literature"
+  image: "https://images.pexels.com/photos/3785079/pexels-photo-3785079.jpeg?auto=compress&cs=tinysrgb&w=150"
+
+- name: "Prof. James Whitmore"
+  affiliation: "Oxford University"
+  role: "Advisory Board"
+  expertise: "Victorian Studies"
+  image: "https://images.pexels.com/photos/3778603/pexels-photo-3778603.jpeg?auto=compress&cs=tinysrgb&w=150"
+
+- name: "Dr. Yuki Tanaka"
+  affiliation: "University of Tokyo"
+  role: "International Partner"
+  expertise: "Comparative Literature"
+  image: "https://images.pexels.com/photos/3777943/pexels-photo-3777943.jpeg?auto=compress&cs=tinysrgb&w=150"
+
+- name: "Dr. Anna Kowalski"
+  affiliation: "Jagiellonian University"
+  role: "Archive Specialist"
+  expertise: "Eastern European Manuscripts"
+  image: "https://images.pexels.com/photos/3776932/pexels-photo-3776932.jpeg?auto=compress&cs=tinysrgb&w=150"

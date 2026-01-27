@@ -1,0 +1,74 @@
+# ============================================================
+# Publications (출판물 목록)
+# ============================================================
+# 이 파일은 Bibliography 페이지에 표시되는 출판물 데이터입니다.
+# 새 출판물을 추가하려면 아래 템플릿을 복사하여 사용하세요.
+#
+# ------------------------------------------------------------
+# 📝 새 출판물 추가 템플릿 (복사해서 사용)
+# ------------------------------------------------------------
+#
+# - title: "논문/책 제목"
+#   year: 2024                      # 출판 연도 (숫자)
+#   category: "Articles"            # 카테고리 (아래 3가지 중 선택)
+#   publisher: "출판사 또는 저널명"
+#   link: "https://..."             # 논문 링크 (없으면 "#" 또는 이 줄 삭제)
+#
+# ------------------------------------------------------------
+# 📂 카테고리 종류 (정확히 입력해야 필터가 작동합니다)
+# ------------------------------------------------------------
+#   - "Monographs"  : 단행본, 저서
+#   - "Articles"    : 학술 논문, 저널 기고
+#   - "Essays"      : 에세이, 칼럼, 비평
+#
+# ------------------------------------------------------------
+# ⚠️ 주의사항
+# ------------------------------------------------------------
+#   - 들여쓰기는 반드시 스페이스 2칸을 사용하세요 (탭 X)
+#   - title, publisher 값에 콜론(:)이 있으면 따옴표로 감싸세요
+#   - year는 따옴표 없이 숫자로 입력하세요
+#   - 최신 출판물을 맨 위에 추가하면 정렬이 자연스럽습니다
+#
+# ============================================================
+
+- title: "Echoes of the Inkwell: Epistolary Intimacy in the Industrial Age"
+  year: 2025
+  category: "Monographs"
+  publisher: "Oxford University Press"
+  link: "https://global.oup.com/"
+
+- title: "Digital Palimpsests and the Future of Marginalia Studies"
+  year: 2024
+  category: "Articles"
+  publisher: "Journal of Digital Humanities"
+  link: "https://journalofdigitalhumanities.org/"
+
+- title: "Memory, Identity, and the Archive: A Philosophical Inquiry"
+  year: 2024
+  category: "Articles"
+  publisher: "Comparative Literature Quarterly"
+  link: "https://www.jstor.org/"
+
+- title: "The Tactile Nature of 19th-Century Epistolary Culture"
+  year: 2023
+  category: "Essays"
+  publisher: "The Atlantic Review"
+  link: "https://www.theatlantic.com/"
+
+- title: "Computational Linguistics Meets Close Reading"
+  year: 2023
+  category: "Articles"
+  publisher: "Digital Scholarship in the Humanities"
+  link: "https://academic.oup.com/dsh"
+
+- title: "Voices Lost in Margins: Recovering Institutional Archives"
+  year: 2022
+  category: "Monographs"
+  publisher: "Cambridge University Press"
+  link: "https://www.cambridge.org/"
+
+- title: "The Digital Afterlife of Historical Manuscripts"
+  year: 2022
+  category: "Essays"
+  publisher: "Humanities Now"
+  link: "#"

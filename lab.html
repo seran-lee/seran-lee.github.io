@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab | Seran Lee (이세란)</title>
+  <meta name="description" content="마음성장 연구실 - 한남대학교 상담심리학과" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#607AFB",
+            "background-light": "#f5f6f8",
+            "background-dark": "#0f1323",
+          },
+          fontFamily: {
+            display: ["Noto Serif", "serif"],
+            sans: ["Noto Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Noto Serif", serif; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <!-- GNB -->
+  <div id="gnb"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+    
+    <!-- Lab Header -->
+    <section class="text-center mb-16">
+      <p class="text-sm text-primary font-semibold uppercase tracking-widest mb-3" id="lab-name-en"></p>
+      <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4" id="lab-name"></h1>
+      <p class="text-xl text-slate-500 dark:text-slate-400 italic" id="lab-slogan"></p>
+    </section>
+
+    <!-- Lab Description -->
+    <section class="max-w-2xl mx-auto mb-20">
+      <p id="lab-description" class="text-lg leading-relaxed text-slate-700 dark:text-slate-300 text-center"></p>
+    </section>
+
+    <!-- Research Areas -->
+    <section class="mb-20">
+      <div class="mb-8 flex flex-col items-center">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-4">Research Areas</h4>
+        <div class="w-12 h-px bg-primary/30"></div>
+      </div>
+      
+      <div id="research-areas" class="grid md:grid-cols-2 gap-6">
+        <!-- 연구 분야가 여기에 렌더링됩니다 -->
+      </div>
+    </section>
+
+    <!-- Members -->
+    <section class="mb-20">
+      <div class="mb-8 flex flex-col items-center">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-4">Members</h4>
+        <div class="w-12 h-px bg-primary/30"></div>
+      </div>
+
+      <!-- 지도교수 -->
+      <div id="professor-section" class="mb-12">
+        <!-- 지도교수가 여기에 렌더링됩니다 -->
+      </div>
+
+      <!-- 대학원생 -->
+      <div id="members-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- 멤버들이 여기에 렌더링됩니다 -->
+      </div>
+    </section>
+
+    <!-- Alumni -->
+    <section class="mb-20">
+      <div class="mb-8 flex flex-col items-center">
+        <h4 class="text-xs uppercase tracking-[0.3em] font-bold text-primary mb-4">Alumni</h4>
+        <div class="w-12 h-px bg-primary/30"></div>
+      </div>
+      
+      <div id="alumni-list" class="max-w-2xl mx-auto space-y-3">
+        <!-- 졸업생이 여기에 렌더링됩니다 -->
+      </div>
+    </section>
+
+    <!-- Contact / Join -->
+    <section class="text-center py-12 px-6 rounded-2xl bg-gradient-to-r from-primary/10 to-primary/5 border border-primary/20">
+      <h3 class="text-2xl font-bold mb-4">연구실에 관심이 있으신가요?</h3>
+      <p class="text-slate-600 dark:text-slate-400 mb-6 max-w-lg mx-auto">
+        대학원 진학 및 연구 참여에 관심 있는 분들의 연락을 환영합니다.
+      </p>
+      <a href="mailto:seran.lee@hnu.ac.kr" class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-primary text-white font-semibold hover:bg-primary/90 transition-colors">
+        <span class="material-symbols-outlined text-sm">mail</span>
+        문의하기
+      </a>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- 공통 컴포넌트 -->
+  <script src="assets/js/components.js"></script>
+  <script>
+    async function loadLab() {
+      try {
+        const lab = await loadYAML('_data/lab.yml');
+        
+        // 기본 정보
+        document.getElementById('lab-name').textContent = lab.name;
+        document.getElementById('lab-name-en').textContent = lab.name_en;
+        document.getElementById('lab-slogan').textContent = lab.slogan;
+        document.getElementById('lab-description').textContent = lab.description.trim();
+
+        // 연구 분야
+        const areasContainer = document.getElementById('research-areas');
+        areasContainer.innerHTML = lab.research_areas.map(area => `
+          <div class="group p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 hover:border-primary/50 transition-all">
+            <div class="flex items-start gap-4">
+              <span class="material-symbols-outlined text-primary text-2xl">${area.icon}</span>
+              <div>
+                <h3 class="font-bold text-lg mb-2 group-hover:text-primary transition-colors">${area.title}</h3>
+                <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">${area.description}</p>
+              </div>
+            </div>
+          </div>
+        `).join('');
+
+        // 멤버 분류
+        const professor = lab.members.find(m => m.role === '지도교수');
+        const students = lab.members.filter(m => m.role !== '지도교수');
+
+        // 지도교수
+        if (professor) {
+          document.getElementById('professor-section').innerHTML = `
+            <div class="flex flex-col md:flex-row items-center gap-6 p-6 rounded-xl border border-primary/30 bg-primary/5">
+              <img src="${professor.image}" alt="${professor.name}" class="w-32 h-32 rounded-full object-cover border-4 border-white shadow-lg">
+              <div class="text-center md:text-left">
+                <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">${professor.role}</p>
+                <h3 class="text-2xl font-bold mb-1">${professor.name} <span class="text-slate-400 font-normal text-lg">${professor.name_en}</span></h3>
+                <p class="text-slate-600 dark:text-slate-400 mb-2">${professor.research}</p>
+                <a href="mailto:${professor.email}" class="inline-flex items-center gap-1 text-sm text-primary hover:underline">
+                  <span class="material-symbols-outlined text-sm">mail</span>
+                  ${professor.email}
+                </a>
+              </div>
+            </div>
+          `;
+        }
+
+        // 학생 멤버
+        const membersGrid = document.getElementById('members-grid');
+        membersGrid.innerHTML = students.map(member => `
+          <div class="group text-center p-6 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 hover:border-primary/50 transition-all">
+            <img src="${member.image}" alt="${member.name}" class="w-24 h-24 rounded-full object-cover mx-auto mb-4 border-2 border-slate-100 dark:border-slate-700 group-hover:border-primary/50 transition-colors">
+            <p class="text-xs text-primary font-semibold uppercase tracking-wider mb-1">${member.role}</p>
+            <h4 class="font-bold text-lg">${member.name}</h4>
+            <p class="text-sm text-slate-400 mb-2">${member.name_en}</p>
+            <p class="text-sm text-slate-600 dark:text-slate-400">${member.research}</p>
+          </div>
+        `).join('');
+
+        // 졸업생
+        const alumniList = document.getElementById('alumni-list');
+        alumniList.innerHTML = lab.alumni.map(alum => `
+          <div class="flex items-baseline gap-4 group">
+            <span class="text-sm text-slate-400 w-12 flex-shrink-0">${alum.year}</span>
+            <div>
+              <span class="text-slate-700 dark:text-slate-300 font-medium">${alum.name}</span>
+              <span class="text-slate-400 text-sm ml-2">${alum.role}</span>
+              <p class="text-sm text-slate-500">${alum.current}</p>
+            </div>
+          </div>
+        `).join('');
+
+      } catch (e) {
+        console.error('Failed to load lab:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLayout('lab');
+      loadLab();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Publications | Seran Lee (이세란)</title>
+  <meta name="description" content="A comprehensive bibliography of monographs, articles, and essays" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            primary: "#607AFB",
+            "background-light": "#f5f6f8",
+            "background-dark": "#0f1323",
+          },
+          fontFamily: {
+            display: ["Noto Serif", "serif"],
+            sans: ["Noto Sans", "sans-serif"],
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { font-family: "Noto Serif", serif; }
+  </style>
+</head>
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
+  <!-- GNB -->
+  <div id="gnb"></div>
+
+  <!-- Main Content -->
+  <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
+    <!-- Page Header -->
+    <section class="text-center mb-12">
+      <h1 class="text-4xl font-bold tracking-tight mb-4">Publications</h1>
+      <p class="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
+        A comprehensive bibliography of monographs, articles, and essays exploring the intersection of digital humanities and literary studies.
+      </p>
+    </section>
+
+    <!-- Filter Buttons -->
+    <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-primary text-white" data-filter="all" onclick="filterPublications('all', this)">
+        All
+      </button>
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" data-filter="Monographs" onclick="filterPublications('Monographs', this)">
+        Monographs
+      </button>
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" data-filter="Articles" onclick="filterPublications('Articles', this)">
+        Articles
+      </button>
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors" data-filter="Essays" onclick="filterPublications('Essays', this)">
+        Essays
+      </button>
+    </div>
+
+    <!-- Publications List -->
+    <section class="rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 overflow-hidden" id="publications-list">
+      <!-- publications.yml 데이터가 여기에 렌더링됩니다 -->
+    </section>
+
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden text-center py-16 text-slate-500">
+      <span class="material-symbols-outlined text-4xl mb-4">search_off</span>
+      <p>No publications found in this category.</p>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <div id="footer"></div>
+
+  <!-- 공통 컴포넌트 -->
+  <script src="assets/js/components.js"></script>
+  <script>
+    let allPublications = [];
+
+    function renderPublications(publications) {
+      const list = document.getElementById('publications-list');
+      if (publications.length === 0) {
+        list.classList.add('hidden');
+        document.getElementById('empty-state').classList.remove('hidden');
+        return;
+      }
+      list.classList.remove('hidden');
+      document.getElementById('empty-state').classList.add('hidden');
+
+      list.innerHTML = publications.map(pub => `
+        <article class="publication-item p-6 border-b border-slate-100 dark:border-slate-800 last:border-b-0 hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors" data-category="${pub.category}">
+          <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <span class="text-xs font-semibold uppercase tracking-wider px-2 py-1 rounded bg-primary/10 text-primary">
+                  ${pub.category}
+                </span>
+                <span class="text-sm text-slate-500">${pub.year}</span>
+              </div>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">${pub.title}</h3>
+              <p class="text-sm text-slate-500 dark:text-slate-400 italic">${pub.publisher}</p>
+            </div>
+            ${pub.link && pub.link !== '#' ? `
+            <div class="flex items-center gap-3 md:flex-shrink-0 mt-3 md:mt-0">
+              <a href="${pub.link}" target="_blank" rel="noopener noreferrer" 
+                 class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary text-white text-sm font-medium hover:bg-primary/90 transition-colors shadow-sm">
+                <span class="material-symbols-outlined text-sm">open_in_new</span>
+                바로가기
+              </a>
+            </div>
+            ` : ''}
+          </div>
+        </article>
+      `).join('');
+    }
+
+    function filterPublications(category, btn) {
+      // Update button states
+      document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('bg-primary', 'text-white');
+        b.classList.add('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+      });
+      btn.classList.remove('bg-slate-100', 'dark:bg-slate-800', 'text-slate-600', 'dark:text-slate-300');
+      btn.classList.add('bg-primary', 'text-white');
+
+      // Filter and render
+      const filtered = category === 'all' 
+        ? allPublications 
+        : allPublications.filter(p => p.category === category);
+      renderPublications(filtered);
+    }
+
+    async function loadPublications() {
+      try {
+        allPublications = await loadYAML('_data/publications.yml');
+        renderPublications(allPublications);
+      } catch (e) {
+        console.error('Failed to load publications:', e);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initLayout('bibliography');
+      loadPublications();
+    });
+  </script>
+</body>
+</html>
