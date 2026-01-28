@@ -8,7 +8,8 @@
 # 📝 새 출판물 추가 템플릿 (복사해서 사용)
 # ------------------------------------------------------------
 #
-# - title: "논문/책 제목"
+# - title: "논문/책 제목 (영문)"
+#   title_ko: "논문/책 제목 (국문)"   # 국문 제목 (선택 사항)
 #   year: 2024                      # 출판 연도 (숫자)
 #   category: "Articles"            # 카테고리 (아래 3가지 중 선택)
 #   author: "저자명"
@@ -74,6 +75,7 @@
   link: "https://doi.org/10.1037/cou0000368"
 
 - title: "The relation between openness to experience and occupational engagement: Moderated mediation effect of planned happenstance skills and conflict with significant others"
+  title_ko: "(대학생의 개방성과 진로관여행동의 관계: 계획된 우연 기술과 중요 타인과의 갈등의 조절된 매개효과)"
   year: 2019
   category: "Articles"
   author: "Lee, S., & Lee, K.-H."
@@ -81,6 +83,7 @@
   link: "https://doi.org/10.32341/JCER.2019.09.32.3.201"
 
 - title: "The influence of parental abuse and neglect on career identity in high school students: Mediating effects of intrinsic and extrinsic goals"
+  title_ko: "(고등학생이 지각한 부모의 학대 및 방임이 진로정체감에 미치는 영향: 내재적 목표와 외재적 목표의 매개효과)"
   year: 2018
   category: "Articles"
   author: "Hwang, H., Lee, E. H., & Lee, S."

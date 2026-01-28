@@ -44,6 +44,9 @@
 
     <!-- Filter Buttons -->
     <div class="flex flex-wrap justify-center gap-3 mb-12">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors border border-slate-200 dark:border-slate-700" data-filter="all" onclick="filterPublications('all', this)">
+        All
+      </button>
       <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-primary text-white border border-transparent" data-filter="Articles" onclick="filterPublications('Articles', this)">
         Journal Articles 
       </button>
@@ -92,7 +95,8 @@
                 </span>
                 <span class="text-sm text-slate-500">${pub.year}</span>
               </div>
-              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-2">${pub.title}</h3>
+              <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">${pub.title}</h3>
+              ${pub.title_ko ? `<h4 class="text-md font-medium text-slate-600 dark:text-slate-400 mb-2">${pub.title_ko}</h4>` : ''}
               <p class="text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">${pub.author}</p>
               <p class="text-sm text-slate-500 dark:text-slate-400 italic">${pub.publisher}</p>
             </div>
@@ -130,7 +134,11 @@
       try {
         const url = `_data/publications.yml?v=${new Date().getTime()}`;
         allPublications = await loadYAML(url);
-        renderPublications(allPublications);
+        
+        // On initial load, filter for 'Articles' and render them.
+        const articles = allPublications.filter(p => p.category === 'Articles');
+        renderPublications(articles);
+        
       } catch (e) {
         console.error('Failed to load publications:', e);
       }
