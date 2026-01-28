@@ -20,6 +20,7 @@
             "background-dark": "#0f1323",
           },
           fontFamily: {
+            
             display: ["Noto Serif", "serif"],
             sans: ["Noto Sans", "sans-serif"],
           },
@@ -28,7 +29,11 @@
     };
   </script>
   <style>
-    body { font-family: "Noto Serif", serif; }
+    body { 
+      font-family: "Noto Serif", serif; 
+      /* font-family: 'Work Sans', sans-serif; */
+
+    }
   </style>
 </head>
 <body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-slate-100 min-h-screen">
@@ -37,95 +42,81 @@
 
   <!-- Main Content -->
   <main class="max-w-4xl mx-auto px-6 py-12 lg:py-20">
-<section class="flex flex-col md:flex-row items-center gap-10 py-8" id="hero">
+<section class="flex flex-col md:flex-row items-center gap-10 py-8" id="hero" style="margin-bottom:25px;">
 <div class="shrink-0">
 <div class="size-48 md:size-56 rounded-full border-4 border-white dark:border-gray-800 shadow-xl overflow-hidden bg-gray-200">
-<img alt="Dr. Alex Rivers Profile Headshot" class="w-full h-full object-cover" data-alt="Close up professional portrait of a man in a academic setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCJpFJ6v6ntVernRwZ-MjJh7hPaY88k68_NtF15wYDs6IoP7OxLfRb-e2LbwY6nzoLIVVyoxrigoTajjjIHByZn5matenttL2perH70moXbF6MPzo304bOOqO0LwFZeQiGMB7Xib4uZ_zT74vsysforuSQjkgmLCkA5YqV7qTDW9SQ2qfYrKSnWEJa7qbmLVT0o9kFkrRxBA64qc6kBiUTMQHE050C9mdIRGnAkq6T0VQhhTIqWdDF80tjRGdO_0ms4bQcSqx5f9ws"/>
+<img alt="Dr. Alex Rivers Profile Headshot" class="w-full h-full object-cover" data-alt="Close up professional portrait of a man in a academic setting" src="./assets/images/main_profile.png"/>
 </div>
 </div>
 <div class="flex flex-col text-center md:text-left">
-<span class="text-primary font-bold tracking-widest text-xs uppercase mb-2">Associate Professor</span>
-<h2 class="text-4xl md:text-5xl font-bold text-ink dark:text-white mb-4 tracking-tight">Dr. Alex Rivers</h2>
+<span id="hero-position" class="text-primary font-bold tracking-widest text-xs uppercase mb-2">Associate Professor</span>
+<h2 class="text-4xl md:text-5xl font-bold text-ink dark:text-white mb-4 tracking-tight">Seran Lee (이세란)</h2>
 <p class="text-lg text-gray-600 dark:text-gray-400 font-medium leading-relaxed max-w-xl">
-                    Leading research at the intersection of AI and Genomics at the Computational Biology Laboratory.
+          상담심리 전문가로서 연구와 교육에 힘쓰고 있습니다.
                 </p>
 <div class="flex flex-wrap justify-center md:justify-start gap-4 mt-8">
 <button class="flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-bold hover:shadow-lg transition-all">
+  <a href="./contact.html">
 <span class="material-symbols-outlined text-sm">mail</span>
                         Contact Me
-                    </button>
+                  </a>  </button>
 <div class="flex items-center gap-4 px-4 text-gray-500">
-<a class="hover:text-primary" href="#"><span class="material-symbols-outlined">description</span></a>
-<a class="hover:text-primary" href="#"><span class="material-symbols-outlined">school</span></a>
-<a class="hover:text-primary" href="#"><span class="material-symbols-outlined">link</span></a>
+<!-- <a class="hover:text-primary" href="#"><span class="material-symbols-outlined">description</span></a> -->
+<a class="hover:text-primary" href="https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao"><span class="material-symbols-outlined">school</span></a>
+<!-- <a class="hover:text-primary" href="mailto:srlee617@gmail.com"><span class="material-symbols-outlined">mail</span></a> -->
 </div>
 </div>
 </div>
 </section>
 
-    
-    <!-- Profile Header Section -->
-    <section class="flex flex-col items-center mb-16">
-      <div class="relative mb-8 group">
-        <div class="absolute -inset-1 bg-gradient-to-r from-primary/20 to-transparent rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-        <div class="relative bg-center bg-no-repeat aspect-square bg-cover rounded-xl border border-slate-200 dark:border-slate-800 shadow-xl h-48 w-48 overflow-hidden" style='background-image: url("./assets/images/main_profile.png");'>
-        </div>
-      </div>
-      <div class="text-center space-y-2">
-        <h1 class="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 dark:text-white">
-          Seran Lee <span class="block text-base md:text-lg text-slate-500 dark:text-slate-400 mt-2">(이세란)</span>
-        </h1>
-        <p class="text-primary text-xl font-medium italic">한남대학교 상담심리학과 교수</p>
-        <p class="text-slate-500 dark:text-slate-400 text-lg max-w-xl mx-auto">
-          상담심리 전문가로서 연구와 교육에 힘쓰고 있습니다.
-        </p>
-      </div>
-      <div class="flex gap-4 mt-8">
-        <a href="https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
-          <span class="material-symbols-outlined text-xl">school</span>
-        </a>
-        <!-- <a href="assets/files/cv.pdf" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
-          <span class="material-symbols-outlined text-xl">description</span>
-        </a> -->
-        <a href="mailto:srlee617@gmail.com" class="p-2 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary dark:hover:text-primary transition-colors">
-          <span class="material-symbols-outlined text-xl">alternate_email</span>
-        </a>
-      </div>
-    </section>
 
-    <!-- Experience & Education (인라인 심플) -->
-    <section class="max-w-2xl mx-auto py-12 space-y-8">
-      <!-- 경력 -->
-      <div id="experience-list" class="space-y-2">
-        <!-- profile.yml에서 로드됩니다 -->
-      </div>
-
-      <!-- 구분선 -->
-      <div class="border-t border-slate-200 dark:border-slate-700"></div>
-
-      <!-- 학력 -->
-      <div id="education-list" class="space-y-2">
-        <!-- profile.yml에서 로드됩니다 -->
-      </div>
-    </section>
-
-    <!-- Divider -->
-    <div class="flex justify-center py-4 text-slate-300 dark:text-slate-700">
-      <span class="material-symbols-outlined text-sm">fluid</span>
-    </div>
-
-    <!-- Headline & Narrative Section -->
-    <section class="max-w-2xl mx-auto text-center space-y-8 py-12">
-      <h2 class="text-3xl font-bold leading-tight">About Me</h2>
-      <div id="intro-content" class="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
+<section class="grid md:grid-cols-3 gap-8 items-start border-t border-gray-200 dark:border-gray-800 pt-12" id="about" style="padding-top:50px">
+<div class="md:col-span-1">
+<h3 class="text-2xl font-bold tracking-tight text-ink dark:text-white uppercase border-l-4 border-primary pl-4">About Me</h3>
+</div>
+<div class="md:col-span-2 space-y-4">
+     <div id="intro-content" class="space-y-6 text-lg leading-relaxed text-slate-700 dark:text-slate-300">
         <!-- intro.md 내용이 여기에 로드됩니다 -->
       </div>
-      <div class="pt-6">
-        <a href="research.html" class="inline-flex items-center gap-2 text-lg font-semibold text-primary hover:underline">
-          Research <span class="material-symbols-outlined text-base">arrow_right_alt</span>
-        </a>
+</div>
+</section>
+
+
+    <!-- Academic History & Career -->
+    <section class="grid md:grid-cols-2 gap-12 pt-12" id="history">
+      <div>
+        <h3 class="text-xl font-bold mb-8 text-ink dark:text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">history_edu</span>
+          Education
+        </h3>
+        <div class="space-y-6" id="education-list">
+          <!-- Education data will be loaded here -->
+        </div>
+      </div>
+      <div>
+        <h3 class="text-xl font-bold mb-8 text-ink dark:text-white flex items-center gap-2">
+          <span class="material-symbols-outlined text-primary">work_outline</span>
+          Career
+        </h3>
+        <div class="space-y-6" id="experience-list">
+          <!-- Experience data will be loaded here -->
+        </div>
       </div>
     </section>
+<!-- Interests Section -->
+<section class="bg-white dark:bg-gray-900/50 rounded-xl p-8 border border-gray-100 dark:border-gray-800 paper-ink-shadow" id="interests" style="margin-top:70px;">
+<h3 class="text-xl font-bold mb-6 text-ink dark:text-white uppercase tracking-wider">Research Interests</h3>
+<div class="flex flex-wrap gap-3">
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Psychology of Working</span>
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Decent Work</span>
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Marginalization</span>
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Digital & AI </span>
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Counseling</span>
+<span class="px-4 py-2 border border-primary text-primary rounded-full text-sm font-medium hover:bg-primary hover:text-white transition-colors cursor-default">Career Intervention</span>
+</div>
+</section>
+
+    
   </main>
 
   <!-- Footer -->
@@ -162,63 +153,31 @@
       try {
         const profile = await loadYAML(`_data/profile.yml?v=${new Date().getTime()}`);
         
-        // 경력 렌더링 (주요 경력과 상담 경력 분리)
-        const expList = document.getElementById('experience-list');
-        const currentExperience = profile.experience.find(exp => exp.current);
-        const pastExperiences = profile.experience.filter(exp => !exp.current);
-
-        let experienceHtml = '';
-
-        // 1. 주요 경력 (현재)
-        if (currentExperience) {
-          experienceHtml += `
-            <div class="flex items-start gap-4">
-              <span class="material-symbols-outlined text-primary text-xl mt-1">work</span>
-              <div>
-                <p class="text-lg">
-                  <span class="font-semibold text-slate-800 dark:text-slate-200">${currentExperience.organization}</span>
-                  <span class="text-slate-500"> · ${currentExperience.position}</span>
-                  <span class="ml-2 text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium align-middle">현재</span>
-                </p>
-                <p class="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                  ${currentExperience.organization_en} · ${currentExperience.position_en}
-                </p>
-              </div>
-            </div>
-          `;
+        // Hero Section 업데이트
+        if (profile.experience && profile.experience.length > 0) {
+          document.getElementById('hero-position').textContent = profile.experience[0].position_en;
         }
 
-        // 2. 상담 경력 (과거)
-        if (pastExperiences.length > 0) {
-          experienceHtml += `<div class="pt-4 mt-4 space-y-2">`;
-          experienceHtml += pastExperiences.map(exp => `
-            <div class="flex items-center gap-3 text-lg">
-              <span class="w-6 text-center"></span>
-              <span class="text-slate-600 dark:text-slate-400">
-                <span class="font-semibold">${exp.organization}</span>
-                <span class="text-slate-500"> · ${exp.position}</span>
-                <span class="text-slate-400 text-sm"> · ${exp.period}</span>
-              </span>
-            </div>
-          `).join('');
-          experienceHtml += '</div>';
-        }
-        expList.innerHTML = experienceHtml;
-
-        // 학력 렌더링 (세로 인라인, 아이콘은 첫 번째만)
+        // Education 렌더링
         const eduList = document.getElementById('education-list');
-        eduList.innerHTML = profile.education.map((edu, index) => `
-          <div class="flex items-center gap-3 text-lg">
-            ${index === 0 
-              ? '<span class="material-symbols-outlined text-primary text-xl">school</span>' 
-              : '<span class="w-5"></span>'}
-            <span class="text-slate-800 dark:text-slate-200">
-              <span class="font-semibold">${edu.degree}</span>
-              <span class="text-slate-500"> · ${edu.school}</span>
-              ${edu.field ? `<span class="text-slate-400"> · ${edu.field}</span>` : ''}
-            </span>
+        eduList.innerHTML = profile.education.map(edu => `
+          <div class="hover-lift pl-4 border-l-2 border-gray-200 dark:border-gray-800 py-1 cursor-default">
+            <p class="text-xs font-bold text-primary uppercase">${edu.year || '&nbsp;'}</p>
+            <h4 class="font-bold text-lg">${edu.degree}${edu.field ? ` in ${edu.field}` : ''}</h4>
+            <p class="text-gray-600 dark:text-gray-400">${edu.school}</p>
           </div>
         `).join('');
+
+        // Experience 렌더링
+        const expList = document.getElementById('experience-list');
+        expList.innerHTML = profile.experience.map(exp => `
+          <div class="hover-lift pl-4 border-l-2 border-gray-200 dark:border-gray-800 py-1 cursor-default">
+            <p class="text-xs font-bold text-primary uppercase">${exp.period || '&nbsp;'}</p>
+            <h4 class="font-bold text-lg">${exp.position}</h4>
+            <p class="text-gray-600 dark:text-gray-400">${exp.organization}</p>
+          </div>
+        `).join('');
+
       } catch (e) {
         console.error('Failed to load profile:', e);
       }
