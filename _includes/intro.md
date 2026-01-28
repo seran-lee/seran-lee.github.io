@@ -1,3 +1,3 @@
-My research explores the experiences of marginalization in Korean society. I am particularly interested in how the intersectionality of structural constraints influences decent work and the well-being of workers.
+I explored psychological blind spots among those marginalized by structural constraints. Based on the Psychology of Working perspective, I examine the career development and the process of attaining Decent Work among underserved populations in Korea. I also conduct research on integrating digital media and AI into counseling to enhance service accessibility and therapeutic effectiveness.
 
-저는 한국 사회의 소외 경험을 주요 연구 주제로 다루고 있습니다. 특히 다양한 구조적 제약의 교차성이 양질의 일자리 확보와 노동자의 안녕(well-being)에 미치는 영향에 깊은 관심을 두고 연구를 진행 중입니다.
+구조적 제약으로 소외된 이들의 심리적 사각지대를 연구합니다. 일의 심리학 관점을 기반으로 국내 취약 계층의 진로 발달과 괜찮은 일 획득 과정을 탐구하며, 동시에 디지털 매체와 AI 기술을 상담에 접목해 서비스 접근성과 치료적 실효성을 높이는 연구를 진행합니다.

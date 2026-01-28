@@ -175,6 +175,11 @@
             <p class="text-xs font-bold text-primary uppercase">${exp.period || '&nbsp;'}</p>
             <h4 class="font-bold text-lg">${exp.position}</h4>
             <p class="text-gray-600 dark:text-gray-400">${exp.organization}</p>
+            ${exp.current && exp.position_en && exp.organization_en ? `
+              <p class="text-sm text-gray-500 dark:text-gray-500 mt-1">
+                ${exp.position_en}, ${exp.organization_en}
+              </p>
+            ` : ''}
           </div>
         `).join('');
 
