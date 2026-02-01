@@ -44,10 +44,10 @@
 
     <!-- Filter Buttons -->
     <div class="flex flex-wrap justify-center gap-3 mb-12">
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors border border-slate-200 dark:border-slate-700" data-filter="all" onclick="filterPublications('all', this)">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-primary text-white border border-transparent" data-filter="all" onclick="filterPublications('all', this)">
         All
       </button>
-      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-primary text-white border border-transparent" data-filter="Articles" onclick="filterPublications('Articles', this)">
+      <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors border border-slate-200 dark:border-slate-700" data-filter="Articles" onclick="filterPublications('Articles', this)">
         Journal Articles 
       </button>
       <button class="filter-btn px-4 py-2 rounded-full text-sm font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors border border-slate-200 dark:border-slate-700" data-filter="Presentations" onclick="filterPublications('Presentations', this)">
@@ -135,9 +135,11 @@
         const url = `_data/publications.yml?v=${new Date().getTime()}`;
         allPublications = await loadYAML(url);
         
-        // On initial load, filter for 'Articles' and render them.
-        const articles = allPublications.filter(p => p.category === 'Articles');
-        renderPublications(articles);
+        // Sort publications by year in descending order (newest first)
+        allPublications.sort((a, b) => b.year - a.year);
+        
+        // On initial load, render all publications.
+        renderPublications(allPublications);
         
       } catch (e) {
         console.error('Failed to load publications:', e);
