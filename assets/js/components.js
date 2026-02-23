@@ -2,7 +2,7 @@
 
 const SITE_CONFIG = {
   author: 'Seran Lee (이세란)',
-  email: 'srlee617@gmail.com',
+  email: 'seran.lee@hnu.kr',
   links: {
     scholar: 'https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao',
     github: 'https://github.com',
