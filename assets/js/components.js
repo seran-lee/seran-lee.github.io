@@ -4,7 +4,8 @@ const SITE_CONFIG = {
   author: 'Seran Lee (이세란)',
   email: 'seran.lee@hnu.kr',
   links: {
-    scholar: 'https://scholar.google.co.kr/citations?user=eeZwnsEAAAAJ&hl=ko&oi=ao',
+    scholar: 'https://scholar.google.co.kr/citations?user=2pMO6LQAAAAJ',
+    department: 'https://counselpsy.hannam.ac.kr/',
     github: 'https://github.com',
     linkedin: 'https://linkedin.com'
   }
@@ -71,6 +72,7 @@ function renderFooter() {
     <footer class="max-w-4xl mx-auto px-6 border-t border-slate-200 dark:border-slate-800 pt-12 pb-8 text-center space-y-4">
       <div class="flex justify-center gap-6 text-xs uppercase tracking-widest">
         <a href="${SITE_CONFIG.links.scholar}" class="text-slate-400 hover:text-primary transition-colors">Google Scholar</a>
+        <a href="${SITE_CONFIG.links.department}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-primary transition-colors">HNU Counseling Psychology</a>
         <a href="mailto:${SITE_CONFIG.email}" class="text-slate-400 hover:text-primary transition-colors">Email</a>
       </div>
       <p class="text-xs text-slate-500 font-sans uppercase tracking-tighter">
