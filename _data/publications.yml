@@ -15,6 +15,10 @@
 #   author: "저자명"
 #   publisher: "출판사 또는 저널명"
 #   link: "https://..."             # 논문 링크 (없으면 "#" 또는 이 줄 삭제)
+#   keywords:                       # 연구 키워드 (영문, 선택 사항)
+#     - "Psychology of Working"
+#     - "Decent Work"
+#   abstract: "영문 초록 1~2문장"    # 논문 초록 (선택 사항)
 #
 # ------------------------------------------------------------
 # 📂 카테고리 종류 (정확히 입력해야 필터가 작동합니다)
@@ -38,6 +42,8 @@
   author: "Lee, S., Yang, H., & Lee, K.-H."
   publisher: "Frontiers in Psychology, 16, 1563787."
   link: "https://doi.org/10.3389/fpsyg.2025.1563787"
+  keywords: ["Psychology of Working", "Marginalization", "Decent Work"]
+  abstract: ""
 
 - title: "Decent work profiles of Korean workers: Antecedents and outcomes of profile membership"
   year: 2025
@@ -45,6 +51,8 @@
   author: "Lee, S., Kim, J.-H., & Lee, K.-H."
   publisher: "Journal of Career Assessment, 33(1), 149-166."
   link: "https://doi.org/10.1177/10690727241254120"
+  keywords: ["Decent Work", "Psychology of Working", "Career Development"]
+  abstract: ""
 
 - title: "The concept map of satisfaction and dissatisfaction factors in video counseling: A comparison of early adult client and counselor perceptions"
   year: 2024
@@ -52,6 +60,8 @@
   author: "Lee, S., Heo, C., Han, E., & Lee, K.-H."
   publisher: "Korean Journal of Counseling and Psychotherapy, 36(4), 1563-1589."
   link: ""
+  keywords: ["Digital Counseling", "Video Counseling"]
+  abstract: ""
 
 - title: "A validation study of the Work Need Satisfaction Scale for Korean working adults"
   year: 2021
@@ -59,6 +69,8 @@
   author: "Kim, J.-H., Yoo, K., Lee, S., & Lee, K.-H."
   publisher: "Frontiers in Psychology, 12, 611464."
   link: "https://doi.org/10.3389/fpsyg.2021.611464"
+  keywords: ["Psychology of Working", "Decent Work", "Scale Validation"]
+  abstract: ""
 
 - title: "The relationship between sex discrimination and job and life satisfaction in female employees: The mediating effects of work volition and decent work"
   year: 2021
@@ -66,6 +78,8 @@
   author: "Lee, S., & Lee, K.-H."
   publisher: "Korean Journal of Counseling and Psychotherapy, 33(1), 539-560."
   link: ""
+  keywords: ["Decent Work", "Marginalization", "Career Development"]
+  abstract: ""
 
 - title: "Application of the psychology of working theory with Korean emerging adults"
   year: 2019
@@ -73,6 +87,8 @@
   author: "Kim, H.J., Duffy, R.D., Lee, S., Lee, J., Lee, K-H."
   publisher: "Journal of Counseling Psychology, 66, 701-713."
   link: "https://doi.org/10.1037/cou0000368"
+  keywords: ["Psychology of Working", "Career Development"]
+  abstract: ""
 
 - title: "The relation between openness to experience and occupational engagement: Moderated mediation effect of planned happenstance skills and conflict with significant others"
   title_ko: "(대학생의 개방성과 진로관여행동의 관계: 계획된 우연 기술과 중요 타인과의 갈등의 조절된 매개효과)"
@@ -81,6 +97,8 @@
   author: "Lee, S., & Lee, K.-H."
   publisher: "The Journal of Career Education Research, 32(3), 201-222."
   link: "https://doi.org/10.32341/JCER.2019.09.32.3.201"
+  keywords: ["Career Development", "Career Intervention"]
+  abstract: ""
 
 - title: "The influence of parental abuse and neglect on career identity in high school students: Mediating effects of intrinsic and extrinsic goals"
   title_ko: "(고등학생이 지각한 부모의 학대 및 방임이 진로정체감에 미치는 영향: 내재적 목표와 외재적 목표의 매개효과)"
@@ -89,6 +107,8 @@
   author: "Hwang, H., Lee, E. H., & Lee, S."
   publisher: "Korean Journal of Counseling and Psychotherapy, 30(1), 195-216."
   link: "https://doi.org/10.23844/kjcp.2018.02.30.1.195"
+  keywords: ["Career Development", "Marginalization"]
+  abstract: ""
 
 - title: "The Concept Mapping of Clients' Satisfaction/Dissatisfaction Experience in Video Counseling"
   year: 2024
@@ -96,6 +116,8 @@
   author: "Lee, S., Heo, C., Han, E., & Lee, K. H."
   publisher: "Online poster presented at American Psychological Association, Seattle, WA, United States"
   link: ""
+  keywords: ["Digital Counseling", "Video Counseling"]
+  abstract: ""
 
 - title: "Preliminary Validation Study of the Korean Version of the Critical Consciousness Scale"
   year: 2024
@@ -103,6 +125,8 @@
   author: "Lee, S., Kim, J. H., & Lee, K. H."
   publisher: "Online poster presented at American Psychological Association, Seattle, WA, United States"
   link: ""
+  keywords: ["Marginalization", "Scale Validation"]
+  abstract: ""
 
 - title: "Decent Work and Well-being: Mediating effect of survival need satisfaction within the Psychology of Working Theory"
   year: 2023
@@ -110,6 +134,8 @@
   author: "Kim, J. H. & Lee, S."
   publisher: "Online poster presented at American Psychological Association, Washington, D. C., United States"
   link: ""
+  keywords: ["Decent Work", "Psychology of Working"]
+  abstract: ""
 
 - title: "Social Class and Mental Health: Moderating Role of Marginalization"
   year: 2023
@@ -117,6 +143,8 @@
   author: "Lee, S., Kim, J., & Lee, K. H."
   publisher: "Online poster presented at American Psychological Assocation, Washington, D. C., United States"
   link: ""
+  keywords: ["Marginalization", "Psychology of Working"]
+  abstract: ""
 
 - title: "The effect of intolerance of uncertainty on career engagement among college students: The moderating role of internal locus of control"
   year: 2019
@@ -124,6 +152,8 @@
   author: "Lee, S., & Lee, K."
   publisher: "Poster presented at the Annual Conference of the Korean Psychological Association, Seoul, South Korea"
   link: ""
+  keywords: ["Career Development", "Career Intervention"]
+  abstract: ""
 
 - title: "Testing the Psychology of Working Theory among Korean junior college students"
   year: 2019
@@ -131,6 +161,8 @@
   author: "Kim, H.J., Duffy, R.D., Lee, S., Lee, J., & Lee, K-H."
   publisher: "A student poster presented at the American Psychological Association, Chicago, IL, US"
   link: ""
+  keywords: ["Psychology of Working", "Career Development"]
+  abstract: ""
 
 - title: "Social class and work volition: Moderating role of perceived economic conditions"
   year: 2019
@@ -138,4 +170,6 @@
   author: "Lee, S., & Kim, H.J."
   publisher: "A poster presented at the American Psychological Association, Chicago, IL, US"
   link: ""
+  keywords: ["Psychology of Working", "Marginalization"]
+  abstract: ""
   
