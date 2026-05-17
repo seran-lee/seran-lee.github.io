@@ -109,22 +109,6 @@
     <!-- Page Header -->
     <section class="text-center mb-12">
       <h1 class="text-4xl font-bold tracking-tight mb-4">Publications</h1>
-      <!-- 저자 통계 배지 -->
-      <div id="author-stats" class="hidden flex flex-wrap justify-center gap-4 mt-4 text-sm text-slate-600 dark:text-slate-400">
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-          <span class="material-symbols-outlined text-primary text-base">format_quote</span>
-          인용 <strong id="stat-cited" class="text-slate-900 dark:text-white ml-1">—</strong>
-        </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-          <span class="material-symbols-outlined text-primary text-base">trending_up</span>
-          h-index <strong id="stat-hindex" class="text-slate-900 dark:text-white ml-1">—</strong>
-        </span>
-        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm">
-          <span class="material-symbols-outlined text-primary text-base">article</span>
-          논문 <strong id="stat-works" class="text-slate-900 dark:text-white ml-1">—</strong>편
-        </span>
-        <span class="text-xs text-slate-400 self-center" id="stat-updated"></span>
-      </div>
     </section>
 
     <!-- Category Filter -->
@@ -193,7 +177,7 @@
                   ${pub.category}
                 </span>
                 <span class="text-sm text-slate-500">${pub.year}</span>
-                ${(() => { const c = getCitationCount(pub); return c !== null && c > 0 ? `<span class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200"><span class="material-symbols-outlined text-xs" style="font-size:13px">format_quote</span>${c}회 인용</span>` : ''; })()}
+                ${(() => { const c = getCitationCount(pub); return c !== null && c > 0 ? `<span class="text-xs text-slate-400 dark:text-slate-500">${c} citations</span>` : ''; })()}
               </div>
               <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">${pub.title}</h3>
               ${pub.title_ko ? `<h4 class="text-md font-medium text-slate-600 dark:text-slate-400 mb-2">${pub.title_ko}</h4>` : ''}
@@ -287,16 +271,6 @@
         ]);
 
         allPublications.sort((a, b) => b.year - a.year);
-
-        // 저자 통계 배지 표시
-        if (citationData.author) {
-          document.getElementById('stat-cited').textContent  = citationData.author.cited_by_count;
-          document.getElementById('stat-hindex').textContent = citationData.author.h_index;
-          document.getElementById('stat-works').textContent  = citationData.author.works_count;
-          document.getElementById('stat-updated').textContent = `OpenAlex 기준 ${citationData.updated_at}`;
-          document.getElementById('author-stats').classList.remove('hidden');
-          document.getElementById('author-stats').classList.add('flex');
-        }
 
         renderKeywordFilters(collectKeywords(allPublications));
         renderPublications(allPublications);
