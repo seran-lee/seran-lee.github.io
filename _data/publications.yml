@@ -44,6 +44,8 @@
   link: "https://doi.org/10.3389/fpsyg.2025.1563787"
   keywords: ["Psychology of Working", "Marginalization", "Decent Work"]
   abstract: ""
+  featured: true
+  summary_ko: "한국 성인 근로자의 경제적 제약과 소외 프로필을 분석하고, 프로필에 따른 일과 삶의 결과 차이를 규명"
 
 - title: "Decent work profiles of Korean workers: Antecedents and outcomes of profile membership"
   year: 2025
@@ -53,6 +55,8 @@
   link: "https://doi.org/10.1177/10690727241254120"
   keywords: ["Decent Work", "Psychology of Working", "Career Development"]
   abstract: ""
+  featured: true
+  summary_ko: "한국 근로자의 괜찮은 일(Decent Work) 프로필을 도출하고, 프로필 소속의 선행요인과 결과를 분석"
 
 - title: "The concept map of satisfaction and dissatisfaction factors in video counseling: A comparison of early adult client and counselor perceptions"
   year: 2024
@@ -89,6 +93,8 @@
   link: "https://doi.org/10.1037/cou0000368"
   keywords: ["Psychology of Working", "Career Development"]
   abstract: ""
+  featured: true
+  summary_ko: "일의 심리학 이론(PWT)을 한국 청년층에 적용하여 검증"
 
 - title: "The relation between openness to experience and occupational engagement: Moderated mediation effect of planned happenstance skills and conflict with significant others"
   title_ko: "(대학생의 개방성과 진로관여행동의 관계: 계획된 우연 기술과 중요 타인과의 갈등의 조절된 매개효과)"
