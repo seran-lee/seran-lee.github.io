@@ -1,0 +1,117 @@
+{
+  "updated_at": "2026-05-17",
+  "author": {
+    "cited_by_count": 90,
+    "h_index": 3,
+    "i10_index": 2,
+    "works_count": 13
+  },
+  "works": {
+    "https://doi.org/10.1037/cou0000368": {
+      "cited_by_count": 68,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 10
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 13
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 11
+        }
+      ]
+    },
+    "https://doi.org/10.23844/kjcp.2021.02.33.1.539": {
+      "cited_by_count": 4,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 1
+        }
+      ]
+    },
+    "https://doi.org/10.3389/fpsyg.2021.611464": {
+      "cited_by_count": 12,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 4
+        }
+      ]
+    },
+    "https://doi.org/10.1177/10690727241254120": {
+      "cited_by_count": 3,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 2
+        }
+      ]
+    },
+    "https://doi.org/10.3389/fpsyg.2025.1563787": {
+      "cited_by_count": 1,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        }
+      ]
+    },
+    "https://doi.org/10.32341/jcer.2019.09.32.3.201": {
+      "cited_by_count": 2,
+      "counts_by_year": [
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2023,
+          "cited_by_count": 1
+        }
+      ]
+    },
+    "https://doi.org/10.1037/e509422019-001": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
+    "https://doi.org/10.1037/t84094-000": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
+    "https://doi.org/10.1037/t85069-000": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
+    "https://doi.org/10.1037/e511002025-001": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
+    "https://doi.org/10.1037/e510962025-001": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    }
+  }
+}
