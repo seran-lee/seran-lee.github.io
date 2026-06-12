@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-06-11",
+  "updated_at": "2026-06-12",
   "author": {
     "cited_by_count": 91,
     "h_index": 3,
@@ -24,23 +24,6 @@
         }
       ]
     },
-    "https://doi.org/10.23844/kjcp.2021.02.33.1.539": {
-      "cited_by_count": 4,
-      "counts_by_year": [
-        {
-          "year": 2026,
-          "cited_by_count": 1
-        },
-        {
-          "year": 2025,
-          "cited_by_count": 1
-        },
-        {
-          "year": 2024,
-          "cited_by_count": 1
-        }
-      ]
-    },
     "https://doi.org/10.3389/fpsyg.2021.611464": {
       "cited_by_count": 12,
       "counts_by_year": [
@@ -55,6 +38,23 @@
         {
           "year": 2024,
           "cited_by_count": 4
+        }
+      ]
+    },
+    "https://doi.org/10.23844/kjcp.2021.02.33.1.539": {
+      "cited_by_count": 4,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 1
         }
       ]
     },
