@@ -1,18 +1,22 @@
 {
-  "updated_at": "2026-05-17",
+  "updated_at": "2026-09-10",
   "author": {
-    "cited_by_count": 90,
+    "cited_by_count": 94,
     "h_index": 3,
     "i10_index": 2,
-    "works_count": 13
+    "works_count": 14
   },
   "works": {
+    "https://doi.org/10.1007/s12144-026-09934-5": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
     "https://doi.org/10.1037/cou0000368": {
-      "cited_by_count": 68,
+      "cited_by_count": 72,
       "counts_by_year": [
         {
           "year": 2026,
-          "cited_by_count": 10
+          "cited_by_count": 14
         },
         {
           "year": 2025,
@@ -21,23 +25,6 @@
         {
           "year": 2024,
           "cited_by_count": 11
-        }
-      ]
-    },
-    "https://doi.org/10.23844/kjcp.2021.02.33.1.539": {
-      "cited_by_count": 4,
-      "counts_by_year": [
-        {
-          "year": 2026,
-          "cited_by_count": 1
-        },
-        {
-          "year": 2025,
-          "cited_by_count": 1
-        },
-        {
-          "year": 2024,
-          "cited_by_count": 1
         }
       ]
     },
@@ -68,6 +55,23 @@
         {
           "year": 2025,
           "cited_by_count": 2
+        }
+      ]
+    },
+    "https://doi.org/10.23844/kjcp.2021.02.33.1.539": {
+      "cited_by_count": 4,
+      "counts_by_year": [
+        {
+          "year": 2026,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2025,
+          "cited_by_count": 1
+        },
+        {
+          "year": 2024,
+          "cited_by_count": 1
         }
       ]
     },
