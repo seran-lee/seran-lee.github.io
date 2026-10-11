@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-10-10",
+  "updated_at": "2026-10-11",
   "author": {
     "cited_by_count": 97,
     "h_index": 4,
@@ -8,11 +8,11 @@
   },
   "works": {
     "https://doi.org/10.1037/cou0000368": {
-      "cited_by_count": 72,
+      "cited_by_count": 73,
       "counts_by_year": [
         {
           "year": 2026,
-          "cited_by_count": 14
+          "cited_by_count": 15
         },
         {
           "year": 2025,
