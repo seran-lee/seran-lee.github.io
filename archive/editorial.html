@@ -26,7 +26,7 @@
       --paper: #ffffff;
       --paper-subtle: #f9f9f9;
       --sky: #f0f0f0;
-      --max: 1100px;
+      --max: 1100px; /* Optimal reading line length for academic monographs */
       
       --accent-core: #111111;
       --accent-core-bg: #f3f4f6;
@@ -61,7 +61,7 @@
     }
 
     a { color: inherit; text-decoration: none; }
-    button { font: inherit; }
+    button, input { font: inherit; }
 
     .shell {
       max-width: var(--max);
@@ -99,862 +99,537 @@
     .brand span {
       color: #888888;
       font-weight: 400;
-      font-size: 0.88rem;
+      font-size: 0.85rem;
     }
 
-    .nav-right {
+    .nav-actions {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 16px;
     }
 
-    .nav-status {
-      font-size: 0.82rem;
-      color: #dddddd;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      background: rgba(255, 255, 255, 0.07);
-      padding: 4px 12px;
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.12);
+    .nav-link {
+      font-size: 13.5px;
+      color: #bbbbbb;
+      transition: color 0.15s ease;
       font-weight: 500;
     }
 
-    .status-dot {
-      width: 6.5px;
-      height: 6.5px;
-      border-radius: 50%;
-      background: #10b981;
-      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
-    }
-
-    .btn-nav {
-      font-size: 0.8rem;
-      color: #cccccc;
-      border: 1px solid #444444;
-      padding: 4px 10px;
-      border-radius: 4px;
-      transition: all 0.15s ease;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-nav:hover {
+    .nav-link:hover, .nav-link.active {
       color: #ffffff;
-      border-color: #888888;
-      background: #222222;
     }
 
-    .btn-nav-map-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 5px 13px;
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(99, 102, 241, 0.16));
-      border: 1px solid rgba(56, 189, 248, 0.4);
-      color: #38bdf8;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 700;
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      transition: all 0.2s ease;
-    }
-
-    .btn-nav-map-pill:hover {
-      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(99, 102, 241, 0.28));
-      border-color: #38bdf8;
-      color: #ffffff;
-      transform: translateY(-1px);
-    }
-
-    .nav-pulse-dot {
-      width: 6.5px;
-      height: 6.5px;
-      border-radius: 50%;
-      background: #38bdf8;
-      box-shadow: 0 0 6px #38bdf8;
-      animation: navPulse 2s infinite ease-in-out;
-    }
-
-    @keyframes navPulse {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.4; transform: scale(0.8); }
-    }
-
-    .btn-theme-toggle {
+    .btn-toggle-theme {
       background: transparent;
-      border: 1px solid #444444;
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #ffffff;
       padding: 4px 10px;
       border-radius: 4px;
-      font-size: 0.78rem;
+      font-size: 12px;
       cursor: pointer;
-      transition: 0.15s ease;
+      transition: all 0.15s ease;
     }
 
-    .btn-theme-toggle:hover {
-      background: #222222;
-      border-color: #666666;
+    .btn-toggle-theme:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
 
-    /* ==========================================================================
-       HERO MASTHEAD (Dynamic Mount Target)
-       ========================================================================== */
-    .intro {
-      background: var(--paper);
-      color: var(--ink);
-      padding: 48px 0 40px;
+    /* Monograph Hero Banner */
+    .hero-banner {
+      background: var(--paper-subtle);
       border-bottom: 1px solid var(--line);
+      padding: 48px 0 40px;
     }
 
-    .intro-grid {
-      display: grid;
-      grid-template-columns: 1.35fr 0.65fr;
-      gap: 48px;
-      align-items: start;
-    }
-
-    .eyebrow {
-      color: var(--muted);
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-size: 0.74rem;
+    .hero-meta {
       display: flex;
       align-items: center;
-      gap: 8px;
-    }
-
-    .intro h1 {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: clamp(2.1rem, 3.6vw, 3rem);
-      font-weight: 800;
-      line-height: 1.2;
-      letter-spacing: -0.035em;
-      margin: 10px 0 16px;
-    }
-
-    .intro-lead-quote {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.15rem;
-      line-height: 1.68;
-      color: var(--ink);
-      border-left: 2px solid var(--ink);
-      padding-left: 18px;
-      margin: 0 0 16px;
-    }
-
-    .intro-desc {
+      gap: 12px;
+      font-size: 13px;
       color: var(--muted);
-      font-size: 0.94rem;
-      line-height: 1.72;
-      margin: 0;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
     }
 
-    .intro-tags {
-      margin-top: 16px;
+    .hero-issue-badge {
+      background: var(--navy);
+      color: #ffffff;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border-radius: 2px;
+    }
+
+    [data-theme="dark"] .hero-issue-badge {
+      background: #ffffff;
+      color: #111111;
+    }
+
+    .hero-title {
+      font-family: "Noto Serif KR", Georgia, serif;
+      font-size: 2.1rem;
+      font-weight: 700;
+      line-height: 1.35;
+      margin: 0 0 16px;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-lead {
+      font-size: 1.05rem;
+      color: var(--muted);
+      margin: 0 0 24px;
+      max-width: 860px;
+      line-height: 1.7;
+    }
+
+    .hero-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 8px;
+      margin-bottom: 24px;
     }
 
-    .tag-chip {
+    .hero-tag {
+      font-size: 12px;
+      padding: 3px 10px;
       background: var(--sky);
-      color: var(--muted);
-      border-radius: 3px;
-      padding: 3px 8px;
-      font-size: 0.74rem;
-      font-weight: 500;
+      color: var(--ink);
       border: 1px solid var(--line);
+      border-radius: 2px;
+      font-weight: 500;
     }
 
-    .brief-summary-box {
-      border-left: 2px solid var(--ink);
-      padding-left: 22px;
-      color: var(--muted);
-      font-size: 0.88rem;
+    .hero-summary-box {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-left: 4px solid var(--ink);
+      padding: 16px 20px;
+      font-size: 14px;
+      color: var(--ink);
       line-height: 1.65;
+      border-radius: 0 4px 4px 0;
     }
 
-    .brief-summary-box strong {
-      display: block;
-      color: var(--ink);
-      font-size: 0.96rem;
-      margin-bottom: 6px;
-      letter-spacing: -0.01em;
-    }
-
-    .brief-meta-list {
-      list-style: none;
-      padding: 0;
-      margin: 12px 0 16px;
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      font-size: 0.84rem;
-    }
-
-    .brief-meta-list li {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px dashed var(--line);
-      padding-bottom: 4px;
-    }
-
-    .brief-meta-list span.val {
-      font-weight: 700;
-      color: var(--ink);
-    }
-
-    .brief-links {
-      display: flex;
-      gap: 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .brief-links a {
-      color: var(--ink);
-      text-decoration: underline;
-    }
-
-    /* ==========================================================================
-       STICKY TABLE OF CONTENTS
-       ========================================================================== */
-    .sticky-toc-bar {
+    /* Sub-nav Sticky Menu */
+    .toc-bar {
       position: sticky;
       top: 60px;
       z-index: 90;
       background: var(--paper);
       border-bottom: 1px solid var(--line);
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
-      transition: background-color 0.2s ease, border-color 0.2s ease;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
     }
+
+    .toc-bar::-webkit-scrollbar { display: none; }
 
     .toc-inner {
       display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 0;
-      overflow-x: auto;
-      white-space: nowrap;
-    }
-
-    .toc-label {
-      font-size: 0.75rem;
-      font-weight: 800;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-right: 6px;
+      gap: 24px;
+      padding: 12px 0;
+      font-size: 13px;
+      font-weight: 600;
     }
 
     .toc-link {
-      font-size: 0.82rem;
       color: var(--muted);
-      padding: 4px 10px;
-      border-radius: 3px;
-      border: 1px solid transparent;
-      transition: all 0.15s ease;
+      transition: color 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .toc-link:hover {
       color: var(--ink);
-      background: var(--sky);
-      border-color: var(--line);
     }
 
-    /* ==========================================================================
-       MONOGRAPH READING LAYOUT & SECTIONS
-       ========================================================================== */
-    main {
-      padding: 48px 0 96px;
-      background: var(--paper);
-    }
-
+    /* Section Typography & Layout */
     .reading-section {
-      margin-bottom: 72px;
+      padding: 56px 0 48px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .reading-section:last-of-type {
+      border-bottom: none;
     }
 
     .reading-section-header {
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 14px;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
     }
 
     .section-num {
-      font-size: 0.74rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--muted);
-      display: block;
-      margin-bottom: 4px;
-    }
-
-    .section-title {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.6rem;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: -0.025em;
-      margin: 0 0 6px;
-    }
-
-    .section-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-      margin: 0;
-    }
-
-    .editorial-essay {
-      font-size: 0.96rem;
-      line-height: 1.82;
-      color: var(--ink);
-      margin-bottom: 32px;
-    }
-
-    .editorial-essay p {
-      margin: 0 0 16px;
-    }
-
-    .editorial-essay p:last-child {
-      margin-bottom: 0;
-    }
-
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 32px;
-    }
-
-    .kpi-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 18px 20px;
-    }
-
-    .kpi-label {
-      font-size: 0.74rem;
-      font-weight: 700;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .kpi-val {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 2.1rem;
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1.2;
-      margin: 6px 0 4px;
-    }
-
-    .kpi-val span {
-      font-size: 0.9rem;
-      font-weight: normal;
-      color: var(--muted);
-      margin-left: 2px;
-    }
-
-    .kpi-sub {
-      font-size: 0.78rem;
-      color: var(--muted);
-    }
-
-    .audit-box {
-      background: var(--paper-subtle);
-      border: 1px solid var(--line);
-      border-left: 3px solid var(--ink);
-      border-radius: 0 4px 4px 0;
-      padding: 22px 26px;
-      margin-bottom: 36px;
-    }
-
-    .audit-box h4 {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: var(--ink);
-      margin: 0 0 10px;
-    }
-
-    .audit-box p {
-      font-size: 0.86rem;
-      line-height: 1.7;
-      color: var(--muted);
-      margin: 0 0 10px;
-    }
-
-    .audit-box p:last-child {
-      margin-bottom: 0;
-    }
-
-    .audit-box strong {
-      color: var(--ink);
-    }
-
-    .audit-box a {
-      color: var(--ink);
-      text-decoration: underline;
-    }
-
-    .charts-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
-      margin-bottom: 36px;
-    }
-
-    .chart-box {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 20px 24px;
-    }
-
-    .chart-title {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.05rem;
-      font-weight: 700;
-      margin: 0 0 2px;
-    }
-
-    .chart-subtitle {
-      font-size: 0.78rem;
-      color: var(--muted);
-      margin-bottom: 14px;
-    }
-
-    /* ==========================================================================
-       PAPER CARDS
-       ========================================================================== */
-    .paper-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 28px 32px;
-      margin-bottom: 28px;
-    }
-
-    .paper-card-meta {
-      display: flex;
-      gap: 8px;
-      align-items: center;
-      color: var(--muted);
-      font-size: 0.78rem;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-
-    .pill {
-      color: var(--ink);
-      background: var(--sky);
-      padding: 2px 7px;
-      border-radius: 2px;
-      font-weight: 600;
-      font-size: 0.72rem;
-    }
-
-    .pill.core {
-      background: var(--accent-core);
-      color: var(--paper);
-      font-weight: 700;
-    }
-
-    .journal-name {
-      margin-left: auto;
-      font-style: italic;
-      color: var(--muted);
-      font-size: 0.82rem;
-    }
-
-    .paper-card h3 {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.3rem;
-      line-height: 1.45;
-      letter-spacing: -0.025em;
-      margin: 0 0 8px;
-      word-break: keep-all;
-    }
-
-    .paper-card h3 a:hover {
-      text-decoration: underline;
-    }
-
-    .authors-row {
-      font-size: 0.84rem;
-      color: var(--muted);
-      margin-bottom: 16px;
-    }
-
-    .card-theory-strip {
-      background: var(--paper-subtle);
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      font-size: 0.82rem;
-    }
-
-    .card-theory-strip strong {
-      display: block;
-      color: var(--ink);
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-      margin-bottom: 2px;
-    }
-
-    .card-theory-strip span {
-      color: var(--muted);
-    }
-
-    .card-svg-container {
-      background: var(--paper-subtle);
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 12px;
-      margin-bottom: 16px;
-    }
-
-    .card-svg-header {
-      font-size: 0.72rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-
-    .ai-brief-card {
-      background: var(--paper-subtle);
-      border-left: 2px solid var(--ink);
-      padding: 16px 20px;
-      border-radius: 0 3px 3px 0;
-      margin-bottom: 16px;
-      font-size: 0.9rem;
-      line-height: 1.72;
-    }
-
-    .ai-row {
-      margin-bottom: 8px;
-    }
-
-    .ai-row:last-child {
-      margin-bottom: 0;
-    }
-
-    .ai-label {
-      font-weight: 700;
-      color: var(--ink);
-      font-size: 0.84rem;
-      margin-right: 6px;
-      letter-spacing: -0.01em;
-    }
-
-    .ai-text {
-      color: var(--muted);
-    }
-
-    .ai-text.critique {
-      color: var(--ink);
-    }
-
-    .card-archive-link {
-      font-size: 0.82rem;
-      color: var(--muted);
-      border-top: 1px dashed var(--line);
-      padding-top: 12px;
-      margin-bottom: 12px;
-    }
-
-    .card-archive-link strong {
-      color: var(--ink);
-    }
-
-    .apa-citation-box {
-      font-size: 0.78rem;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-      background: var(--paper-subtle);
-      border: 1px solid var(--line);
-      padding: 8px 12px;
-      border-radius: 3px;
-      color: var(--muted);
-      word-break: break-all;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-copy-apa {
-      font-family: Pretendard, sans-serif;
-      font-size: 0.74rem;
-      font-weight: 600;
-      background: var(--paper);
-      border: 1px solid var(--line);
-      padding: 3px 8px;
-      border-radius: 2px;
-      cursor: pointer;
-      color: var(--ink);
-      shrink-to-fit: 0;
-    }
-
-    .btn-copy-apa:hover {
-      background: var(--sky);
-      border-color: #888;
-    }
-
-    /* ==========================================================================
-       POLICY CARDS
-       ========================================================================== */
-    .policy-bridge-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      margin-bottom: 28px;
-      overflow: hidden;
-    }
-
-    .policy-card-top {
-      padding: 16px 24px;
-      background: var(--paper-subtle);
-      border-bottom: 1px solid var(--line);
-      display: flex;
-      justify-content: space-between;
-      align-items: baseline;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .policy-tag-badge {
-      font-size: 0.74rem;
-      font-weight: 800;
-      color: var(--paper);
-      background: var(--ink);
-      padding: 2px 7px;
-      border-radius: 2px;
-    }
-
-    .policy-card-top h3 {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.18rem;
-      font-weight: 700;
-      margin: 0;
-      color: var(--ink);
-    }
-
-    .policy-connected-paper {
-      font-size: 0.8rem;
-      color: var(--muted);
-      font-style: italic;
-    }
-
-    .policy-card-body {
-      padding: 24px 28px;
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr;
-      gap: 28px;
-    }
-
-    .policy-col-title {
-      font-size: 0.78rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--muted);
-      margin: 0 0 12px;
-    }
-
-    .stat-snippet-box {
-      background: var(--paper-subtle);
-      border: 1px solid var(--line);
-      border-radius: 3px;
-      padding: 16px;
-      font-size: 0.88rem;
-      line-height: 1.7;
-      color: var(--muted);
-      margin-bottom: 12px;
-    }
-
-    .stat-snippet-box strong {
-      color: var(--ink);
-    }
-
-    .academic-implication-box {
-      border-left: 2px solid var(--ink);
-      padding-left: 16px;
-      font-size: 0.88rem;
-      line-height: 1.72;
-      color: var(--muted);
-    }
-
-    .academic-implication-box strong {
-      color: var(--ink);
-    }
-
-    /* ==========================================================================
-       RESEARCH AGENDAS
-       ========================================================================== */
-    .agenda-card {
-      background: var(--paper);
-      border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 30px 34px;
-      margin-bottom: 32px;
-    }
-
-    .agenda-eyebrow {
-      font-size: 0.74rem;
-      font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.08em;
       color: var(--muted);
-    }
-
-    .agenda-title {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      margin: 6px 0 16px;
-      line-height: 1.4;
-      color: var(--ink);
-      border-bottom: 1px solid var(--line);
-      padding-bottom: 12px;
-    }
-
-    .agenda-content-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      font-size: 0.9rem;
-      line-height: 1.72;
-      margin-bottom: 20px;
-    }
-
-    .agenda-block strong {
       display: block;
-      font-size: 0.8rem;
-      font-weight: 800;
-      text-transform: uppercase;
-      color: var(--ink);
       margin-bottom: 6px;
     }
 
-    .agenda-block p {
-      margin: 0;
-      color: var(--muted);
-      white-space: pre-line;
+    .section-title {
+      font-family: "Noto Serif KR", Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin: 0 0 10px;
+      letter-spacing: -0.015em;
     }
 
-    .agenda-svg-box {
+    .section-desc {
+      font-size: 14px;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    /* Stat Cards Grid */
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
       background: var(--paper-subtle);
       border: 1px solid var(--line);
-      border-radius: 3px;
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .stat-label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    .stat-val {
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .stat-sub {
+      font-size: 11.5px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    /* Academic Charts Container */
+    .chart-container-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-top: 24px;
+    }
+
+    .chart-box {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      padding: 20px;
+      border-radius: 4px;
+    }
+
+    .chart-box-header {
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chart-wrapper {
+      position: relative;
+      height: 220px;
+    }
+
+    /* Editorial Prose (Part II) */
+    .prose-editorial {
+      font-family: "Noto Serif KR", Georgia, serif;
+      font-size: 16px;
+      line-height: 1.9;
+      color: var(--ink);
+      max-width: 860px;
+    }
+
+    .prose-editorial p {
+      margin: 0 0 20px;
+      text-align: justify;
+      word-break: keep-all;
+    }
+
+    .editorial-callout {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--ink);
+      padding: 16px 20px;
+      font-family: Pretendard, sans-serif;
+      font-size: 14px;
+      line-height: 1.65;
+      margin: 24px 0;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .editorial-callout strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 13.5px;
+    }
+
+    /* Paper Cards (Part III) */
+    .paper-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 28px;
+      border-radius: 4px;
+      margin-bottom: 24px;
+      transition: border-color 0.15s ease;
+    }
+
+    .paper-card:hover {
+      border-color: #999999;
+    }
+
+    .paper-cluster-tag {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 10px;
+    }
+
+    .paper-title {
+      font-family: "Noto Serif KR", Georgia, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      line-height: 1.45;
+      margin: 0 0 10px;
+    }
+
+    .paper-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 16px;
+      line-height: 1.6;
+    }
+
+    .paper-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .paper-block {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
       padding: 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    .paper-block-title {
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .paper-svg-diagram {
+      margin: 16px 0;
+      padding: 14px;
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+
+    .paper-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+      font-size: 12.5px;
+    }
+
+    .citation-snippet {
+      font-family: "Courier New", Courier, monospace;
+      color: var(--muted);
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .btn-copy {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--ink);
+      padding: 4px 10px;
+      border-radius: 3px;
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s ease;
+    }
+
+    .btn-copy:hover {
+      background: var(--sky);
+      border-color: #999999;
+    }
+
+    /* Policy & Agenda Cards */
+    .policy-card, .agenda-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 24px;
+      border-radius: 4px;
+      margin-bottom: 20px;
+    }
+
+    .policy-eyebrow, .agenda-eyebrow {
+      font-size: 11.5px;
+      font-weight: 700;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .policy-title, .agenda-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin: 0 0 14px;
+      line-height: 1.45;
+    }
+
+    .policy-content-grid, .agenda-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
       margin-bottom: 14px;
     }
 
-    .agenda-footer {
-      font-size: 0.82rem;
-      color: var(--muted);
-      text-align: right;
-      border-top: 1px dashed var(--line);
-      padding-top: 10px;
+    .policy-block, .agenda-block {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      padding: 16px;
+      border-radius: 4px;
+      font-size: 13.5px;
+      line-height: 1.68;
     }
 
-    /* ==========================================================================
-       MANUSCRIPT INTRO EXCERPTS
-       ========================================================================== */
+    .policy-block strong, .agenda-block strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .policy-block p, .agenda-block p {
+      margin: 0;
+    }
+
+    /* Manuscript Intro Cards */
     .intro-excerpt-card {
-      background: var(--paper);
+      background: var(--paper-subtle);
       border: 1px solid var(--line);
-      border-radius: 4px;
-      padding: 26px 30px;
-      margin-bottom: 24px;
+      border-left: 3px solid var(--ink);
+      padding: 22px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 20px;
     }
 
     .intro-excerpt-header {
       display: flex;
+      align-items: center;
       justify-content: space-between;
-      align-items: baseline;
       margin-bottom: 12px;
     }
 
     .intro-excerpt-title {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 1.12rem;
+      font-size: 14px;
       font-weight: 700;
-      color: var(--ink);
       margin: 0;
     }
 
     .intro-quote-text {
-      font-family: "Noto Serif KR", Batang, serif;
-      font-size: 0.95rem;
-      line-height: 1.84;
+      font-family: "Noto Serif KR", Georgia, serif;
+      font-size: 14.5px;
+      line-height: 1.85;
       color: var(--ink);
-      background: var(--paper-subtle);
-      border-left: 3px solid var(--ink);
-      padding: 16px 22px;
-      border-radius: 0 4px 4px 0;
-      margin: 0 0 10px;
+      margin: 0 0 12px;
+      text-align: justify;
       word-break: keep-all;
     }
 
     .intro-excerpt-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
+      font-size: 12px;
       color: var(--muted);
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
     }
 
-    .btn-copy-quote {
-      font-size: 0.76rem;
-      font-weight: 600;
-      color: var(--ink);
-      background: var(--paper);
-      border: 1px solid var(--line);
-      padding: 4px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-      transition: 0.15s ease;
+    /* Status Indicator Badge */
+    .sync-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--muted);
+      margin-left: 10px;
     }
 
-    .btn-copy-quote:hover {
-      background: var(--sky);
-      border-color: #888;
+    .sync-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #16a34a;
+    }
+
+    .sync-dot.loading {
+      background: #d97706;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.4; }
+      to { opacity: 1; }
     }
 
     /* Footer */
     footer {
-      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      background: var(--paper-subtle);
+      border-top: 1px solid var(--line);
       padding: 40px 0;
-      background: var(--navy);
-      color: #888888;
-      font-size: 0.82rem;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 60px;
     }
 
     .footer-inner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 20px;
       flex-wrap: wrap;
-    }
-
-    .footer-brand {
-      color: #cccccc;
-      font-weight: 700;
+      gap: 16px;
     }
 
     .footer-links {
@@ -962,496 +637,193 @@
       gap: 16px;
     }
 
-    .footer-links a {
-      color: #888888;
-      text-decoration: underline;
-    }
-
-    .footer-links a:hover {
-      color: #ffffff;
-    }
-
-    /* Dark Mode SVG Overrides */
-    [data-theme="dark"] svg text {
-      fill: #e2e8f0 !important;
-    }
-    [data-theme="dark"] svg rect[fill="#111111"] {
-      fill: #222222 !important;
-    }
-
-    @media (max-width: 900px) {
-      .intro-grid,
-      .kpi-row,
-      .charts-row,
-      .policy-card-body,
-      .agenda-content-grid,
-      .card-theory-strip {
-        grid-template-columns: 1fr;
-      }
-      .shell {
-        padding: 0 20px;
-      }
+    @media (max-width: 860px) {
+      .stat-grid { grid-template-columns: repeat(2, 1fr); }
+      .chart-container-grid { grid-template-columns: 1fr; }
+      .policy-content-grid, .agenda-content-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Top Sticky Header (Consistent across entire system) -->
+  <!-- Top Navigation -->
   <header class="site-header">
-    <div class="shell">
-      <div class="nav">
-        <div class="brand" id="brandTitle">
-          이세란 교수 연구 서재 <span>The Spark Review · Loading...</span>
-        </div>
-        <div class="nav-right">
-          <div class="nav-status">
-            <span class="status-dot"></span>
-            <span id="headerStatusText">주간 학술·정책 인텔리전스</span>
-          </div>
-          <a href="index.html" class="btn-nav" title="서재 목록으로 이동">
-            <span>← 서재 목록 보기</span>
-          </a>
-          <a href="map.html" class="btn-nav-map-pill" title="지식 네트워크 맵으로 보기">
-            <span class="nav-pulse-dot"></span>
-            <span>🕸️ 지식 맵 ↗</span>
-          </a>
-          <button class="btn-theme-toggle" id="themeToggleBtn">다크모드</button>
-        </div>
+    <div class="shell nav">
+      <div class="brand">
+        THE SPARK REVIEW
+        <span>이세란 연구실 주간 인텔리전스</span>
+      </div>
+      <div class="nav-actions">
+        <a href="index.html" class="nav-link">서재 목록</a>
+        <a href="editorial.html" class="nav-link active">Weekly Newsletter (10.11 ~ 10.17)</a>
+        <a href="map.html" class="nav-link">지식맵</a>
+        <button id="themeToggleBtn" class="btn-toggle-theme" type="button">다크모드</button>
       </div>
     </div>
   </header>
 
-  <!-- Editorial Hero Section (Populated Dynamically from Meta) -->
-  <section class="intro" id="heroSection">
-    <div class="shell intro-grid">
-      <div id="heroLeftCol">
-        <div class="eyebrow" id="heroEyebrow">
-          <span>Editor-in-Chief's Weekly Intelligence</span>
-        </div>
-        <h1 id="heroTitle">THE SPARK REVIEW</h1>
-        <p class="intro-lead-quote" id="heroLeadQuote">로딩 중...</p>
-        <p class="intro-desc" id="heroDesc">데이터를 불러오고 있습니다.</p>
-        <div class="intro-tags" id="heroTags"></div>
-      </div>
-
-      <div class="brief-summary-box" id="heroSummaryBox">
-        <strong>주간 파이프라인 모니터링 요약</strong>
-        <p>비심리학 거시담론 및 일반 경영윤리 문헌을 필터링하고 연구실 후속 연구에 즉각 투입 가능한 문헌을 선별했습니다.</p>
-        <ul class="brief-meta-list" id="heroMetaList"></ul>
-        <div class="brief-links">
-          <a href="https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/edit" target="_blank" rel="noopener noreferrer">📊 구글 시트 원본 ↗</a>
-          <a href="index.html">📚 누적 보관 서재 ↗</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Sticky Table of Contents -->
-  <nav class="sticky-toc-bar">
+  <!-- Sticky Section TOC -->
+  <nav class="toc-bar">
     <div class="shell toc-inner">
-      <span class="toc-label">Index</span>
-      <a href="#sec-editorial" class="toc-link">Ⅰ. 편집장 총론</a>
-      <a href="#sec-funnel" class="toc-link">Ⅱ. 퍼널 &amp; 저널 지형</a>
-      <a href="#sec-papers" class="toc-link">Ⅲ. 주간 엄선 7선 해부</a>
-      <a href="#sec-policy" class="toc-link">Ⅳ. 국책 정책 교차 브리핑</a>
-      <a href="#sec-agendas" class="toc-link">Ⅴ. 연구실 기획 아젠다 3선</a>
-      <a href="#sec-intros" class="toc-link">Ⅵ. 서론 인용 예시 문단</a>
+      <a href="#sec-overview" class="toc-link"><span>Ⅰ</span> 모니터링 개요</a>
+      <a href="#sec-editorial" class="toc-link"><span>Ⅱ</span> 주간 총평</a>
+      <a href="#sec-papers" class="toc-link"><span>Ⅲ</span> 핵심 논문 7선</a>
+      <a href="#sec-policy" class="toc-link"><span>Ⅳ</span> 사회 현안·실증 연계</a>
+      <a href="#sec-agendas" class="toc-link"><span>Ⅴ</span> 연구 기획 아젠다</a>
+      <a href="#sec-intros" class="toc-link"><span>Ⅵ</span> 인용 예시 문단</a>
+      <span id="syncIndicator" class="sync-status"><span class="sync-dot loading"></span> 데이터 연결 중...</span>
     </div>
   </nav>
 
-  <!-- Main Monograph Reading Flow -->
-  <main class="shell">
+  <!-- Main Container -->
+  <main class="shell" id="editorialApp">
+    
+    <!-- Hero / Executive Summary (Dynamically Populated) -->
+    <header class="hero-banner" id="heroContainer">
+      <div class="hero-meta">
+        <span class="hero-issue-badge" id="heroIssueBadge">Issue --</span>
+        <span id="heroDate">Loading...</span>
+        <span>·</span>
+        <span id="heroMetaLabel">The Spark Review</span>
+      </div>
+      <h1 class="hero-title" id="heroTitle">주간 학술·정책 인텔리전스 리포트 불러오는 중...</h1>
+      <p class="hero-lead" id="heroLead">구글 시트(시트3)에서 실시간 분석 데이터셋을 동기화하고 있습니다.</p>
+      <div class="hero-tags" id="heroTags"></div>
+      <div class="hero-summary-box" id="heroSummaryBox"></div>
+    </header>
 
-    <!-- PART Ⅰ: EDITORIAL ESSAY & AUDIT -->
-    <section id="sec-editorial" class="reading-section">
+    <!-- SECTION 1: OVERVIEW & STATS -->
+    <section id="sec-overview" class="reading-section">
       <div class="reading-section-header">
         <span class="section-num">Part Ⅰ</span>
-        <h2 class="section-title">편집장 총론</h2>
-        <div class="section-desc" id="editorialSubDesc">주간 상담·직업심리학 학술 지형 총평 및 연구실 관점 진단</div>
+        <h2 class="section-title">주간 학술 문헌 모니터링 개요 및 필터링 퍼널</h2>
+        <div class="section-desc">Semantic Scholar API 파이프라인에서 수집된 45편 중 연구실 핵심 정합 7편 선별 과정</div>
       </div>
 
-      <div class="editorial-essay" id="editorialEssayContainer"></div>
-      <div class="audit-box" id="editorialAuditContainer"></div>
-    </section>
-
-    <!-- PART Ⅱ: FUNNEL & CHARTS -->
-    <section id="sec-funnel" class="reading-section">
-      <div class="reading-section-header">
-        <span class="section-num">Part Ⅱ</span>
-        <h2 class="section-title">퍼널 지표 &amp; 학술지 지형</h2>
-        <div class="section-desc">단계별 문헌 필터링 현황 및 연구실 Zotero 서재(48편) 저널 분포</div>
+      <div class="stat-grid" id="statGrid">
+        <div class="stat-card">
+          <div class="stat-label">주간 유입 문헌</div>
+          <div class="stat-val" id="statIngested">45<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
+          <div class="stat-sub">Semantic Scholar 6개 트랙</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">AI 1차 필터링 제외</div>
+          <div class="stat-val" id="statExcluded">29<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
+          <div class="stat-sub">일반 의학·경영학·서평 제외</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">핵심 채택 문헌 (Zotero)</div>
+          <div class="stat-val" id="statAccepted">7<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
+          <div class="stat-sub">SSCI 코어 100% / 원문 확보</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">국책 지표 융합 아젠다</div>
+          <div class="stat-val" id="statAgendas">3<span style="font-size:1.1rem; font-weight:500;"> 건</span></div>
+          <div class="stat-sub">한은·고용정보원·직능원 연계</div>
+        </div>
       </div>
 
-      <div class="kpi-row" id="kpiContainer"></div>
-
-      <div class="charts-row">
+      <div class="chart-container-grid">
         <div class="chart-box">
-          <h4 class="chart-title">주간 연구 트랙별 수집 vs. 최종 채택 분포</h4>
-          <div class="chart-subtitle">10월 3주차 수집 문헌(45편)의 단계별 필터링 현황</div>
-          <div style="height: 240px; position: relative;">
+          <div class="chart-box-header">
+            <span>트랙별 수집 대비 채택 현황</span>
+            <span style="font-size:11px; color:var(--muted);">단위: 편</span>
+          </div>
+          <div class="chart-wrapper">
             <canvas id="weeklyFunnelChart"></canvas>
           </div>
         </div>
 
         <div class="chart-box">
-          <h4 class="chart-title">연구 서재 누적 컬렉션(48편) 핵심 학술지 분포</h4>
-          <div class="chart-subtitle">교수님께서 집중 보관하신 주요 타깃 SSCI 저널 비중</div>
-          <div style="height: 240px; position: relative;">
+          <div class="chart-box-header">
+            <span>누적 연구 서재 저널별 분포 (상위 6개지)</span>
+            <span style="font-size:11px; color:var(--muted);">누적 48편 기준</span>
+          </div>
+          <div class="chart-wrapper">
             <canvas id="journalDistChart"></canvas>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- PART Ⅲ: CORE PAPERS -->
+    <!-- SECTION 2: EDITORIAL PROSE -->
+    <section id="sec-editorial" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅱ</span>
+        <h2 class="section-title" id="editorialHeading">주간 학술 총평</h2>
+        <div class="section-desc">거시적 사회 구조 변화와 상담심리학 연구 지형의 상호작용 분석</div>
+      </div>
+      <article class="prose-editorial" id="editorialProseBody"></article>
+    </section>
+
+    <!-- SECTION 3: CORE PAPERS -->
     <section id="sec-papers" class="reading-section">
       <div class="reading-section-header">
         <span class="section-num">Part Ⅲ</span>
-        <h2 class="section-title">주간 엄선 채택 논문 7선 심층 해부</h2>
-        <div class="section-desc">SSCI급 코어 논문 7편의 이론적 프레임워크, 분석 기법, 편집장 방법론 비평</div>
+        <h2 class="section-title">핵심 채택 논문 심층 분석 (7선)</h2>
+        <div class="section-desc">연구 목적·주요 결과·비판적 코멘터리 및 개념 모형 다이어그램</div>
       </div>
-
       <div id="papersListContainer"></div>
     </section>
 
-    <!-- PART Ⅳ: POLICY BRIDGES -->
+    <!-- SECTION 4: POLICY & NATIONAL INDICATORS -->
     <section id="sec-policy" class="reading-section">
       <div class="reading-section-header">
         <span class="section-num">Part Ⅳ</span>
-        <h2 class="section-title">학술 연구 × 국내 국책연구·정책 지표 교차 브리핑</h2>
-        <div class="section-desc">NRF 과제 및 학술지 서론(연구 필요성)에 즉시 인용할 수 있는 실증 데이터 매칭</div>
+        <h2 class="section-title">국내 노동·교육 국책 실증 지표 교차 분석</h2>
+        <div class="section-desc">한국은행, 한국고용정보원, 한국직업능력연구원 실증 데이터와의 연계</div>
       </div>
-
       <div id="policyListContainer"></div>
     </section>
 
-    <!-- PART Ⅴ: RESEARCH AGENDAS -->
+    <!-- SECTION 5: RESEARCH AGENDAS -->
     <section id="sec-agendas" class="reading-section">
       <div class="reading-section-header">
         <span class="section-num">Part Ⅴ</span>
-        <h2 class="section-title">연구실 기획 후속 아젠다 3선</h2>
-        <div class="section-desc">주간 저장 논문과 Zotero 서재를 융합하여 즉시 착수 가능한 개념적 구조방정식 모형</div>
+        <h2 class="section-title">연구실 후속 연구 기획 아젠다</h2>
+        <div class="section-desc">SSCI 코어 및 NRF 중견과제 타깃 연구 설계 프레임워크</div>
       </div>
-
       <div id="agendaListContainer"></div>
     </section>
 
-    <!-- PART Ⅵ: MANUSCRIPT INTRO EXCERPTS -->
+    <!-- SECTION 6: MANUSCRIPT INTRO EXCERPTS -->
     <section id="sec-intros" class="reading-section">
       <div class="reading-section-header">
         <span class="section-num">Part Ⅵ</span>
         <h2 class="section-title">학술지·NRF 과제 서론(Introduction) 인용 예시 문단</h2>
-        <div class="section-desc">주간 SSCI 논문 인용(APA 7판)과 최신 국책 실증 지표가 완성형으로 결합된 초안 문단</div>
+        <div class="section-desc">SSCI 논문 인용(APA 7판)과 국내 실증 지표가 완성형으로 결합된 초안 문단</div>
       </div>
-
       <div id="introListContainer"></div>
     </section>
 
   </main>
 
-  <!-- Footer (Consistent across entire system) -->
+  <!-- Footer -->
   <footer>
     <div class="shell footer-inner">
       <div>
-        <span class="footer-brand">THE SPARK REVIEW</span> · 이세란 교수 연구 서재 주간 인텔리전스
+        <span style="font-weight:700; color:var(--ink);">THE SPARK EDITORIAL</span> · 이세란 교수 연구 서재 주간 인텔리전스
       </div>
       <div class="footer-links">
         <a href="index.html">서재 목록</a>
         <span>·</span>
-        <a href="map.html">지식 네트워크 맵</a>
+        <a href="map.html">지식맵</a>
         <span>·</span>
-        <a href="https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/edit" target="_blank" rel="noopener noreferrer">구글 시트 원본</a>
+        <a href="https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/edit?gid=2087366255#gid=2087366255" target="_blank" rel="noopener noreferrer">구글 시트(시트3) 원본</a>
       </div>
     </div>
   </footer>
 
-  <!-- ==========================================================================
-       DATA DRIVER & RENDERING ENGINE
-       ========================================================================== -->
   <script>
-    const SPREADSHEET_ID = "1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY";
-    const SHEET3_NAME = "시트3";
-    const LOCAL_FALLBACK_FILE = "weekly_editorial_data.json";
+    // ==========================================================================
+    // THE SPARK EDITORIAL DYNAMIC FRAMEWORK ENGINE
+    // ==========================================================================
+    const SHEET3_GVIZ_URL = "https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/gviz/tq?sheet=%EC%8B%9C%ED%8A%B83&tqx=out:json";
+    const LOCAL_FALLBACK_JSON = "weekly_editorial_data.json";
 
-    // 1. Fetch Sheet3 data with automatic fallback
-    async function loadEditorialData() {
-      // Try Google Sheets Live Fetch
-      try {
-        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET3_NAME)}&tqx=out:json`;
-        const res = await fetch(url);
-        if (res.ok) {
-          const text = await res.text();
-          if (text.includes("google.visualization.Query.setResponse")) {
-            const raw = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
-            const json = JSON.parse(raw);
-            if (json.table && json.table.rows && json.table.rows.length > 0) {
-              const parsedRows = parseGvizRows(json.table);
-              if (parsedRows.length >= 5) {
-                console.log("Loaded live data from Google Sheets 시트3:", parsedRows.length, "rows");
-                return parsedRows;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.warn("Google Sheets live fetch failed, falling back to local dataset:", err.message);
-      }
+    let weeklyDataset = null;
 
-      // Fallback: Local JSON
-      try {
-        const res = await fetch(LOCAL_FALLBACK_FILE);
-        if (res.ok) {
-          const data = await res.json();
-          console.log("Loaded data from local fallback JSON:", data.rows?.length || 0, "rows");
-          return data.rows || [];
-        }
-      } catch (err) {
-        console.error("Local JSON fetch failed:", err);
-      }
-
-      return [];
-    }
-
-    function parseGvizRows(table) {
-      const colKeys = ['type', 'id', 'cluster', 'title', 'authors_source', 'journal_meta', 'theory_method', 'findings', 'critique', 'connection', 'citation_text', 'diagram_svg'];
-      return table.rows.map(r => {
-        const obj = {};
-        colKeys.forEach((k, idx) => {
-          obj[k] = r.c && r.c[idx] && r.c[idx].v !== null ? String(r.c[idx].v) : "";
-        });
-        return obj;
-      }).filter(r => r.type && r.type.trim() !== "");
-    }
-
-    // 2. Render Functions
-    function renderEditorial(rows) {
-      if (!rows || rows.length === 0) return;
-
-      const meta = rows.find(r => r.type === "meta") || {};
-      const editorial = rows.find(r => r.type === "editorial") || {};
-      const papers = rows.filter(r => r.type === "paper");
-      const policies = rows.filter(r => r.type === "policy");
-      const agendas = rows.filter(r => r.type === "agenda");
-      const intros = rows.filter(r => r.type === "intro");
-
-      // ── Meta & Masthead ──
-      const brand = document.getElementById("brandTitle");
-      if (brand) brand.innerHTML = `이세란 교수 연구 서재 <span>The Spark Review · ${meta.title || 'Issue 42'}</span>`;
-
-      const eyebrow = document.getElementById("heroEyebrow");
-      if (eyebrow) eyebrow.innerHTML = `<span>Editor-in-Chief's Weekly Intelligence</span> <span>·</span> <span>${meta.title || 'Issue 42'} (${meta.authors_source || '2026. 10. 17'})</span>`;
-
-      const quote = document.getElementById("heroLeadQuote");
-      if (quote) quote.textContent = meta.findings || "";
-
-      const desc = document.getElementById("heroDesc");
-      if (desc) desc.textContent = meta.critique || "";
-
-      const tagsWrap = document.getElementById("heroTags");
-      if (tagsWrap && meta.theory_method) {
-        const tags = meta.theory_method.split(",").map(t => t.trim());
-        tagsWrap.innerHTML = tags.map(t => `<span class="tag-chip">${t}</span>`).join("");
-      }
-
-      const metaList = document.getElementById("heroMetaList");
-      if (metaList) {
-        const counts = (meta.connection || "45,29,7,3").split(",").map(s => s.trim());
-        metaList.innerHTML = `
-          <li><span>주간 수집 문헌</span> <span class="val">${counts[0] || '45'}편</span></li>
-          <li><span>1차 적합성 통과</span> <span class="val">${counts[1] || '29'}편 (64.4%)</span></li>
-          <li><span>코어 심층 채택</span> <span class="val">${counts[2] || '7'}편 (15.5%)</span></li>
-          <li><span>국책 정책 연계</span> <span class="val">${counts[3] || '3'}건</span></li>
-        `;
-      }
-
-      // ── Part Ⅰ: Editorial ──
-      const essayContainer = document.getElementById("editorialEssayContainer");
-      if (essayContainer && editorial.findings) {
-        const paragraphs = editorial.findings.split("\n\n");
-        essayContainer.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
-      }
-
-      const auditContainer = document.getElementById("editorialAuditContainer");
-      if (auditContainer) {
-        auditContainer.innerHTML = `
-          <h4>🔍 편집실 데이터 감사 (Data Audit) 알림</h4>
-          <p>${editorial.critique || ''}</p>
-          <p>${editorial.connection || ''}</p>
-        `;
-      }
-
-      // ── Part Ⅱ: KPI Row ──
-      const kpiContainer = document.getElementById("kpiContainer");
-      if (kpiContainer) {
-        const counts = (meta.connection || "45,29,7,3").split(",").map(s => s.trim());
-        kpiContainer.innerHTML = `
-          <div class="kpi-card">
-            <div class="kpi-label">주간 총 수집 문헌</div>
-            <div class="kpi-val">${counts[0] || '45'}<span>편</span></div>
-            <div class="kpi-sub">6개 연구 트랙 자동 유입 (누적 671편)</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">1차 AI 적합성 통과</div>
-            <div class="kpi-val">64.4<span>%</span></div>
-            <div class="kpi-sub">${counts[1] || '29'}편 통과 (비심리학·경영 배제)</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">코어 심층 채택</div>
-            <div class="kpi-val">${counts[2] || '7'}<span>편</span></div>
-            <div class="kpi-sub">SSCI Q1급 중심 엄선 채택</div>
-          </div>
-          <div class="kpi-card">
-            <div class="kpi-label">국책 실증 지표 연계</div>
-            <div class="kpi-val">${counts[3] || '3'}<span>건</span></div>
-            <div class="kpi-sub">KRIVET·KEIS·한국은행·문체부</div>
-          </div>
-        `;
-      }
-
-      // ── Part Ⅲ: Papers ──
-      const papersContainer = document.getElementById("papersListContainer");
-      if (papersContainer) {
-        papersContainer.innerHTML = papers.map((p, idx) => {
-          const jParts = (p.journal_meta || "").split("|").map(s => s.trim());
-          const jName = jParts[0] || "";
-          const jDate = jParts[2] || "";
-          const jDoi = jParts[4] || "#";
-          const tmParts = (p.theory_method || "").split("|").map(s => s.trim());
-          const theory = tmParts[0] || "";
-          const method = tmParts[1] || "";
-
-          return `
-            <article class="paper-card">
-              <div class="paper-card-meta">
-                <span class="pill core">${p.cluster ? p.cluster.split("·")[0].trim() : 'CORE'}</span>
-                <span class="pill">${p.cluster ? p.cluster.split("·")[1]?.trim() || '' : ''}</span>
-                <span class="journal-name">${jName} (${jDate})</span>
-              </div>
-              <h3>
-                <a href="${jDoi}" target="_blank" rel="noopener noreferrer">${p.title}</a>
-              </h3>
-              <div class="authors-row">${p.authors_source}</div>
-
-              <div class="card-theory-strip">
-                <div>
-                  <strong>이론 프레임워크 (Theoretical Lens)</strong>
-                  <span>${theory}</span>
-                </div>
-                <div>
-                  <strong>표본 및 분석 기법 (Methodology)</strong>
-                  <span>${method}</span>
-                </div>
-              </div>
-
-              ${p.diagram_svg ? `
-                <div class="card-svg-container">
-                  <div class="card-svg-header">Analytical Path Model</div>
-                  ${p.diagram_svg}
-                </div>
-              ` : ''}
-
-              <div class="ai-brief-card">
-                <div class="ai-row">
-                  <span class="ai-label">핵심 실증 발견:</span>
-                  <span class="ai-text">${p.findings}</span>
-                </div>
-                <div class="ai-row">
-                  <span class="ai-label">편집장 방법론 비평:</span>
-                  <span class="ai-text critique">${p.critique}</span>
-                </div>
-              </div>
-
-              <div class="card-archive-link">
-                <strong>🔗 서재 아카이브 연계:</strong> ${p.connection}
-              </div>
-              <div class="apa-citation-box">
-                <span>${p.citation_text}</span>
-                <button class="btn-copy-apa" onclick="copyCitation(this)">복사</button>
-              </div>
-            </article>
-          `;
-        }).join("");
-      }
-
-      // ── Part Ⅳ: Policy ──
-      const policyContainer = document.getElementById("policyListContainer");
-      if (policyContainer) {
-        policyContainer.innerHTML = policies.map((pol, idx) => `
-          <article class="policy-bridge-card">
-            <div class="policy-card-top">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span class="policy-tag-badge">CROSS-INSIGHT 0${idx+1}</span>
-                <h3>${pol.title}</h3>
-              </div>
-              <div class="policy-connected-paper">${pol.authors_source}</div>
-            </div>
-            <div class="policy-card-body">
-              <div>
-                <div class="policy-col-title">국내 국책연구 핵심 실증 수치</div>
-                <div class="stat-snippet-box">
-                  <p style="margin: 0; white-space: pre-line;">${pol.findings}</p>
-                </div>
-              </div>
-              <div>
-                <div class="policy-col-title">이론적 접목 및 NRF 제안서 시사점</div>
-                <div class="academic-implication-box">
-                  <strong>학술적 접목점:</strong>
-                  <p style="margin: 6px 0 0;">${pol.critique}</p>
-                </div>
-              </div>
-            </div>
-          </article>
-        `).join("");
-      }
-
-      // ── Part Ⅴ: Agendas ──
-      const agendaContainer = document.getElementById("agendaListContainer");
-      if (agendaContainer) {
-        agendaContainer.innerHTML = agendas.map((ag) => `
-          <article class="agenda-card">
-            <div class="agenda-eyebrow">${ag.cluster}</div>
-            <h3 class="agenda-title">${ag.title}</h3>
-            <div class="agenda-content-grid">
-              <div class="agenda-block">
-                <strong>연구 기획 배경 및 정합성</strong>
-                <p>${ag.findings}</p>
-              </div>
-              <div class="agenda-block">
-                <strong>권장 표본 및 검증 방법론</strong>
-                <p>${ag.theory_method}</p>
-              </div>
-            </div>
-            ${ag.diagram_svg ? `
-              <div class="agenda-svg-box">
-                ${ag.diagram_svg}
-              </div>
-            ` : ''}
-            <div class="agenda-footer">
-              <strong>권장 투고처:</strong> ${ag.connection}
-            </div>
-          </article>
-        `).join("");
-      }
-
-      // ── Part Ⅵ: Intros ──
-      const introContainer = document.getElementById("introListContainer");
-      if (introContainer) {
-        introContainer.innerHTML = intros.map((it) => `
-          <article class="intro-excerpt-card">
-            <div class="intro-excerpt-header">
-              <h4 class="intro-excerpt-title">${it.title}</h4>
-              <button class="btn-copy-quote" onclick="copyText(this)">문단 복사</button>
-            </div>
-            <blockquote class="intro-quote-text">${it.citation_text}</blockquote>
-            <div class="intro-excerpt-footer">
-              <span>* 적용 연구: ${it.connection}</span>
-            </div>
-          </article>
-        `).join("");
-      }
-    }
-
-    // 3. Theme & Utilities
+    // Theme Management
     function setupTheme() {
       const savedTheme = localStorage.getItem("scholar_theme") || "light";
       document.documentElement.setAttribute("data-theme", savedTheme);
@@ -1477,8 +849,10 @@
       }
     }
 
+    // Copy to clipboard helpers
     function copyCitation(btn) {
-      const text = btn.previousElementSibling.textContent.trim();
+      const text = btn.previousElementSibling ? btn.previousElementSibling.textContent.trim() : "";
+      if (!text) return;
       navigator.clipboard.writeText(text).then(() => {
         const orig = btn.textContent;
         btn.textContent = "복사됨 ✓";
@@ -1488,7 +862,8 @@
 
     function copyText(btn) {
       const card = btn.closest(".intro-excerpt-card");
-      const text = card.querySelector(".intro-quote-text").textContent.trim();
+      const text = card ? card.querySelector(".intro-quote-text").textContent.trim() : "";
+      if (!text) return;
       navigator.clipboard.writeText(text).then(() => {
         const orig = btn.textContent;
         btn.textContent = "복사됨 ✓";
@@ -1496,6 +871,7 @@
       });
     }
 
+    // Chart.js Grayscale Initializer
     let funnelChart = null;
     let journalChart = null;
 
@@ -1504,6 +880,7 @@
       const textColor = isDark ? "#cccccc" : "#555555";
       const gridColor = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)";
 
+      // 1. Funnel Bar Chart
       const funnelCtx = document.getElementById("weeklyFunnelChart")?.getContext("2d");
       if (funnelCtx) {
         if (funnelChart) funnelChart.destroy();
@@ -1549,6 +926,7 @@
         });
       }
 
+      // 2. Journal Horizontal Bar Chart
       const journalCtx = document.getElementById("journalDistChart")?.getContext("2d");
       if (journalCtx) {
         if (journalChart) journalChart.destroy();
@@ -1567,7 +945,9 @@
             indexAxis: "y",
             responsive: true,
             maintainAspectRatio: false,
-            plugins: { legend: { display: false } },
+            plugins: {
+              legend: { display: false }
+            },
             scales: {
               x: {
                 grid: { color: gridColor },
@@ -1583,12 +963,344 @@
       }
     }
 
-    // 4. Initialize Framework on DOMContentLoaded
-    document.addEventListener("DOMContentLoaded", async () => {
-      setupTheme();
-      const rows = await loadEditorialData();
-      renderEditorial(rows);
+    // ==========================================================================
+    // DATA FETCHING & PARSING ENGINE
+    // ==========================================================================
+    async function loadEditorialData() {
+      const syncEl = document.getElementById("syncIndicator");
+      
+      try {
+        // 1. Try Google Sheets '시트3' live gviz endpoint
+        const res = await fetch(SHEET3_GVIZ_URL);
+        if (!res.ok) throw new Error("HTTP error " + res.status);
+        const text = await res.text();
+        const jsonMatch = text.match(/google\.visualization\.Query\.setResponse\(([\s\S]*)\);/);
+        if (!jsonMatch) throw new Error("Invalid GViz response format");
+        
+        const gvizData = JSON.parse(jsonMatch[1]);
+        const rows = parseGvizTable(gvizData.table);
+        if (!rows || rows.length === 0) throw new Error("Sheet3 is empty");
+
+        syncEl.innerHTML = `<span class="sync-dot" style="background:#16a34a;"></span> 구글 시트3 실시간 동기화됨`;
+        renderMonograph(rows);
+      } catch (err) {
+        console.warn("Live Google Sheet fetch failed, falling back to local JSON:", err);
+        try {
+          const fallbackRes = await fetch(LOCAL_FALLBACK_JSON);
+          const fallbackData = await fallbackRes.json();
+          syncEl.innerHTML = `<span class="sync-dot" style="background:#888888;"></span> 로컬 백업 데이터 연결됨`;
+          renderMonograph(fallbackData.rows || []);
+        } catch (fErr) {
+          syncEl.innerHTML = `<span class="sync-dot" style="background:#dc2626;"></span> 데이터 로드 실패`;
+          console.error("Local fallback also failed:", fErr);
+        }
+      }
+    }
+
+    // Convert GViz Table format to standardized JS row objects
+    function parseGvizTable(table) {
+      if (!table || !table.rows) return [];
+      
+      const colLabels = (table.cols || []).map((c, idx) => (c.label || "").trim().toLowerCase() || ("col_" + idx));
+      const colMap = {};
+      colLabels.forEach((lbl, idx) => { colMap[lbl] = idx; });
+
+      // Fallback column index mapping if labels are missing
+      const fallbackMapping = [
+        "type", "id", "cluster", "title", "authors_source", 
+        "journal_meta", "theory_method", "findings", "critique", 
+        "connection", "citation_text", "diagram_svg"
+      ];
+
+      return table.rows.map(r => {
+        const getCell = (name, fallbackIdx) => {
+          let idx = colMap[name] !== undefined ? colMap[name] : fallbackIdx;
+          if (r.c && r.c[idx]) {
+            return (r.c[idx].v !== null && r.c[idx].v !== undefined) ? String(r.c[idx].v).trim() : "";
+          }
+          return "";
+        };
+
+        return {
+          type: getCell("type", 0),
+          id: getCell("id", 1),
+          cluster: getCell("cluster", 2),
+          title: getCell("title", 3),
+          authors_source: getCell("authors_source", 4),
+          journal_meta: getCell("journal_meta", 5),
+          theory_method: getCell("theory_method", 6),
+          findings: getCell("findings", 7),
+          critique: getCell("critique", 8),
+          connection: getCell("connection", 9),
+          citation_text: getCell("citation_text", 10),
+          diagram_svg: getCell("diagram_svg", 11)
+        };
+      });
+    }
+
+    // ==========================================================================
+    // DOM RENDERING ENGINE
+    // ==========================================================================
+    // Group rows by Issue (split by type === 'meta')
+    let allIssues = [];
+    let currentIssue = null;
+
+    function renderMonograph(rows) {
+      if (!rows || rows.length === 0) return;
+
+      allIssues = [];
+      let tempIssue = null;
+
+      rows.forEach(r => {
+        if (r.type && r.type.toLowerCase() === "meta") {
+          if (tempIssue) allIssues.push(tempIssue);
+          tempIssue = { meta: r, rows: [r] };
+        } else if (tempIssue) {
+          tempIssue.rows.push(r);
+        }
+      });
+      if (tempIssue) allIssues.push(tempIssue);
+
+      if (allIssues.length === 0) {
+        // Fallback: all rows treated as one issue
+        allIssues.push({ meta: rows[0], rows: rows });
+      }
+
+      // Default to latest issue (last one in the array)
+      const selectedIssue = allIssues[allIssues.length - 1];
+      displaySingleIssue(selectedIssue);
+      renderIssueSelector();
+    }
+
+    function renderIssueSelector() {
+      const badgeEl = document.getElementById("heroIssueBadge");
+      if (!badgeEl || allIssues.length <= 1) return;
+
+      let selectHtml = `<select id="issueSelect" style="background:transparent; color:inherit; border:none; font-weight:700; font-size:inherit; cursor:pointer;" onchange="switchIssue(this.value)">`;
+      allIssues.forEach((iss, idx) => {
+        const isSelected = idx === allIssues.length - 1 ? "selected" : "";
+        selectHtml += `<option value="${idx}" ${isSelected} style="color:#111;">${escapeHtml(iss.meta.title || ('Issue ' + (idx + 1)))} (${escapeHtml(iss.meta.authors_source || '')})</option>`;
+      });
+      selectHtml += `</select>`;
+      badgeEl.innerHTML = selectHtml;
+    }
+
+    function switchIssue(idx) {
+      const targetIssue = allIssues[parseInt(idx, 10)];
+      if (targetIssue) displaySingleIssue(targetIssue);
+    }
+
+    function displaySingleIssue(issueObj) {
+      const issueRows = issueObj.rows;
+      const metaRow = issueObj.meta || issueRows[0];
+      const editorialRow = issueRows.find(r => r.type === "editorial") || {};
+      const paperRows = issueRows.filter(r => r.type === "paper");
+      const policyRows = issueRows.filter(r => r.type === "policy");
+      const agendaRows = issueRows.filter(r => r.type === "agenda");
+      const introRows = issueRows.filter(r => r.type === "intro");
+
+      // 1. Render Hero & Meta
+      if (metaRow) {
+        const badgeEl = document.getElementById("heroIssueBadge");
+        if (allIssues.length <= 1 && badgeEl) {
+          badgeEl.textContent = metaRow.title || "Issue 42";
+        }
+        document.getElementById("heroDate").textContent = metaRow.authors_source || "2026. 10. 17";
+        document.getElementById("heroMetaLabel").textContent = metaRow.journal_meta || "The Spark Review";
+        document.getElementById("heroTitle").textContent = metaRow.findings || "주간 학술·정책 인텔리전스";
+        document.getElementById("heroSummaryBox").textContent = metaRow.critique || "";
+
+        // Parse tags
+        const tagsContainer = document.getElementById("heroTags");
+        tagsContainer.innerHTML = "";
+        const tagTokens = (metaRow.theory_method || "").split(",").map(t => t.trim()).filter(Boolean);
+        tagTokens.forEach(tag => {
+          const span = document.createElement("span");
+          span.className = "hero-tag";
+          span.textContent = tag;
+          tagsContainer.appendChild(span);
+        });
+
+        // Parse stats if in connection: "45,29,7,3"
+        if (metaRow.connection && metaRow.connection.includes(",")) {
+          const stats = metaRow.connection.split(",").map(s => s.trim());
+          if (stats[0]) document.getElementById("statIngested").innerHTML = `${stats[0]}<span style="font-size:1.1rem; font-weight:500;"> 편</span>`;
+          if (stats[1]) document.getElementById("statExcluded").innerHTML = `${stats[1]}<span style="font-size:1.1rem; font-weight:500;"> 편</span>`;
+          if (stats[2]) document.getElementById("statAccepted").innerHTML = `${stats[2]}<span style="font-size:1.1rem; font-weight:500;"> 편</span>`;
+          if (stats[3]) document.getElementById("statAgendas").innerHTML = `${stats[3]}<span style="font-size:1.1rem; font-weight:500;"> 건</span>`;
+        }
+      }
+
+      // 2. Render Editorial Prose (Part II)
+      if (editorialRow) {
+        if (editorialRow.title) document.getElementById("editorialHeading").textContent = editorialRow.title;
+        const proseContainer = document.getElementById("editorialProseBody");
+        proseContainer.innerHTML = "";
+
+        const paragraphs = (editorialRow.findings || "").split("\n\n").filter(Boolean);
+        paragraphs.forEach(pText => {
+          const p = document.createElement("p");
+          p.textContent = pText.trim();
+          proseContainer.appendChild(p);
+        });
+
+        if (editorialRow.critique) {
+          const callout = document.createElement("div");
+          callout.className = "editorial-callout";
+          callout.innerHTML = `<strong>데이터 감사 및 누락 보완</strong>${escapeHtml(editorialRow.critique)}`;
+          proseContainer.appendChild(callout);
+        }
+
+        if (editorialRow.connection) {
+          const connBox = document.createElement("div");
+          connBox.className = "editorial-callout";
+          connBox.innerHTML = `<strong>미채택 후보군 분석</strong>${escapeHtml(editorialRow.connection)}`;
+          proseContainer.appendChild(connBox);
+        }
+      }
+
+      // 3. Render Papers (Part III)
+      const papersContainer = document.getElementById("papersListContainer");
+      papersContainer.innerHTML = "";
+      paperRows.forEach((paper, idx) => {
+        const article = document.createElement("article");
+        article.className = "paper-card";
+        article.id = paper.id || `paper-${idx + 1}`;
+
+        article.innerHTML = `
+          <div class="paper-cluster-tag">${escapeHtml(paper.cluster || "Core Paper")}</div>
+          <h3 class="paper-title">${escapeHtml(paper.title)}</h3>
+          <div class="paper-meta">
+            <strong>${escapeHtml(paper.authors_source)}</strong><br>
+            <span>${escapeHtml(paper.journal_meta)}</span>
+          </div>
+
+          <div class="paper-grid">
+            <div class="paper-block">
+              <div class="paper-block-title">이론적 프레임워크 &amp; 방법론</div>
+              <div>${escapeHtml(paper.theory_method)}</div>
+            </div>
+
+            <div class="paper-block">
+              <div class="paper-block-title">핵심 연구 결과 (Key Findings)</div>
+              <div>${escapeHtml(paper.findings)}</div>
+            </div>
+
+            <div class="paper-block">
+              <div class="paper-block-title">비판적 코멘터리 &amp; 학술적 가치</div>
+              <div>${escapeHtml(paper.critique)}</div>
+            </div>
+
+            <div class="paper-block">
+              <div class="paper-block-title">연구실 서재와의 지식 연결</div>
+              <div>${escapeHtml(paper.connection)}</div>
+            </div>
+          </div>
+
+          ${paper.diagram_svg ? `<div class="paper-svg-diagram">${paper.diagram_svg}</div>` : ""}
+
+          <div class="paper-footer">
+            <span class="citation-snippet">${escapeHtml(paper.citation_text || paper.title)}</span>
+            <button class="btn-copy" onclick="copyCitation(this)" type="button">APA 인용 복사</button>
+          </div>
+        `;
+        papersContainer.appendChild(article);
+      });
+
+      // 4. Render Policy Briefs (Part IV)
+      const policyContainer = document.getElementById("policyListContainer");
+      policyContainer.innerHTML = "";
+      policyRows.forEach((pol, idx) => {
+        const card = document.createElement("article");
+        card.className = "policy-card";
+        card.id = pol.id || `policy-${idx + 1}`;
+
+        card.innerHTML = `
+          <div class="policy-eyebrow">Policy Brief 0${idx + 1} · ${escapeHtml(pol.cluster)}</div>
+          <h3 class="policy-title">${escapeHtml(pol.title)}</h3>
+          <div class="policy-content-grid">
+            <div class="policy-block">
+              <strong>국책기관 실증 지표</strong>
+              <p>${escapeHtml(pol.findings)}</p>
+            </div>
+            <div class="policy-block">
+              <strong>학술 연구 정합성 및 시사점</strong>
+              <p>${escapeHtml(pol.critique)}</p>
+            </div>
+          </div>
+          ${pol.diagram_svg ? `<div class="paper-svg-diagram">${pol.diagram_svg}</div>` : ""}
+        `;
+        policyContainer.appendChild(card);
+      });
+
+      // 5. Render Agendas (Part V)
+      const agendaContainer = document.getElementById("agendaListContainer");
+      agendaContainer.innerHTML = "";
+      agendaRows.forEach((ag, idx) => {
+        const card = document.createElement("article");
+        card.className = "agenda-card";
+        card.id = ag.id || `agenda-${idx + 1}`;
+
+        card.innerHTML = `
+          <div class="agenda-eyebrow">Agenda 0${idx + 1} · ${escapeHtml(ag.cluster)}</div>
+          <h3 class="agenda-title">${escapeHtml(ag.title)}</h3>
+          <div class="agenda-content-grid">
+            <div class="agenda-block">
+              <strong>연구 기획 배경 및 정합성</strong>
+              <p>${escapeHtml(ag.findings)}</p>
+            </div>
+            <div class="agenda-block">
+              <strong>권장 표본 및 검증 방법론</strong>
+              <p>${escapeHtml(ag.critique)}</p>
+            </div>
+          </div>
+          ${ag.diagram_svg ? `<div class="paper-svg-diagram">${ag.diagram_svg}</div>` : ""}
+          <div class="intro-excerpt-footer" style="margin-top:12px;">
+            <strong>권장 투고처:</strong> ${escapeHtml(ag.connection || "Journal of Vocational Behavior / SSCI")}
+          </div>
+        `;
+        agendaContainer.appendChild(card);
+      });
+
+      // 6. Render Intro Excerpts (Part VI)
+      const introContainer = document.getElementById("introListContainer");
+      introContainer.innerHTML = "";
+      introRows.forEach((intro, idx) => {
+        const card = document.createElement("article");
+        card.className = "intro-excerpt-card";
+        card.id = intro.id || `intro-${idx + 1}`;
+
+        card.innerHTML = `
+          <div class="intro-excerpt-header">
+            <h4 class="intro-excerpt-title">${escapeHtml(intro.title)}</h4>
+            <button class="btn-copy" onclick="copyText(this)" type="button">문단 복사</button>
+          </div>
+          <blockquote class="intro-quote-text">${escapeHtml(intro.findings)}</blockquote>
+          <div class="intro-excerpt-footer">
+            <span>* ${escapeHtml(intro.critique || "연구 서론 인용 초안")}</span>
+          </div>
+        `;
+        introContainer.appendChild(card);
+      });
+
+      // Initialize graphs
       setTimeout(initCharts, 100);
+    }
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    // App Initialization
+    document.addEventListener("DOMContentLoaded", () => {
+      setupTheme();
+      loadEditorialData();
     });
   </script>
 </body>

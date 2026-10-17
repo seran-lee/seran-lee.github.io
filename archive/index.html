@@ -759,8 +759,8 @@
           <span class="status-dot"></span>
           <span id="headerStatus">보관 서재 48편</span>
         </div>
-        <a href="editorial.html" class="btn-nav" title="The Spark 주간 에디토리얼 브리핑 보기" style="display:inline-flex; align-items:center; gap:6px; color:#d97706; border:1px solid rgba(217, 119, 6, 0.4); padding: 4px 10px; border-radius: 4px; font-size: 0.76rem; text-decoration: none;">
-          <span>⚡ The Spark</span>
+        <a href="editorial.html" class="btn-nav-map-pill" style="text-decoration:none;" title="Weekly Newsletter">
+          <span>📰 Weekly Newsletter (10.11 ~ 10.17)</span>
         </a>
         <a href="map.html" class="btn-nav-map-pill" title="지식 네트워크 맵으로 보기">
           <span class="nav-pulse-dot"></span>
@@ -796,19 +796,39 @@
   <main>
     <div class="shell">
       
-      <!-- Slim Featured Lead Article -->
-      <article class="featured" id="featuredBox">
-        <div class="featured-side">
-          <div class="date" id="featuredDate">2026<br>10.15</div>
-          <span class="badge">최근 보관 리포트</span>
+      <!-- Weekly Newsletter (The Spark Review) Lead Card -->
+      <article class="featured" id="featuredBox" style="background:var(--paper); border:1.5px solid var(--ink); box-shadow:0 4px 16px rgba(0,0,0,0.04);">
+        <div class="featured-side" style="background:var(--paper-subtle); border-right:1px solid var(--line);">
+          <div class="date" style="font-size:1.55rem; font-weight:800; line-height:1.15; letter-spacing:-0.03em;">Issue 42<br><span style="font-size:0.85rem; font-weight:600; color:var(--muted);">10.11~10.17</span></div>
+          <span class="badge" style="background:var(--navy); color:#ffffff; padding:2px 8px; border-radius:2px; font-size:10.5px;">Weekly Newsletter</span>
         </div>
         <div class="featured-body">
-          <div class="featured-venue" id="featuredVenue">Behavioral Sciences · SSCI급(Core)</div>
-          <h2 id="featuredTitle"><a href="#" id="featuredTitleLink">Bridging the Human–AI Trust Gap: The Mechanisms Underlying Perceived Efficacy of AI-Powered Psychological Counseling Large Language Models</a></h2>
-          <p class="featured-summary" id="featuredSummary">소비자는 AI 상담의 전문성을 낮고 위험도를 높게 평가하여 인간 상담사보다 효능감을 낮게 인식하였으나, 일상적 상담에서는 AI 상담을, 중증 심리장애에서는 인간 전문가를 더 효과적으로 평가했습니다.</p>
+          <div class="featured-venue" style="font-size:12px; font-weight:700; color:var(--muted); text-transform:uppercase; letter-spacing:0.04em;">
+            THE SPARK REVIEW · 주간 학술·정책 인텔리전스 완결형 리포트
+          </div>
+          <h2 style="font-size:1.35rem; margin:6px 0 10px; line-height:1.4;">
+            <a href="editorial.html" style="color:var(--ink); text-decoration:none;">10월 3주차 학술 지형 총평: “구조적 불평등의 정밀 측정과 AI의 심리적 내재화”</a>
+          </h2>
+          <p class="featured-summary" style="margin:0 0 14px; font-size:14px; line-height:1.65; color:var(--ink);">
+            주간 유입 45편 중 엄선된 SSCI 코어 7편(PreWorkS 문화예술 불안정노동 척도, JAP 107년 계량분석, LRIF 흥미회피 모형 등)과 한국은행·고용정보원·직능원 국책 실증 지표를 입체적으로 교차 분석한 연구 총론입니다.
+          </p>
+          <div style="display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;">
+            <span style="font-size:11.5px; padding:2px 8px; background:var(--sky); border:1px solid var(--line); border-radius:2px; color:var(--ink); font-weight:500;">#일터심리학(PWT)</span>
+            <span style="font-size:11.5px; padding:2px 8px; background:var(--sky); border:1px solid var(--line); border-radius:2px; color:var(--ink); font-weight:500;">#PreWorkS(11문항)</span>
+            <span style="font-size:11.5px; padding:2px 8px; background:var(--sky); border:1px solid var(--line); border-radius:2px; color:var(--ink); font-weight:500;">#생성형AI×SCCT</span>
+            <span style="font-size:11.5px; padding:2px 8px; background:var(--sky); border:1px solid var(--line); border-radius:2px; color:var(--ink); font-weight:500;">#흥미부합도혁신(LRIF)</span>
+            <span style="font-size:11.5px; padding:2px 8px; background:var(--sky); border:1px solid var(--line); border-radius:2px; color:var(--ink); font-weight:500;">#청년숙련사다리</span>
+          </div>
           <div class="featured-actions">
-            <button class="btn-read-lead" id="btnFeaturedRead">브리프 상세 리포트</button>
-            <a id="btnFeaturedDoi" href="#" target="_blank" rel="noopener" class="btn-doi-direct">저널 원문 ↗</a>
+            <a href="editorial.html" class="btn-read-lead" style="text-decoration:none; display:inline-flex; align-items:center; gap:6px;">
+              <span>주간 리포트 전문 읽기 (Issue 42) →</span>
+            </a>
+            <a href="map.html" class="btn-doi-direct" style="text-decoration:none;">
+              <span>🕸️ 주간 지식 맵 보기 ↗</span>
+            </a>
+            <a href="https://doi.org/10.1177/02762374261496214" target="_blank" rel="noopener" class="btn-doi-direct" style="color:var(--muted); font-size:12px;" title="PreWorkS 저널 원문">
+              대표 논문 원문 (PreWorkS) ↗
+            </a>
           </div>
         </div>
       </article>
@@ -2031,7 +2051,7 @@
     }
 
     // 초기 실행 (0초 즉각 렌더링)
-    updateFeaturedBox();
+    // updateFeaturedBox(); // Weekly Newsletter 카드로 상시 고정
     render();
     headerStatus.textContent = `보관 서재 ${allPapers.length}편`;
 

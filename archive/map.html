@@ -174,284 +174,85 @@
       border-color: var(--text);
     }
 
-    /* Left Tag Navigation Sidebar */
-    .tag-sidebar {
+    /* Floating Filter & Search Bar */
+    .hud-controls {
       position: absolute;
       top: 76px;
       left: 20px;
-      bottom: 20px;
-      width: 290px;
-      z-index: 15;
-      background: var(--bg-panel);
-      backdrop-filter: blur(14px);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      z-index: 10;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
-      overflow: hidden;
+      gap: 8px;
+      max-width: 380px;
       pointer-events: auto;
     }
 
-    .tag-sidebar.collapsed {
-      transform: translateX(-330px);
-      pointer-events: none;
-      opacity: 0;
-    }
-
-    .sidebar-header {
-      padding: 12px 14px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .sidebar-title {
-      font-size: 0.86rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      letter-spacing: -0.01em;
-    }
-
-    .sidebar-badge {
-      font-size: 0.72rem;
-      color: var(--color-paper);
-      background: rgba(56, 189, 248, 0.12);
-      border: 1px solid rgba(56, 189, 248, 0.25);
-      padding: 1px 7px;
-      border-radius: 10px;
-      font-weight: 600;
-    }
-
-    .sidebar-controls {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .btn-icon {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
-      width: 26px;
-      height: 26px;
-      border-radius: 4px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.78rem;
-      transition: 0.15s ease;
-    }
-
-    .btn-icon:hover {
-      background: var(--bg-surface);
-      color: var(--text);
-      border-color: var(--border-light);
-    }
-
-    .sidebar-search-box {
-      padding: 8px 12px;
-      border-bottom: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--bg-surface);
-    }
-
-    .sidebar-search-box input {
-      background: transparent;
-      border: none;
-      color: var(--text);
-      font-size: 0.82rem;
-      outline: none;
-      width: 100%;
-      font-family: var(--font-body);
-    }
-
-    .sidebar-search-box input::placeholder {
-      color: var(--text-faint);
-    }
-
-    .sidebar-actions-bar {
-      padding: 6px 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-bottom: 1px solid var(--border);
-      font-size: 0.72rem;
-      background: rgba(0, 0, 0, 0.08);
-    }
-
-    .btn-reset-filter {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.72rem;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 3px;
-      transition: 0.12s ease;
-    }
-
-    .btn-reset-filter:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    .sidebar-scroll-body {
-      flex: 1;
-      overflow-y: auto;
-      padding: 10px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .sidebar-scroll-body::-webkit-scrollbar {
-      width: 4px;
-    }
-
-    .sidebar-scroll-body::-webkit-scrollbar-thumb {
-      background: var(--border);
-      border-radius: 2px;
-    }
-
-    .tag-group {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .tag-group-title {
-      font-size: 0.73rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      letter-spacing: 0.02em;
-      padding: 5px 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      user-select: none;
-      border-radius: 4px;
-      transition: 0.12s ease;
-    }
-
-    .tag-group-title:hover {
-      color: var(--text);
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .tag-group-list {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .tag-group-list.hidden {
-      display: none;
-    }
-
-    .tag-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 5px 8px;
-      border-radius: 4px;
-      font-size: 0.79rem;
-      color: var(--text);
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.12s ease;
-      border: 1px solid transparent;
-    }
-
-    .tag-item:hover {
-      background: rgba(255, 255, 255, 0.05);
-      border-color: var(--border);
-    }
-
-    .tag-item.active {
-      background: rgba(168, 85, 247, 0.18);
-      border-color: rgba(168, 85, 247, 0.45);
-      color: #e9d5ff;
-      font-weight: 700;
-    }
-
-    [data-theme="light"] .tag-item.active {
-      background: rgba(147, 51, 234, 0.12);
-      border-color: rgba(147, 51, 234, 0.35);
-      color: #7e22ce;
-    }
-
-    .tag-label-wrap {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .tag-count {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      background: rgba(255, 255, 255, 0.05);
-      padding: 1px 6px;
-      border-radius: 10px;
-    }
-
-    .tag-item.active .tag-count {
-      background: rgba(168, 85, 247, 0.3);
-      color: #f3e8ff;
-    }
-
-    /* Floating button to reopen sidebar when collapsed */
-    .btn-open-sidebar {
-      position: absolute;
-      top: 76px;
-      left: 20px;
-      z-index: 14;
+    .search-card {
       background: var(--bg-panel);
       backdrop-filter: blur(10px);
       border: 1px solid var(--border);
       border-radius: 6px;
-      padding: 8px 14px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--text);
-      cursor: pointer;
-      display: none;
-      align-items: center;
-      gap: 6px;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
-      transition: all 0.15s ease;
-    }
-
-    .btn-open-sidebar:hover {
-      background: var(--bg-surface);
-      border-color: var(--border-light);
-      transform: translateY(-1px);
-    }
-
-    .btn-open-sidebar.visible {
+      padding: 8px 12px;
       display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .search-card input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.86rem;
+      outline: none;
+      width: 100%;
+    }
+
+    .search-card input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .filter-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .pill-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      padding: 3px 8px;
+      border-radius: 3px;
+      font-size: 0.74rem;
+      cursor: pointer;
+      transition: 0.12s ease;
+    }
+
+    .pill-btn:hover {
+      color: var(--text);
+      border-color: var(--border-light);
+    }
+
+    .pill-btn.active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+      font-weight: 700;
     }
 
     /* Bottom HUD Legend & Zoom Controls */
     .hud-bottom-left {
       position: absolute;
       bottom: 20px;
-      left: 325px;
+      left: 20px;
       z-index: 10;
       background: var(--bg-panel);
       backdrop-filter: blur(10px);
@@ -465,11 +266,6 @@
       gap: 5px;
       box-shadow: 0 4px 16px rgba(0,0,0,0.25);
       pointer-events: auto;
-      transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .hud-bottom-left.shifted {
-      left: 20px;
     }
 
     .legend-item {
@@ -660,34 +456,9 @@
     .drawer-meta {
       font-size: 0.82rem;
       color: var(--text-muted);
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       padding-bottom: 12px;
       border-bottom: 1px solid var(--border);
-    }
-
-    .drawer-tags-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 5px;
-      margin-bottom: 18px;
-    }
-
-    .drawer-tag-pill {
-      font-size: 0.73rem;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 12px;
-      background: rgba(168, 85, 247, 0.12);
-      border: 1px solid rgba(168, 85, 247, 0.28);
-      color: var(--color-theory);
-      cursor: pointer;
-      transition: all 0.12s ease;
-    }
-
-    .drawer-tag-pill:hover {
-      background: rgba(168, 85, 247, 0.25);
-      border-color: var(--color-theory);
-      transform: translateY(-1px);
     }
 
     .section-label {
@@ -734,30 +505,6 @@
       border-radius: 4px;
       border: 1px solid var(--border);
       line-height: 1.65;
-    }
-
-    .hub-paper-list {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      max-height: 380px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .hub-paper-item {
-      padding: 10px 12px;
-      background: rgba(255, 255, 255, 0.03);
-      border: 1px solid var(--border);
-      border-radius: 6px;
-      cursor: pointer;
-      transition: all 0.15s ease;
-    }
-
-    .hub-paper-item:hover {
-      background: rgba(255, 255, 255, 0.07);
-      border-color: var(--color-highlight);
-      transform: translateX(3px);
     }
 
     .drawer-footer {
@@ -807,8 +554,8 @@
     </div>
     <div class="hud-right">
       <button class="btn-nav" id="btnToggleLabels">🏷️ 라벨: 호버 시 표시</button>
-      <a href="editorial.html" class="btn-nav" title="The Spark 주간 에디토리얼">
-        <span>⚡ The Spark</span>
+      <a href="editorial.html" class="btn-nav" style="font-weight:700;">
+        <span>📰 Weekly Newsletter (10.11 ~ 10.17)</span>
       </a>
       <a href="index.html" class="btn-nav">
         <span>← 서재 목록 보기</span>
@@ -817,46 +564,25 @@
     </div>
   </div>
 
-  <!-- Floating Button to Re-open Sidebar when collapsed -->
-  <button class="btn-open-sidebar" id="btnOpenSidebar" title="지식 성단 · 이론 탐색기 열기">
-    <span>🧭</span>
-    <span>성단 · 이론</span>
-    <span style="font-size:0.7rem; color:var(--text-muted);">▶</span>
-  </button>
-
-  <!-- Left Obsidian Tag Navigation Sidebar -->
-  <aside class="tag-sidebar" id="tagSidebar">
-    <div class="sidebar-header">
-      <div class="sidebar-title">
-        <span>🧭</span>
-        <span>지식 성단 · 이론</span>
-        <span class="sidebar-badge" id="sidebarActiveCount">48편</span>
-      </div>
-      <div class="sidebar-controls">
-        <button class="btn-icon" id="btnCollapseSidebar" title="사이드바 접기">◀</button>
-      </div>
-    </div>
-
-    <!-- Quick Search -->
-    <div class="sidebar-search-box">
+  <!-- Search & Filter Controls -->
+  <div class="hud-controls">
+    <div class="search-card">
       <span>🔍</span>
-      <input type="text" id="tagSearchInput" placeholder="성단 또는 이론 검색...">
+      <input type="text" id="nodeSearch" placeholder="논문, 이론, 저자, 키워드 검색...">
     </div>
-
-    <!-- Reset Filter Bar -->
-    <div class="sidebar-actions-bar">
-      <span id="activeFilterLabel" style="color:var(--text-muted); font-size:0.72rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">전체 서재 표시 중</span>
-      <button class="btn-reset-filter" id="btnResetTags">↺ 초기화</button>
+    <div class="filter-pills" id="categoryFilterBar">
+      <button class="pill-btn active" data-filter="all">전체</button>
+      <button class="pill-btn" data-filter="저널모니터링">주요 학술지</button>
+      <button class="pill-btn" data-filter="PWT/Decent Work">PWT·좋은일자리</button>
+      <button class="pill-btn" data-filter="직업심리학">직업심리·SCCT</button>
+      <button class="pill-btn" data-filter="취약노동/구조적제약">취약노동</button>
+      <button class="pill-btn" data-filter="AI·디지털진로">AI·디지털진로</button>
+      <button class="pill-btn" data-filter="관심학자">관심학자</button>
     </div>
-
-    <!-- Scrollable Tag Tree -->
-    <div class="sidebar-scroll-body" id="tagTreeContainer">
-      <!-- Dynamically generated tag groups -->
-    </div>
-  </aside>
+  </div>
 
   <!-- Bottom Legend -->
-  <div class="hud-bottom-left" id="hudBottomLeft">
+  <div class="hud-bottom-left">
     <div style="font-weight:700; color:var(--text); margin-bottom:2px;">네트워크 성단</div>
     <div class="legend-item">
       <span class="legend-dot" style="background:var(--color-cat); box-shadow:0 0 6px var(--color-cat);"></span>
@@ -892,7 +618,6 @@
     <div class="drawer-body">
       <h2 class="drawer-title" id="drawerTitle"></h2>
       <div class="drawer-meta" id="drawerMeta"></div>
-      <div class="drawer-tags-list" id="drawerTagsList"></div>
 
       <div class="section-label">✦ 핵심 연구 브리프</div>
       <div class="brief-box" id="drawerAiBox"></div>
@@ -1853,37 +1578,6 @@
       { id: '관심학자', label: '관심 학자 연구' }
     ];
 
-    // 2 Core Hub Navigation Groups (Categories & Theory Hubs)
-    const RESEARCH_TAG_GROUPS = [
-      {
-        id: 'group_cat',
-        title: '📁 연구 성단 (6대 연구 분야)',
-        tags: categories.map(c => ({
-          id: 'cat_' + c.id,
-          label: c.label,
-          type: 'category',
-          catId: c.id,
-          paperIds: new Set()
-        }))
-      },
-      {
-        id: 'group_theory',
-        title: '💡 8대 이론 축 (이론 및 핵심 개념)',
-        tags: THEORY_HUBS.map(t => ({
-          id: t.id,
-          label: t.label,
-          type: 'theory',
-          kws: t.kws,
-          paperIds: new Set()
-        }))
-      }
-    ];
-
-    const tagMap = new Map();
-    RESEARCH_TAG_GROUPS.forEach(g => {
-      g.tags.forEach(t => tagMap.set(t.id, t));
-    });
-
     const catRadius = 380;
     categories.forEach((cat, idx) => {
       const angle = (idx / categories.length) * 2 * Math.PI;
@@ -1934,31 +1628,10 @@
         radius: 6,
         color: 'var(--color-paper)',
         data: p,
-        tags: [],
         x: baseX + (Math.random() - 0.5) * 160,
         y: baseY + (Math.random() - 0.5) * 160,
         val: 8
       };
-
-      // Match multi-dimensional tags for this paper
-      const paperFullText = `${p.title} ${p.abstract || ''} ${p.aiPurpose || ''} ${p.aiFindings || ''} ${p.aiImplications || ''} ${p.keywords || ''} ${p.queryLabel || ''}`;
-      RESEARCH_TAG_GROUPS.forEach(group => {
-        group.tags.forEach(t => {
-          let isMatch = false;
-          if (t.type === 'category') {
-            isMatch = (p.queryLabel === t.catId);
-          } else if (t.type === 'theory') {
-            isMatch = t.kws.some(k => paperFullText.toLowerCase().includes(k.toLowerCase()));
-          } else if (t.pattern) {
-            isMatch = t.pattern.test(paperFullText);
-          }
-          if (isMatch) {
-            pNode.tags.push(t);
-            t.paperIds.add(p.id);
-          }
-        });
-      });
-
       nodes.push(pNode);
       nodeMap.set(pNode.id, pNode);
 
@@ -2134,11 +1807,11 @@
       }
     };
 
-    // 5. Persistent Pinned Selection & Highlight Engine
-    let selectedNode = null;
+    // 5. Rich Korean Hover Highlighting
     const tooltip = document.getElementById("graphTooltip");
 
-    function highlightSubgraph(d) {
+    node.on("mouseenter", (event, d) => {
+      // Find connected nodes
       const connectedNodeIds = new Set();
       connectedNodeIds.add(d.id);
 
@@ -2147,54 +1820,21 @@
         if (l.target.id === d.id) connectedNodeIds.add(l.source.id);
       });
 
-      // Dim non-connected nodes strongly
-      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : 0.05);
-
-      // Selected node special active ring & connected borders
-      node.selectAll("circle")
-        .attr("stroke", function(n) {
-          if (n.id === d.id) return "var(--color-highlight)";
-          if (connectedNodeIds.has(n.id)) return "#ffffff";
-          return n.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff';
-        })
-        .attr("stroke-width", function(n) {
-          if (n.id === d.id) return 3.5;
-          if (connectedNodeIds.has(n.id)) return 2;
-          return n.type === 'paper' ? 1 : 2;
-        });
+      // Dim non-connected
+      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : 0.08);
 
       // Light up connected links with laser glow
       link
         .attr("stroke", l => (l.source.id === d.id || l.target.id === d.id) ? "var(--line-highlight)" : "var(--line-color)")
         .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 2.5 : 0.9)
-        .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.02);
+        .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.03);
 
-      // Reveal labels of all connected nodes
+      // Reveal labels of connected nodes
       labels.style("opacity", n => {
         if (connectedNodeIds.has(n.id)) return 1;
-        if (alwaysShowLabels) return 0.15;
-        return 0;
+        if (alwaysShowLabels) return 0.2;
+        return n.type === 'paper' ? 0 : 0.15;
       });
-    }
-
-    function resetGraphHighlight() {
-      selectedNode = null;
-      node.style("opacity", 1);
-      node.selectAll("circle")
-        .attr("stroke", d => d.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff')
-        .attr("stroke-width", d => d.type === 'paper' ? 1 : 2);
-      link
-        .attr("stroke", "var(--line-color)")
-        .attr("stroke-width", 0.9)
-        .attr("stroke-opacity", 0.5);
-      updateLabelVisibilityOnZoom(currentZoom);
-    }
-
-    // Hover Events (Preview when not pinned)
-    node.on("mouseenter", (event, d) => {
-      if (!selectedNode) {
-        highlightSubgraph(d);
-      }
 
       // Show Rich Tooltip
       tooltip.style.display = "block";
@@ -2216,14 +1856,13 @@
               <strong>🧭 상담 시사점:</strong> ${escapeHtml(p.aiImplications)}
             </div>
           ` : ''}
-          <div class="tooltip-hint">${selectedNode && selectedNode.id === d.id ? '선택됨 (클릭 시 해제)' : '클릭하여 고정 선택 및 브리프 열람 ↗'}</div>
+          <div class="tooltip-hint">클릭하여 전체 브리프 열람 ↗</div>
         `;
       } else {
         const count = links.filter(l => l.source.id === d.id || l.target.id === d.id).length;
         tooltip.innerHTML = `
           <div class="tooltip-title" style="margin-bottom:4px;">${d.type === 'category' ? '📁 ' : '#'}${escapeHtml(d.label)}</div>
           <div style="font-size:0.78rem; color:var(--text-muted);">연결된 연구 논문: <strong>${count}편</strong></div>
-          <div class="tooltip-hint" style="margin-top:6px;">${selectedNode && selectedNode.id === d.id ? '선택됨 (클릭 시 해제)' : '클릭하여 해당 허브 논문 고정 ↗'}</div>
         `;
       }
 
@@ -2233,11 +1872,13 @@
       positionTooltip(event);
     })
     .on("mouseleave", () => {
+      node.style("opacity", 1);
+      link
+        .attr("stroke", "var(--line-color)")
+        .attr("stroke-width", 0.9)
+        .attr("stroke-opacity", 0.5);
+      updateLabelVisibilityOnZoom(currentZoom);
       tooltip.style.display = "none";
-      // ONLY reset highlight if NO node is currently clicked/pinned!
-      if (!selectedNode) {
-        resetGraphHighlight();
-      }
     });
 
     function positionTooltip(event) {
@@ -2250,28 +1891,12 @@
       tooltip.style.top = y + "px";
     }
 
-    // 6. Click Node -> Persistent Selection Locking + Inspector Drawer
+    // 6. Click on Paper -> Slide-out Inspector Drawer
     const drawer = document.getElementById("inspectorDrawer");
-
     node.on("click", (event, d) => {
+      if (d.type !== 'paper') return;
       event.stopPropagation();
-
-      // Toggle off if clicking the already selected node
-      if (selectedNode && selectedNode.id === d.id) {
-        resetGraphHighlight();
-        drawer.classList.remove("open");
-        return;
-      }
-
-      // Lock selection
-      selectedNode = d;
-      highlightSubgraph(d);
-
-      if (d.type === 'paper') {
-        openInspector(d.data);
-      } else {
-        openHubInspector(d);
-      }
+      openInspector(d.data);
     });
 
     function openInspector(p) {
@@ -2283,17 +1908,6 @@
         발행: ${escapeHtml(p.pubDate)}
       `;
 
-      // Render multi-dimensional research tag pills
-      const pNode = nodeMap.get(p.id);
-      const tagsEl = document.getElementById("drawerTagsList");
-      if (pNode && pNode.tags && pNode.tags.length > 0) {
-        tagsEl.innerHTML = pNode.tags.map(t => `<span class="drawer-tag-pill" onclick="window.selectTagById('${t.id}')">#${escapeHtml(t.label)}</span>`).join('');
-        tagsEl.style.display = "flex";
-      } else {
-        tagsEl.innerHTML = '';
-        tagsEl.style.display = "none";
-      }
-
       document.getElementById("drawerAiBox").innerHTML = `
         ${p.aiPurpose ? `<div class="brief-row"><span class="brief-key">[연구 목적]</span> <span class="brief-val">${escapeHtml(p.aiPurpose)}</span></div>` : ''}
         ${p.aiFindings ? `<div class="brief-row"><span class="brief-key">[주요 결과]</span> <span class="brief-val">${escapeHtml(p.aiFindings)}</span></div>` : ''}
@@ -2303,290 +1917,71 @@
 
       document.getElementById("drawerAbstract").textContent = p.abstract || "원문 초록 미등록 (저널 원문 페이지를 참조해 주세요)";
       const doiUrl = p.doi ? (p.doi.startsWith("http") ? p.doi : "https://doi.org/" + p.doi) : "#";
-      const doiBtn = document.getElementById("drawerDoi");
-      doiBtn.href = doiUrl;
-      doiBtn.style.display = "inline-flex";
+      document.getElementById("drawerDoi").href = doiUrl;
 
       drawer.classList.add("open");
     }
 
-    // Hub (Category or Theory) Inspector Drawer
-    function openHubInspector(d) {
-      document.getElementById("drawerTagsList").style.display = "none";
-      const connectedPapers = links
-        .filter(l => l.source.id === d.id || l.target.id === d.id)
-        .map(l => l.source.id === d.id ? l.target : l.source)
-        .filter(n => n.type === 'paper');
-
-      document.getElementById("drawerBadge").textContent = d.type === 'category' ? '연구 성단 허브' : '핵심 이론 허브';
-      document.getElementById("drawerVenue").textContent = `연결된 논문 총 ${connectedPapers.length}편`;
-      document.getElementById("drawerTitle").textContent = (d.type === 'category' ? '📁 ' : '#') + d.label;
-      document.getElementById("drawerMeta").innerHTML = `이 허브와 연결된 연구들을 맵 상에서 고정 하이라이트하고 있습니다.<br><span style="color:var(--color-highlight);">💡 맵의 빈 공간을 클릭하거나 ESC를 누르면 선택이 해제됩니다.</span>`;
-
-      document.getElementById("drawerAiBox").innerHTML = `
-        <div style="font-weight:700; margin-bottom:10px; color:var(--text); font-size:0.86rem;">연결 논문 목록 (${connectedPapers.length}편):</div>
-        <div class="hub-paper-list">
-          ${connectedPapers.map((p, i) => {
-            const d = p.data || {};
-            const year = (d.pubDate || '').substring(0, 4);
-            const venue = d.venue || '학술지 정보 미등록';
-            const authors = d.authors || '저자 미상';
-            return `
-              <div class="hub-paper-item" onclick="window.selectPaperById('${p.id}')">
-                <div style="display:flex; align-items:baseline; gap:7px;">
-                  <span style="color:var(--color-highlight); font-weight:800; font-size:0.75rem; flex-shrink:0;">${i+1}</span>
-                  <div style="font-weight:650; color:var(--text); font-size:0.84rem; line-height:1.45; word-break:keep-all;">
-                    ${escapeHtml(p.label)}
-                  </div>
-                </div>
-                <div style="margin-top:6px; font-size:0.74rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; border-top:1px dashed var(--border); padding-top:5px;">
-                  <span>👤 ${escapeHtml(authors)}</span>
-                  <span style="font-style:italic; color:var(--color-paper);">📖 ${escapeHtml(venue)} ${year ? '(' + year + ')' : ''}</span>
-                </div>
-              </div>
-            `;
-          }).join('')}
-        </div>
-      `;
-
-      document.getElementById("drawerAbstract").textContent = "이 허브에 포함된 논문들은 현재 맵 상에서 환하게 불이 켜져 있으며, 목록 중 하나를 클릭하면 해당 논문으로 즉시 포커스됩니다.";
-      document.getElementById("drawerDoi").style.display = "none";
-
-      drawer.classList.add("open");
-    }
-
-    // Jump to paper from hub list or URL
-    window.selectPaperById = function(paperId) {
-      const pNode = nodeMap.get(paperId);
-      if (pNode) {
-        selectedNode = pNode;
-        highlightSubgraph(pNode);
-        openInspector(pNode.data);
-      }
-    };
-
-    // Auto-focus paper if paperId query parameter is present (from index.html)
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetPaperId = urlParams.get("paperId");
-    if (targetPaperId) {
-      setTimeout(() => {
-        const pNode = nodeMap.get(targetPaperId);
-        if (pNode) {
-          window.selectPaperById(targetPaperId);
-          if (typeof pNode.x === "number" && typeof pNode.y === "number") {
-            svg.transition().duration(900).call(
-              zoom.transform,
-              d3.zoomIdentity.translate(width / 2, height / 2).scale(1.5).translate(-pNode.x, -pNode.y)
-            );
-          }
-        }
-      }, 600);
-    }
-
-    // Close on Drawer ✕ button
     document.getElementById("drawerCloseBtn").onclick = () => {
-      resetGraphHighlight();
       drawer.classList.remove("open");
     };
 
-    // Deselect and reset on Canvas Click
-    svg.on("click", (event) => {
-      resetGraphHighlight();
+    svg.on("click", () => {
       drawer.classList.remove("open");
     });
 
-    // Deselect and reset on ESC key
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        resetGraphHighlight();
-        drawer.classList.remove("open");
-      }
-    });
-
-    // 7. Tag Navigator Sidebar Logic
-    let currentActiveTagId = null;
-
-    function renderTagNavigator() {
-      const container = document.getElementById("tagTreeContainer");
-      if (!container) return;
-
-      let html = '';
-      RESEARCH_TAG_GROUPS.forEach(group => {
-        const activeTags = group.tags.filter(t => t.paperIds && t.paperIds.size > 0);
-        if (activeTags.length === 0) return;
-
-        html += `
-          <div class="tag-group" data-group-id="${group.id}">
-            <div class="tag-group-title" onclick="window.toggleTagGroup(this)">
-              <span>${group.title}</span>
-              <span class="group-arrow">▼</span>
-            </div>
-            <div class="tag-group-list">
-              ${activeTags.map(t => `
-                <div class="tag-item" id="tag_item_${t.id}" data-tag-id="${t.id}" onclick="window.selectTagById('${t.id}')">
-                  <div class="tag-label-wrap">
-                    <span style="opacity:0.6; font-size:0.75rem;">#</span>
-                    <span>${escapeHtml(t.label)}</span>
-                  </div>
-                  <span class="tag-count">${t.paperIds.size}</span>
-                </div>
-              `).join('')}
-            </div>
-          </div>
-        `;
-      });
-
-      container.innerHTML = html;
-      const countEl = document.getElementById("sidebarActiveCount");
-      if (countEl) countEl.textContent = `${RAW_PAPERS.length}편`;
-    }
-
-    window.toggleTagGroup = function(headerEl) {
-      const list = headerEl.nextElementSibling;
-      const arrow = headerEl.querySelector(".group-arrow");
-      if (!list) return;
-      list.classList.toggle("hidden");
-      if (arrow) {
-        arrow.textContent = list.classList.contains("hidden") ? "▶" : "▼";
-      }
-    };
-
-    window.selectTagById = function(tagId) {
-      if (currentActiveTagId === tagId) {
-        window.resetAllTagFilters();
+    // 7. Search Input Filter
+    const searchInput = document.getElementById("nodeSearch");
+    searchInput.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase().trim();
+      if (!q) {
+        node.style("opacity", 1);
+        node.select("circle").attr("stroke", d => d.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff').attr("stroke-width", d => d.type === 'paper' ? 1 : 2);
+        updateLabelVisibilityOnZoom(currentZoom);
         return;
       }
-      currentActiveTagId = tagId;
 
-      // Find tag definition
-      let targetTag = null;
-      for (const g of RESEARCH_TAG_GROUPS) {
-        for (const t of g.tags) {
-          if (t.id === tagId) {
-            targetTag = t;
-            break;
-          }
+      const matchIds = new Set();
+      nodes.forEach(d => {
+        let text = d.label;
+        if (d.data) {
+          text += ' ' + (d.data.authors || '') + ' ' + (d.data.venue || '') + ' ' + (d.data.keywords || '') + ' ' + (d.data.aiFindings || '');
         }
-        if (targetTag) break;
-      }
-      if (!targetTag) return;
-
-      // Update sidebar UI active state
-      document.querySelectorAll(".tag-item").forEach(el => el.classList.remove("active"));
-      const activeEl = document.getElementById("tag_item_" + tagId);
-      if (activeEl) {
-        activeEl.classList.add("active");
-        const parentList = activeEl.closest(".tag-group-list");
-        if (parentList) {
-          parentList.classList.remove("hidden");
-          const parentArrow = parentList.previousElementSibling?.querySelector(".group-arrow");
-          if (parentArrow) parentArrow.textContent = "▼";
-        }
-      }
-
-      const activeLabel = document.getElementById("activeFilterLabel");
-      if (activeLabel) activeLabel.textContent = `${targetTag.label} (${targetTag.paperIds.size}편)`;
-      const activeCount = document.getElementById("sidebarActiveCount");
-      if (activeCount) activeCount.textContent = `${targetTag.paperIds.size}편`;
-
-      // Find the corresponding Hub Node on canvas and trigger full subgraph highlight + drawer
-      const hubNodeId = targetTag.type === 'category' ? ('cat_' + targetTag.catId) : targetTag.id;
-      const hubNode = nodeMap.get(hubNodeId);
-
-      if (hubNode) {
-        selectedNode = hubNode;
-        highlightSubgraph(hubNode);
-        openHubInspector(hubNode);
-      } else {
-        // Fallback matching
-        const matchingIds = new Set(targetTag.paperIds);
-        node.style("opacity", n => matchingIds.has(n.id) ? 1 : 0.04);
-        labels.style("opacity", n => matchingIds.has(n.id) ? 1 : 0);
-      }
-    };
-
-    window.resetAllTagFilters = function() {
-      currentActiveTagId = null;
-      document.querySelectorAll(".tag-item").forEach(el => el.classList.remove("active"));
-      const activeLabel = document.getElementById("activeFilterLabel");
-      if (activeLabel) activeLabel.textContent = "전체 서재 표시 중";
-      const activeCount = document.getElementById("sidebarActiveCount");
-      if (activeCount) activeCount.textContent = `${RAW_PAPERS.length}편`;
-
-      resetGraphHighlight();
-    };
-
-    const btnResetTags = document.getElementById("btnResetTags");
-    if (btnResetTags) {
-      btnResetTags.onclick = () => window.resetAllTagFilters();
-    }
-
-    // Sidebar Collapsible Toggles
-    const tagSidebar = document.getElementById("tagSidebar");
-    const btnCollapseSidebar = document.getElementById("btnCollapseSidebar");
-    const btnOpenSidebar = document.getElementById("btnOpenSidebar");
-    const hudBottomLeft = document.getElementById("hudBottomLeft");
-
-    if (btnCollapseSidebar) {
-      btnCollapseSidebar.onclick = () => {
-        tagSidebar.classList.add("collapsed");
-        btnOpenSidebar.classList.add("visible");
-        if (hudBottomLeft) hudBottomLeft.classList.add("shifted");
-      };
-    }
-
-    if (btnOpenSidebar) {
-      btnOpenSidebar.onclick = () => {
-        tagSidebar.classList.remove("collapsed");
-        btnOpenSidebar.classList.remove("visible");
-        if (hudBottomLeft) hudBottomLeft.classList.remove("shifted");
-      };
-    }
-
-    // Real-time Tag & Paper Search Input
-    const tagSearchInput = document.getElementById("tagSearchInput");
-    if (tagSearchInput) {
-      tagSearchInput.addEventListener("input", (e) => {
-        const q = e.target.value.toLowerCase().trim();
-        
-        // Filter sidebar tags
-        const tagItems = document.querySelectorAll(".tag-item");
-        tagItems.forEach(item => {
-          const label = item.querySelector(".tag-label-wrap")?.textContent.toLowerCase() || "";
-          if (!q || label.includes(q)) {
-            item.style.display = "flex";
-          } else {
-            item.style.display = "none";
-          }
-        });
-
-        // Filter and highlight graph nodes
-        if (!q) {
-          if (!currentActiveTagId) {
-            resetGraphHighlight();
-          }
-          return;
-        }
-
-        const matchIds = new Set();
-        nodes.forEach(d => {
-          let text = d.label;
-          if (d.data) {
-            text += ' ' + (d.data.authors || '') + ' ' + (d.data.venue || '') + ' ' + (d.data.keywords || '') + ' ' + (d.data.aiFindings || '') + ' ' + (d.data.abstract || '');
-          }
-          if (text.toLowerCase().includes(q)) matchIds.add(d.id);
-        });
-
-        node.style("opacity", d => matchIds.has(d.id) ? 1 : 0.05);
-        labels.style("opacity", d => matchIds.has(d.id) ? 1 : 0);
-        node.selectAll("circle")
-          .attr("stroke", d => matchIds.has(d.id) ? "var(--color-highlight)" : "rgba(255,255,255,0.2)")
-          .attr("stroke-width", d => matchIds.has(d.id) ? 3 : 1);
+        if (text.toLowerCase().includes(q)) matchIds.add(d.id);
       });
-    }
 
-    // Initial render of tag navigator
-    renderTagNavigator();
+      node.style("opacity", d => matchIds.has(d.id) ? 1 : 0.08);
+      labels.style("opacity", d => matchIds.has(d.id) ? 1 : 0);
+      node.select("circle")
+        .attr("stroke", d => matchIds.has(d.id) ? "var(--color-highlight)" : "rgba(255,255,255,0.2)")
+        .attr("stroke-width", d => matchIds.has(d.id) ? 3 : 1);
+    });
+
+    // 8. Category Filter Pills
+    document.getElementById("categoryFilterBar").addEventListener("click", (e) => {
+      const btn = e.target.closest(".pill-btn");
+      if (!btn) return;
+      document.querySelectorAll(".pill-btn").forEach(b => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      const filter = btn.dataset.filter;
+      if (filter === 'all') {
+        node.style("opacity", 1);
+        link.attr("stroke-opacity", 0.5);
+        updateLabelVisibilityOnZoom(currentZoom);
+        return;
+      }
+
+      const activeIds = new Set();
+      nodes.forEach(n => {
+        if (n.type === 'category' && n.rawCat === filter) activeIds.add(n.id);
+        if (n.type === 'paper' && n.data && n.data.queryLabel === filter) activeIds.add(n.id);
+      });
+
+      node.style("opacity", n => activeIds.has(n.id) ? 1 : 0.08);
+      labels.style("opacity", n => activeIds.has(n.id) ? 1 : 0);
+      link.attr("stroke-opacity", l => (activeIds.has(l.source.id) && activeIds.has(l.target.id)) ? 0.9 : 0.02);
+    });
 
     // 9. Zoom Controls
     document.getElementById("btnZoomIn").onclick = () => {
