@@ -1,0 +1,2639 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>이세란 교수 연구 지식 맵 | Obsidian Graph View</title>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;700&family=Pretendard:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  
+  <!-- D3.js v7 CDN -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  
+  <style>
+    :root {
+      --bg: #0c0d10;
+      --bg-surface: #16171d;
+      --bg-panel: rgba(22, 23, 29, 0.94);
+      --border: #2a2b34;
+      --border-light: #3d3e4a;
+      --text: #f1f1f5;
+      --text-muted: #9596a5;
+      --text-faint: #5b5c6d;
+      
+      --color-cat: #10b981;
+      --color-cat-glow: rgba(16, 185, 129, 0.4);
+      --color-theory: #a855f7;
+      --color-theory-glow: rgba(168, 85, 247, 0.4);
+      --color-paper: #38bdf8;
+      --color-highlight: #f59e0b;
+      
+      --line-color: rgba(255, 255, 255, 0.07);
+      --line-highlight: rgba(245, 158, 11, 0.95);
+      
+      --font-body: Pretendard, -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-serif: "Noto Serif KR", serif;
+      --font-mono: "JetBrains Mono", monospace;
+    }
+
+    [data-theme="light"] {
+      --bg: #f4f5f8;
+      --bg-surface: #ffffff;
+      --bg-panel: rgba(255, 255, 255, 0.96);
+      --border: #e1e3e8;
+      --border-light: #cbced6;
+      --text: #131418;
+      --text-muted: #5d6370;
+      --text-faint: #9ea3b0;
+      
+      --color-cat: #059669;
+      --color-cat-glow: rgba(5, 150, 105, 0.25);
+      --color-theory: #9333ea;
+      --color-theory-glow: rgba(147, 51, 234, 0.25);
+      --color-paper: #0284c7;
+      --color-highlight: #d97706;
+      
+      --line-color: rgba(0, 0, 0, 0.07);
+      --line-highlight: rgba(217, 119, 6, 0.95);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Subtle Dot Grid Background */
+    #graphContainer {
+      width: 100vw;
+      height: 100vh;
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      cursor: grab;
+      background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+      background-size: 32px 32px;
+    }
+
+    [data-theme="light"] #graphContainer {
+      background-image: radial-gradient(rgba(0, 0, 0, 0.06) 1px, transparent 1px);
+    }
+
+    #graphContainer:active {
+      cursor: grabbing;
+    }
+
+    /* Top HUD Navigation */
+    .hud-top {
+      position: absolute;
+      top: 16px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      z-index: 10;
+      pointer-events: none;
+    }
+
+    .hud-left, .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      pointer-events: auto;
+    }
+
+    .brand-box {
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 0.94rem;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .brand-tag {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      background: rgba(168, 85, 247, 0.15);
+      color: var(--color-theory);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 2px 7px;
+      border-radius: 3px;
+      font-weight: 600;
+    }
+
+    .btn-nav {
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .btn-nav:hover {
+      background: var(--bg-surface);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-nav.active {
+      background: var(--text);
+      color: var(--bg);
+      border-color: var(--text);
+    }
+
+    /* Left Tag Navigation Sidebar */
+    .tag-sidebar {
+      position: absolute;
+      top: 76px;
+      left: 20px;
+      bottom: 20px;
+      width: 290px;
+      z-index: 15;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 32px rgba(0, 0, 0, 0.35);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+      overflow: hidden;
+      pointer-events: auto;
+    }
+
+    .tag-sidebar.collapsed {
+      transform: translateX(-330px);
+      pointer-events: none;
+      opacity: 0;
+    }
+
+    .sidebar-header {
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .sidebar-title {
+      font-size: 0.86rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .sidebar-badge {
+      font-size: 0.72rem;
+      color: var(--color-paper);
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      padding: 1px 7px;
+      border-radius: 10px;
+      font-weight: 600;
+    }
+
+    .sidebar-controls {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-icon {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      width: 26px;
+      height: 26px;
+      border-radius: 4px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.78rem;
+      transition: 0.15s ease;
+    }
+
+    .btn-icon:hover {
+      background: var(--bg-surface);
+      color: var(--text);
+      border-color: var(--border-light);
+    }
+
+    .sidebar-search-box {
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+    }
+
+    .sidebar-search-box input {
+      background: transparent;
+      border: none;
+      color: var(--text);
+      font-size: 0.82rem;
+      outline: none;
+      width: 100%;
+      font-family: var(--font-body);
+    }
+
+    .sidebar-search-box input::placeholder {
+      color: var(--text-faint);
+    }
+
+    .sidebar-actions-bar {
+      padding: 6px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.72rem;
+      background: rgba(0, 0, 0, 0.08);
+    }
+
+    .btn-reset-filter {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 2px 6px;
+      border-radius: 3px;
+      transition: 0.12s ease;
+    }
+
+    .btn-reset-filter:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .sidebar-scroll-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .sidebar-scroll-body::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .sidebar-scroll-body::-webkit-scrollbar-thumb {
+      background: var(--border);
+      border-radius: 2px;
+    }
+
+    .tag-group {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
+    .tag-group-title {
+      font-size: 0.73rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
+      padding: 5px 6px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      user-select: none;
+      border-radius: 4px;
+      transition: 0.12s ease;
+    }
+
+    .tag-group-title:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tag-group-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .tag-group-list.hidden {
+      display: none;
+    }
+
+    .tag-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-size: 0.79rem;
+      color: var(--text);
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.12s ease;
+      border: 1px solid transparent;
+    }
+
+    .tag-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: var(--border);
+    }
+
+    .tag-item.active {
+      background: rgba(168, 85, 247, 0.18);
+      border-color: rgba(168, 85, 247, 0.45);
+      color: #e9d5ff;
+      font-weight: 700;
+    }
+
+    [data-theme="light"] .tag-item.active {
+      background: rgba(147, 51, 234, 0.12);
+      border-color: rgba(147, 51, 234, 0.35);
+      color: #7e22ce;
+    }
+
+    .tag-label-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .tag-count {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1px 6px;
+      border-radius: 10px;
+    }
+
+    .tag-item.active .tag-count {
+      background: rgba(168, 85, 247, 0.3);
+      color: #f3e8ff;
+    }
+
+    /* Floating button to reopen sidebar when collapsed */
+    .btn-open-sidebar {
+      position: absolute;
+      top: 76px;
+      left: 20px;
+      z-index: 14;
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 14px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      transition: all 0.15s ease;
+    }
+
+    .btn-open-sidebar:hover {
+      background: var(--bg-surface);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    .btn-open-sidebar.visible {
+      display: flex;
+    }
+
+    /* Bottom HUD Legend & Zoom Controls */
+    .hud-bottom-left {
+      position: absolute;
+      bottom: 20px;
+      left: 325px;
+      z-index: 10;
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 14px;
+      font-size: 0.76rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      pointer-events: auto;
+      transition: left 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .hud-bottom-left.shifted {
+      left: 20px;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .hud-bottom-right {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10;
+      display: flex;
+      gap: 6px;
+      pointer-events: auto;
+    }
+
+    .btn-circle {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: var(--bg-panel);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.15s ease;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+    }
+
+    .btn-circle:hover {
+      background: var(--bg-surface);
+      border-color: var(--border-light);
+      transform: translateY(-1px);
+    }
+
+    /* Rich Korean Hover Card Tooltip */
+    .graph-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      color: var(--text);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.5);
+      z-index: 30;
+      display: none;
+      max-width: 380px;
+      line-height: 1.55;
+    }
+
+    .tooltip-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .tooltip-badge {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--color-paper);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+    }
+
+    .tooltip-venue {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    .tooltip-title {
+      font-family: var(--font-serif);
+      font-size: 0.92rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      color: #ffffff;
+    }
+
+    [data-theme="light"] .tooltip-title {
+      color: #111111;
+    }
+
+    .tooltip-findings {
+      background: rgba(255, 255, 255, 0.04);
+      border-left: 2px solid var(--color-highlight);
+      padding: 8px 10px;
+      border-radius: 0 4px 4px 0;
+      font-size: 0.82rem;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .tooltip-implications {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .tooltip-hint {
+      font-size: 0.7rem;
+      color: var(--text-faint);
+      text-align: right;
+    }
+
+    /* Slide-out Research Detail Inspector */
+    .inspector-drawer {
+      position: absolute;
+      top: 16px;
+      bottom: 16px;
+      right: 20px;
+      width: 440px;
+      max-width: calc(100vw - 40px);
+      background: var(--bg-panel);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      box-shadow: -8px 0 32px rgba(0,0,0,0.45);
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      transform: translateX(calc(100% + 40px));
+      transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: auto;
+    }
+
+    .inspector-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .drawer-close {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.25rem;
+      cursor: pointer;
+      padding: 2px;
+      line-height: 1;
+    }
+
+    .drawer-close:hover {
+      color: var(--text);
+    }
+
+    .drawer-body {
+      padding: 22px;
+      overflow-y: auto;
+      flex: 1;
+      line-height: 1.7;
+    }
+
+    .drawer-title {
+      font-family: var(--font-serif);
+      font-size: 1.25rem;
+      font-weight: 700;
+      line-height: 1.4;
+      margin-bottom: 10px;
+      word-break: keep-all;
+    }
+
+    .drawer-meta {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-tags-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-bottom: 18px;
+    }
+
+    .drawer-tag-pill {
+      font-size: 0.73rem;
+      font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 12px;
+      background: rgba(168, 85, 247, 0.12);
+      border: 1px solid rgba(168, 85, 247, 0.28);
+      color: var(--color-theory);
+      cursor: pointer;
+      transition: all 0.12s ease;
+    }
+
+    .drawer-tag-pill:hover {
+      background: rgba(168, 85, 247, 0.25);
+      border-color: var(--color-theory);
+      transform: translateY(-1px);
+    }
+
+    .section-label {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin: 16px 0 8px;
+    }
+
+    .brief-box {
+      background: rgba(255, 255, 255, 0.03);
+      border-left: 2.5px solid var(--text);
+      padding: 12px 14px;
+      border-radius: 0 4px 4px 0;
+      margin-bottom: 16px;
+      font-size: 0.88rem;
+    }
+
+    .brief-row {
+      margin-bottom: 8px;
+    }
+
+    .brief-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .brief-key {
+      font-weight: 700;
+      color: var(--text);
+      margin-right: 4px;
+    }
+
+    .brief-val {
+      color: var(--text-muted);
+    }
+
+    .drawer-abstract {
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      background: rgba(0, 0, 0, 0.2);
+      padding: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      line-height: 1.65;
+    }
+
+    .hub-paper-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-height: 380px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .hub-paper-item {
+      padding: 10px 12px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .hub-paper-item:hover {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: var(--color-highlight);
+      transform: translateX(3px);
+    }
+
+    .drawer-footer {
+      padding: 14px 22px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      background: var(--bg-surface);
+    }
+
+    .btn-doi-go {
+      background: var(--text);
+      color: var(--bg);
+      font-weight: 700;
+      padding: 8px 16px;
+      border-radius: 4px;
+      font-size: 0.84rem;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: 0.15s ease;
+    }
+
+    .btn-doi-go:hover {
+      opacity: 0.88;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SVG Graph Canvas -->
+  <div id="graphContainer">
+    <svg id="graphSvg" width="100%" height="100%"></svg>
+  </div>
+
+  <!-- Top HUD Bar -->
+  <div class="hud-top">
+    <div class="hud-left">
+      <div class="brand-box">
+        <div class="brand-title">
+          <span>이세란 교수 연구 지식 맵</span>
+          <span class="brand-tag">Obsidian Graph View</span>
+        </div>
+      </div>
+    </div>
+    <div class="hud-right">
+      <button class="btn-nav" id="btnToggleLabels">🏷️ 라벨: 호버 시 표시</button>
+      <a href="editorial.html" class="btn-nav" title="The Spark 주간 에디토리얼">
+        <span>⚡ The Spark</span>
+      </a>
+      <a href="index.html" class="btn-nav">
+        <span>← 서재 목록 보기</span>
+      </a>
+      <button class="btn-nav" id="themeToggleBtn">테마 전환</button>
+    </div>
+  </div>
+
+  <!-- Floating Button to Re-open Sidebar when collapsed -->
+  <button class="btn-open-sidebar" id="btnOpenSidebar" title="지식 성단 · 이론 탐색기 열기">
+    <span>🧭</span>
+    <span>성단 · 이론</span>
+    <span style="font-size:0.7rem; color:var(--text-muted);">▶</span>
+  </button>
+
+  <!-- Left Obsidian Tag Navigation Sidebar -->
+  <aside class="tag-sidebar" id="tagSidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">
+        <span>🧭</span>
+        <span>지식 성단 · 이론</span>
+        <span class="sidebar-badge" id="sidebarActiveCount">48편</span>
+      </div>
+      <div class="sidebar-controls">
+        <button class="btn-icon" id="btnCollapseSidebar" title="사이드바 접기">◀</button>
+      </div>
+    </div>
+
+    <!-- Quick Search -->
+    <div class="sidebar-search-box">
+      <span>🔍</span>
+      <input type="text" id="tagSearchInput" placeholder="성단 또는 이론 검색...">
+    </div>
+
+    <!-- Reset Filter Bar -->
+    <div class="sidebar-actions-bar">
+      <span id="activeFilterLabel" style="color:var(--text-muted); font-size:0.72rem; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:180px;">전체 서재 표시 중</span>
+      <button class="btn-reset-filter" id="btnResetTags">↺ 초기화</button>
+    </div>
+
+    <!-- Scrollable Tag Tree -->
+    <div class="sidebar-scroll-body" id="tagTreeContainer">
+      <!-- Dynamically generated tag groups -->
+    </div>
+  </aside>
+
+  <!-- Bottom Legend -->
+  <div class="hud-bottom-left" id="hudBottomLeft">
+    <div style="font-weight:700; color:var(--text); margin-bottom:2px;">네트워크 성단</div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:var(--color-cat); box-shadow:0 0 6px var(--color-cat);"></span>
+      <span>연구 카테고리 허브 (6개 성단)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:var(--color-theory); box-shadow:0 0 6px var(--color-theory);"></span>
+      <span>핵심 이론·개념 허브 (8개 교차점)</span>
+    </div>
+    <div class="legend-item">
+      <span class="legend-dot" style="background:var(--color-paper);"></span>
+      <span>보관 연구 논문 (48편)</span>
+    </div>
+  </div>
+
+  <!-- Bottom Zoom Controls -->
+  <div class="hud-bottom-right">
+    <button class="btn-circle" id="btnZoomIn" title="확대">+</button>
+    <button class="btn-circle" id="btnZoomOut" title="축소">−</button>
+    <button class="btn-circle" id="btnFit" title="화면 맞춤">⛶</button>
+    <button class="btn-circle" id="btnResetPhysics" title="물리 재배치">⟳</button>
+  </div>
+
+  <!-- Right Slide-out Inspector Drawer -->
+  <aside class="inspector-drawer" id="inspectorDrawer">
+    <div class="drawer-header">
+      <div>
+        <span class="tooltip-badge" id="drawerBadge">연구 논문</span>
+        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:4px;" id="drawerVenue"></div>
+      </div>
+      <button class="drawer-close" id="drawerCloseBtn">✕</button>
+    </div>
+    <div class="drawer-body">
+      <h2 class="drawer-title" id="drawerTitle"></h2>
+      <div class="drawer-meta" id="drawerMeta"></div>
+      <div class="drawer-tags-list" id="drawerTagsList"></div>
+
+      <div class="section-label">✦ 핵심 연구 브리프</div>
+      <div class="brief-box" id="drawerAiBox"></div>
+
+      <div class="section-label">원문 초록 (Abstract)</div>
+      <div class="drawer-abstract" id="drawerAbstract"></div>
+    </div>
+    <div class="drawer-footer">
+      <a id="drawerDoi" href="#" target="_blank" rel="noopener" class="btn-doi-go">저널 원문 ↗</a>
+    </div>
+  </aside>
+
+  <!-- Rich Hover Tooltip -->
+  <div class="graph-tooltip" id="graphTooltip"></div>
+
+  <script>
+    // 1. Data Ingestion
+    const RAW_PAPERS = [
+  {
+    "id": "z_P8FVNQPJ",
+    "zoteroKey": "P8FVNQPJ",
+    "isSavedInZotero": true,
+    "queryLabel": "취약노동/구조적제약",
+    "title": "PreWorkS : A Precarious Work Scale for the Cultural and Creative Industries",
+    "authors": "Achilleas Piliousis, Alexandros Baltzis",
+    "firstAffiliation": "Aristotle University of Thessaloniki",
+    "pubDate": "2026-10-15",
+    "venue": "Empirical Studies of the Arts",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/02762374261496214",
+    "abstract": "The current study proposes and validates the Precarious Work Scale (PreWorkS), a modular, theory-based instrument intended to encapsulate the multidimensional and idiosyncratic nature of precarious work within the cultural and creative industries (CCIs). PreWorkS was constructed through a systematic multi-step process, yielding 11 items across four dimensions: job instability, economic precarity, limited collective bargaining power, and lack of rights and protection. The scale was evaluated with a sample of 469 workers in CCIs, who were categorised into five professional categories. Confirmatory factor analysis corroborated the multidimensional structure, while the MIMIC-DIF analysis provided support for the scale's overall comparability across the five groups. Latent mean differences revealed significant structural inequalities within CCIs. Furthermore, the findings provide substantiated evidence for the construct validity of the instrument. Overall, PreWorkS emerges as a psychometrically robust instrument that is capable of capturing precarious working conditions in CCIs, whilst also highlighting the uneven distribution of precariousness.",
+    "aiPurpose": "문화 및 예술 산업(CCI)의 특수한 다차원적 불안정 노동 환경을 체계적으로 측정할 수 있는 이론 기반의 불안정 노동 척도(PreWorkS)를 개발하고 타당화하고자 하였습니다.",
+    "aiFindings": "체계적인 절차를 거쳐 직무 불안정성, 경제적 불안정성, 제한된 단체교섭력, 권리 및 보호 결여의 4개 차원(총 11개 문항)으로 구성된 척도를 개발하였으며, 문화예술 종사자 469명을 대상으로 확인적 요인분석 및 MIMIC-DIF 분석을 실시하여 심리측정적 타당도와 직종 간 구조적 불평등을 확인하였습니다.",
+    "aiImplications": "문화예술계 취약 노동자들의 복합적인 불안정성을 정밀하게 진단할 수 있는 타당한 측정 도구를 제공함으로써, 이들을 위한 진로상담 개입 및 노동 환경 개선 정책 수립에 유용한 기초자료를 제공합니다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_U52MU67E",
+    "zoteroKey": "U52MU67E",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Industrial-organizational science that matters: Social impact and policy implications in the Journal of Applied Psychology.",
+    "authors": "Wendy J. Casper, Stephanie Brooke Escudero, Lillian Turner de Tormes Eby, Tianjun Sun, Talya N. Bauer, Bryan Edwards, Allison S. Gabriel, Jia Jasmine Hu",
+    "firstAffiliation": "The University of Texas at Arlington",
+    "pubDate": "2026-10-01",
+    "venue": "Journal of Applied Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1037/apl0001425",
+    "abstract": "This introductory article to the special issue \"Social Impact Research\" examines the extent to which research published in the Journal of Applied Psychology has addressed pressing social issues related to work and employment.Using BERTopic modeling on 5,865 empirical articles published from the journal's inception in 1917 through June 2024, we identified 99 topics organized into 25 higher order themes, five of which directly reflect social impact: workplace stress, health, and well-being; workplace diversity, equity, and inclusion; organizational justice, ethics, and legal issues; work and employment transitions across the lifespan; and social justice and labor opinions.Trend analyses from 1980 to 2024 revealed growth in health and well-being research, relatively stable publication of diversity, equity, and inclusion scholarship, an inverted-U trajectory for justice and legal topics, and the disappearance of labor-related research.We then introduce the 19 special issue articles (appearing in the October and November 2026 issues) which address employment barriers facing marginalized and economically disadvantaged workers, medical benefits and leave policies, gender and women's employment, and macrolevel societal disruptions, each offering actionable implications related to work that can benefit the greater good.We conclude by proposing a future social impact research agenda that suggests industrial-organizational (I-O) psychologists conduct research that addresses key issues such as economic insecurity, immigrant and refugee workers, generative artificial intelligence, climate change, and political instability.",
+    "aiPurpose": "Journal of Applied Psychology에 게재된 지난 100여 년간의 논문을 분석하여 일과 고용에 관한 사회적 영향력 연구의 역사적 동향을 파악하고 취약 노동 계층을 위한 미래 연구 방향을 제시하고자 하였습니다.",
+    "aiFindings": "5,865편의 논문을 BERTopic 기법으로 분석한 결과, 건강·웰빙 연구는 지속적으로 증가했으나 노동 및 사회정의 관련 연구는 현저히 감소한 것으로 나타났으며, 향후 경제적 불안정, 소외 계층, 생성형 AI 등 거시적 사회 위기에 대응하는 심리학적 연구가 시급함을 확인하였습니다.",
+    "aiImplications": "일터 내 취약계층과 경제적 불평등 문제를 다루는 일터심리학(PWT) 및 진로상담 연구가 노동 정책과 사회적 공익에 기여할 수 있는 구체적인 연구 의제와 실천적 프레임워크를 제공합니다.",
+    "keywords": "work psychology, social impact of research, policy implications, research relevance",
+    "isCitation": false
+  },
+  {
+    "id": "z_ZHHUCWMV",
+    "zoteroKey": "ZHHUCWMV",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "How digital workplace conditions shape career adaptability: the mediating role of job satisfaction",
+    "authors": "Thùy Linh Nguyễn, Thi Trang Anh Ha, The-Ngan Ma, Lê Lan Phương, Manh Hung Pham",
+    "firstAffiliation": "VNU University of Economics and Business",
+    "pubDate": "2026-10-12",
+    "venue": "Journal of Organizational Effectiveness People and Performance",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1108/joepp-03-2026-0353",
+    "abstract": "Purpose Drawing on self-determination theory (SDT) and career construction theory (CCT), this study examines whether and how digital workplace conditions influence employees' career adaptability through job satisfaction in Vietnam's technology sector. Specifically, it proposes that employees' positive evaluative experience of digitally enabled work, reflected in job satisfaction, serves as the psychological mechanism through which digital workplace conditions translate into adaptive career resources that support effective functioning in digital work settings. Design/methodology/approach A quantitative cross-sectional survey was conducted with 312 employees working in technology firms in Hanoi, Vietnam. Data were analysed using partial least squares structural equation modelling (PLS-SEM) to assess measurement validity and to test the proposed direct and indirect relationships among the constructs. Findings The results reveal that digital work environment factors - namely technology readiness, digital leadership, organisational culture, and task–technology fit - have significant and positive effects on job satisfaction. Job satisfaction, in turn, significantly enhances employees' career adaptability. Moreover, the indirect effects of all four digital workplace conditions on career adaptability through job satisfaction are significant, thereby confirming the mediating role of job satisfaction and suggesting that supportive digital workplace conditions enhance career adaptability by fostering more positive evaluations of digitally enabled work. Practical implications The findings suggest that organisations should approach digital transformation not only as a technology implementation issue but also as a people-and-performance challenge. In practice, managers should prioritise improving task–technology fit and building a supportive digital culture, while strengthening employees' technology readiness and leaders' day-to-day digital support. Job satisfaction can also be used as an early diagnostic indicator of whether digital workplace conditions are enabling employee adjustment and career adaptability. Originality/value This study advances theory by conceptualising the digital workplace as an integrated socio-technical system shaping employees' career adaptability through people-related processes. By integrating SDT and CCT, it identifies job satisfaction as a key psychological mechanism linking digital workplace conditions to career adaptability. Empirical evidence from Vietnam's technology sector further extends existing knowledge beyond Western contexts and highlights the critical role of motivationally supportive digital work environments in developing employee adaptability relevant to organisational effectiveness.",
+    "aiPurpose": "자기결정성 이론과 진로구성주의 이론을 바탕으로 베트남 테크 기업 종사자의 디지털 업무 환경 요인이 직무만족을 매개로 진로적응성에 미치는 영향을 규명하고자 하였다.",
+    "aiFindings": "PLS-SEM 구조방정식 분석 결과, 기술 준비도, 디지털 리더십, 조직문화, 과업-기술 적합성의 4가지 디지털 업무 환경 요인은 모두 직무만족을 유의하게 향상시켰고, 직무만족은 진로적응성에 정적 영향을 미쳤다. 또한 4개 디지털 업무 환경 요인이 직무만족을 거쳐 진로적응성으로 이어지는 간접 매개효과가 모두 통계적으로 유의하게 검증되었다.",
+    "aiImplications": "디지털 전환 환경에서 근로자의 진로적응성을 촉진하기 위해서는 단순한 기술 도입을 넘어 직무만족을 증진하는 심리적·조직적 지지 자원을 통합적으로 지원해야 함을 시사한다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_ZJAFCMNQ",
+    "zoteroKey": "ZJAFCMNQ",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "From Hope to Subjective Well-Being: Examining the Career Construction Model of Adaptation Among Turkish Adolescents",
+    "authors": "Lidya Demirci, Kemal Öztemel",
+    "firstAffiliation": "Gazi University",
+    "pubDate": "2026-10-11",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261498057",
+    "abstract": "Adolescence is a crucial period for individuals to make decisions that will impact their future. In this sense, the Career Construction Model of Adaptation (CCMA) can shed light on a better understanding of career development during adolescence by providing a framework for how positive career outcomes are achieved. The purpose of this study is to test the CCMA by examining the relationships between hope, career adaptability, career construction behaviors, and subjective well-being as indicators of adaptive readiness, adaptability resources, adapting responses, and adaptation results, respectively, in Turkish adolescents. The study was conducted with 626 adolescents (364 female, 262 male). The results of structural equation modeling revealed positive relationships between the dimensions of the model, as well as a significant sequential relationship from hope to subjective well-being, mediated by career adaptability and career construction behaviors. The findings highlight the importance of hope and career-related factors for the well-being of adolescents.",
+    "aiPurpose": "본 연구는 터키 청소년을 대상으로 진로구성 적응 모델(CCMA) 프레임워크를 적용하여 희망, 진로적응성, 진로구성행동, 주관적 안녕감 간의 순차적 관계를 실증적으로 규명하는 것을 목적으로 한다.",
+    "aiFindings": "구조방정식 모델링(SEM) 분석 결과, 각 변인 간의 유의한 정적 관계가 확인되었으며, 희망이 진로적응성과 진로구성행동을 순차적으로 매개하여 주관적 안녕감에 긍정적인 영향을 미치는 경로가 유의하게 나타났다.",
+    "aiImplications": "청소년의 심리적 안녕감과 성공적인 진로 발달을 촉진하기 위해서는 단순 진로 지도를 넘어 심리적 자원인 희망과 진로적응성을 통합적으로 길러주는 구조화된 진로상담 개입이 필요함을 시사한다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_R8DHAAE9",
+    "zoteroKey": "R8DHAAE9",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "The association between generative AI acceptance and college students’ career preparation: the serial mediating role of AI trust and career confidence and the moderating role of intrinsic motivation",
+    "authors": "Juan Jiang, Shuang Liang, Jiachun Chen",
+    "firstAffiliation": "University of Electronic Science and Technology of China",
+    "pubDate": "2026-10-08",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1954368",
+    "abstract": "Against the backdrop that artificial intelligence (AI) is reshaping the labor market and occupational ecosystem, how college students build career preparation amid technological uncertainty has become a pressing question. Integrating the Unified Theory of Acceptance and Use of Technology (UTAUT) with Social Cognitive Career Theory (SCCT), this study constructs a research model in which AI acceptance is associated with career goal setting through AI trust and career confidence, and it examines the moderating role of intrinsic motivation. This study surveys undergraduate students in Chinese universities, obtaining 539 valid responses. The results show that (1) both performance expectancy and effort expectancy are positively associated with AI trust, with a stronger association for performance expectancy; (2) AI trust is positively associated with career confidence; (3) career confidence is positively associated with career goal setting; (4) AI trust and career confidence play a serial mediating role between performance expectancy, effort expectancy and career goal setting; (5) intrinsic motivation positively moderates the relationship between AI trust and career confidence, such that this association is stronger at higher levels of intrinsic motivation. These findings reveal how AI acceptance relates to college students’ career preparation and offer evidence for universities to implement AI literacy education and career counseling.",
+    "aiPurpose": "대학생의 생성형 AI 수용이 AI 신뢰와 진로 자신감을 거쳐 진로 목표 설정에 미치는 연속매개효과 및 내재적 동기의 조절효과를 검증하고자 하였습니다.",
+    "aiFindings": "대학생 539명을 분석한 결과, AI 수용 요인(성과기대 및 노력기대)은 AI 신뢰와 진로 자신감을 순차적으로 매개하여 진로 목표 설정과 정적 관계를 맺었으며, 내재적 동기는 AI 신뢰가 진로 자신감에 미치는 긍정적 영향을 유의하게 강화하는 것으로 나타났습니다.",
+    "aiImplications": "대학 진로상담 및 AI 리터러시 교육에서 기술 활용 능력 촉진뿐만 아니라 학생 개인의 내재적 동기를 고취하여 진로 확신과 목표 설정을 강화해야 함을 시사합니다.",
+    "keywords": "university students, career preparation, career goal setting, trust in AI",
+    "isCitation": false
+  },
+  {
+    "id": "z_IQEX4UC7",
+    "zoteroKey": "IQEX4UC7",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Choosing Psychology or Avoiding Mathematics: Integrating the Effects of Aligning and Diverging Interest Patterns on Study Choice",
+    "authors": "Stijn Schelfhout, Mona Bassleer, Wouter Duyck, Nicolas Dirix",
+    "firstAffiliation": "Ghent University",
+    "pubDate": "2026-10-09",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261490489",
+    "abstract": "A good person – environment (PE) interest fit between a student and a (major) study program improves study outcomes. Indeed, PE interest fit empowers study counseling, supporting students to achieve greater satisfaction and better performance in the chosen program. However, existing PE interest fit methods focus exclusively on aligning patterns with programs of interest, while overlooking how students diverge from programs that are less of interest. To update literature, the present study ( N = 14,175 students, n = 31 study programs) operationalizes and measures PE interest fit using logistic regression PE interest fit (LRIF). This LRIF represents both alignment to a specific program as well as divergence from other programs. Our results show that LRIF renders a stronger criterion validity regarding study choice compared to more established methods like profile correlation. In doing so, LRIF also yields upgraded incumbent E (environment) - profiles that represent both choosing a specific program as well as not choosing other programs. We consider that such an LRIF incumbent E − profile contributes to a stronger PE interest fit concept.",
+    "aiPurpose": "본 연구는 특정 전공에 대한 선호 일치뿐만 아니라 비선호 전공에 대한 이탈 패턴을 포괄하는 로지스틱 회귀 기반 개인-환경 흥미 부합도(LRIF)를 조작화하여 전공 선택 예측 타당도를 검증하고자 하였습니다.",
+    "aiFindings": "대규모 학생 표본(N = 14,175)을 분석한 결과, LRIF는 기존의 프로파일 상관 방식보다 전공 선택에 대해 더 강력한 준거타당도를 나타냈으며, 선택과 비선택을 동시에 반영하는 개선된 환경(E) 프로파일을 도출함을 확인하였습니다.",
+    "aiImplications": "진로상담 현장에서 내담자의 전공 및 직업 선택을 조력할 때, 지향하는 흥미 패턴뿐 아니라 회피하는 비선호 흥미 양상을 함께 통합 평가하는 것이 보다 정밀한 진로의사결정 개입을 가능하게 함을 시사합니다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_4EW7HSGX",
+    "zoteroKey": "4EW7HSGX",
+    "isSavedInZotero": true,
+    "queryLabel": "관심학자",
+    "title": "Qualitative examination of future decent work perceptions among Nigerian college students: A psychology of working perspective",
+    "authors": "Gabriel N. Ezema, Kelsey L. Autin, Chika D. Obiano, Alexander Ozoani, Preciousrose Ekeocha",
+    "firstAffiliation": "N/A",
+    "pubDate": "2026-10-01",
+    "venue": "Journal of Vocational Behavior",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1016/j.jvb.2026.104298",
+    "abstract": "초록 없음",
+    "aiPurpose": "초록 미제공",
+    "aiFindings": "초록 미제공",
+    "aiImplications": "제목 및 저널 정보 참조",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_X87VNZJI",
+    "zoteroKey": "X87VNZJI",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "What student workers need to thrive: a career resource needs assessment",
+    "authors": "Célia Sampaio, Ana Daniela Silva, Maria do Céu Taveira, Sílvia Monteiro, Leandro S. Almeida",
+    "firstAffiliation": "University of Minho",
+    "pubDate": "2026-10-07",
+    "venue": "Higher Education Skills and Work-based Learning",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1108/heswbl-02-2026-0127",
+    "abstract": "Purpose The expansion of higher education occurs through a greater diversification of incoming students, for example, older and workers students. This study aims to examine the career resources of working students and to identify possible distinct career resource profiles, in order to inform the design of a distance psychoeducational career intervention. Design/methodology/approach A sample of 237 working students completed a sociodemographic questionnaire and the Career Resources Questionnaire. Findings The results indicated high levels of career clarity and low institutional support among student-workers. Four distinct career resource profiles emerged among student-workers: balanced career resources, high identity resources with moderate remaining resources, low career resources, and high career resources, highlighting the need for differentiated career support practices in higher education. Originality/value Four distinct career resource profiles emerged, with clear implications for vocational psychology research and for the development of targeted career support practices in higher education.",
+    "aiPurpose": "근로학생들의 진로자원 수준을 파악하고 잠재프로파일분석을 통해 차별화된 진로자원 하위유형을 식별함으로써 원격 심리교육적 진로개입 설계를 위한 기초자료를 제공하고자 하였습니다.",
+    "aiFindings": "근로학생들은 높은 진로명료성을 보인 반면 제도적 지원은 낮게 인식하는 것으로 나타났으며, 잠재프로파일분석 결과 균형형, 정체성자원 우세형, 저자원형, 고자원형의 4가지 이질적인 진로자원 프로파일이 도출되었습니다.",
+    "aiImplications": "고등교육 현장에서 일과 학업을 병행하는 다양한 학생들의 진로자원 취약점을 고려하여 집단별 특성에 맞춘 차별화된 진로상담 및 원격 진로개입 프로그램을 개발할 필요가 있음을 시사합니다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_R43RDFQS",
+    "zoteroKey": "R43RDFQS",
+    "isSavedInZotero": true,
+    "queryLabel": "관심학자",
+    "title": "Longitudinal connections between decent education and decent work in a nationally representative sample",
+    "authors": "Junsang Park, Ryan D. Duffy, Anne Q. Zhou, Seungkee Lee",
+    "firstAffiliation": "University of Florida",
+    "pubDate": "2026-10-01",
+    "venue": "Applied Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1111/apps.70146",
+    "abstract": "Abstract Guided by Psychology of Working Theory (PWT), the current study examined the longitudinal relations between parental economic resources, decent education, and decent work attainment using a nationally representative sample of 7683 participants from the National Longitudinal Study of Adolescent to Adult Health (Add Health). Key constructs were operationalized using available indicators in the Add Health dataset, serving as close approximations of core PWT constructs. Multigroup structural equation modeling explored variations across racial and sex groups. Results indicated significant yet modest associations between economic resources, decent education, and decent work over time, with decent education serving as a partial indirect link between early economic resources and later work outcomes. Post hoc analyses indicated that individual components of decent education related to decent work primarily among non‐Hispanic White participants, with inconsistent associations in the other racial groups. These findings highlight how educational experiences may contribute to work attainment and point to the potential utility of an extended PWT framework for understanding education‐to‐work transitions. By combining a longitudinal design with nationally representative data and multigroup modeling, this study provides an empirical foundation for future research and applied efforts to promote equitable access to decent work across diverse populations.",
+    "aiPurpose": "일터심리학(PWT)을 확장하여 부모의 경제적 자원, 양질의 교육, 성인기 괜찮은 일자리 획득 간의 장기적 종단 관계 및 인종·성별에 따른 집단 간 경로 차이를 검증하고자 하였습니다.",
+    "aiFindings": "종단적 다집단 구조방정식 모형 분석 결과 양질의 교육은 초기 경제적 자원과 이후 괜찮은 일자리 획득 간을 부분 매개하는 것으로 나타났으나, 하위 요소의 긍정적 효과는 주로 비히스패닉 백인 집단에 국한되어 인종별 구조적 불평등이 확인되었습니다.",
+    "aiImplications": "소외계층 청년의 괜찮은 일자리 진입을 돕기 위해서는 단순히 보편적 교육 기회를 제공하는 것을 넘어 인종적·경제적 구조적 장벽을 해소하는 세밀한 진로 개입 및 정책적 지원이 필수적임을 시사합니다.",
+    "keywords": "N/A",
+    "isCitation": false
+  },
+  {
+    "id": "z_R5NEKBUC",
+    "zoteroKey": "R5NEKBUC",
+    "isSavedInZotero": true,
+    "queryLabel": "취약노동/구조적제약",
+    "title": "Understanding Early Academic Careers Through the Lens of Psychological Precarity: A Qualitative Longitudinal Study",
+    "authors": "Elaine L. Kinsella, Jennifer McMahon, Niamh Maria Cummins, Ann MacPhail",
+    "firstAffiliation": "University of Limerick",
+    "pubDate": "2026-09-01",
+    "venue": "Higher Education Quarterly",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1111/hequ.70168",
+    "abstract": "ABSTRACT For many early‐career academics (ECAs), unstable and short‐term contracts are a major contributor to employment precarity. However, even when job security improves, feelings of professional and personal insecurity often persist. This study uses psychological precarity as an analytical lens to examine how such insecurity is experienced and internalised, shaped not only by employment conditions but also by institutional culture, role ambiguity, and the search for professional legitimacy. A reflexive thematic analysis of longitudinal focus group data with 12 early career researchers over a 12‐month period in a higher education institution was conducted. Five themes were identified: (1) the persistence of psychological precarity beyond job security; (2) systemic drivers of precarity; (3) navigating the boundaries of an ill‐defined role and workload; (4) relational supports and complexities; and (5) the search for work‐related value and meaning. Rather than identifying new forms of insecurity, the findings demonstrate how employment insecurity, organisational ambiguity, identity, and relational dynamics interact to produce enduring experiences of psychological precarity. The study highlights the value of psychological precarity as an analytical lens for understanding early academic careers and offers institutional recommendations to reduce psychological burden, particularly within international higher education contexts.",
+    "aiPurpose": "본 연구는 초기 경력 학술 연구자들이 경험하고 내면화하는 심리적 불안정성의 다층적 양상과 그 형성 요인을 종단적으로 탐색하는 것을 목적으로 합니다.",
+    "aiFindings": "12개월간의 성찰적 주제분석 결과, 고용 안정성 개선 이후에도 심리적 불안정성이 지속되는 현상을 포함하여 구조적 동인, 모호한 역할 경계 탐색, 관계적 지지 및 긴장, 일의 가치와 의미 추구라는 5가지 핵심 주제가 도출되었습니다.",
+    "aiImplications": "불안정 노동 환경에 처한 초기 경력자의 진로 안녕을 돕기 위해서는 단순한 계약 형태 개선을 넘어 조직 차원의 명확한 역할 정의와 관계적 지지 체계를 구축하는 다차원적 진로상담 개입이 필요함을 시사합니다.",
+    "keywords": "early career academics, precarious employment, short-term contracts, role ambiguity",
+    "isCitation": false
+  },
+  {
+    "id": "z_NQGADFI9",
+    "zoteroKey": "NQGADFI9",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "Social psychology and life design meet product design: how to craft a purposeful path, creating roadmaps for meaningful career futures",
+    "authors": "E Camussi, Francesco Zurlo, Venanzio Arquilla, Maria Luisa Sbarra, Daria Meneghetti, Maria Cristina Ginevra, Sara Santilli, C Annovazzi",
+    "firstAffiliation": "University of Milano-Bicocca",
+    "pubDate": "2026-10-01",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1924139",
+    "abstract": "Young people are growing up in a complex and constantly changing world. Its continuous transformations pose significant challenges for the entire population but are particularly impactful for young adults. During the transition from tertiary education to the labor market, they often struggle to envision their future and to imagine their professional careers, so reducing their personal well-being. However, actively reflecting on the future enables individuals to explore multiple possibilities, define their goals, and anticipate as well as better manage upcoming challenges. For these reasons, a group of Social Psychologists of the University of Milano Bicocca and Designers of the Polytechnic University of Milano developed a university course entitled Life Design that was launched in the 2018/2019 academic year within the Integrated Product Design program at the School of Design of the Polytechnic of Milano. The present paper describes the Life Design course, outlining for each topic the corresponding theoretical framework, the specifically designed activities, and the expected outcomes in terms of awareness and skills development. The course is grounded in the most recent and well-established theoretical models in vocational guidance psychology, with particular reference to the literature of the Life Design Research Group. Its main purpose is to prepare future graduates to navigate contemporary complexity and ontological uncertainty. The course aims to equip students with both psycho-social theoretical frameworks and related practical tools based on the development of smart skills, enabling them to better understand the socio-economic context, analyze its dynamic characteristics, and effectively respond to its consequences.",
+    "aiPurpose": "불확실한 노동시장으로 이행하는 대학생들이 주체적으로 의미 있는 진로를 설계할 수 있도록 사회심리학의 생애설계(Life Design)와 제품 디자인을 융합한 대학 교육과정을 개발하고 그 체계를 소개하는 것이다.",
+    "aiFindings": "본 논문은 생애설계 연구그룹의 최신 직업지도 이론을 바탕으로 설계된 대학 코스의 주제별 이론 프레임워크와 활동, 기대 역량을 체계적으로 제시하였으며, 학생들이 복잡한 사회경제적 맥락을 이해하고 진로 유연성을 발휘하도록 돕는 교육적 개입 모델을 도출하였다.",
+    "aiImplications": "대학 진로상담 및 교양 교육 현장에서 생애설계(Life Design) 개입을 실무적 디자인 툴과 결합하여 청년층의 진로 불안을 완화하고 주도적인 진로 설계를 촉진하는 융합형 진로 개입 방안을 제안한다.",
+    "keywords": "life design, career development, career guidance, social psychology",
+    "isCitation": false
+  },
+  {
+    "id": "z_N8WJ842T",
+    "zoteroKey": "N8WJ842T",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "When work is meaningful but not always decent: Associations with burnout and turnover intention",
+    "authors": "Clément Chassaing-Monjou, Guillaume R. M. Déprez",
+    "firstAffiliation": "Université de Bordeaux",
+    "pubDate": "2026-10-01",
+    "venue": "Journal of Workplace Behavioral Health",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1080/15555240.2026.2741199",
+    "abstract": "The present study explores, through the lens of the Psychology of Working Theory and the Conservation of Resources Theory, decent work and meaningful work, and their differences in terms of burnout and turnover intention. Data were collected from a sample of 765 French workers and latent profile analysis was used. The results of analysis identified four distinct profiles, highlighting different combinations of decent work dimensions and meaningful work. Furthermore, a divergence in burnout and turnover intention has been identified among different profiles. The combination of decent and meaningful work was associated with lower levels of burnout and turnover intention. However, the sole experience of one of these variables has been found to rise the independent variables levels, while a lack of experience in both areas has been shown to have a detrimental effect on burnout and turnover intention. The findings of this study underscore the necessity to prioritize both working conditions and work experience in order to mitigate the prevalence of burnout and its associated turnover intention. The present study contributes to the Psychology of Working Theory by examining burnout as a correlate of mental health and provides practical implications for organizations aiming to enhance mental health for their workers.",
+    "aiPurpose": "일터심리학(PWT) 및 자원보존이론에 기반하여 괜찮은 일자리와 일의 의미의 상호 조합에 따른 잠재프로파일을 도출하고 집단 간 소진 및 이직의도의 차이를 밝히고자 하였다.",
+    "aiFindings": "프랑스 노동자 765명을 대상으로 잠재프로파일분석(LPA)을 실시하여 4개의 고유한 프로파일을 도출하였으며, 괜찮은 일자리와 일의 의미가 모두 충족될 때 소진과 이직의도가 가장 낮고 어느 한쪽만 경험하거나 둘 다 결여될 경우 부정적 심리 지표가 유의하게 높아짐을 확인하였다.",
+    "aiImplications": "노동자의 소진을 예방하고 조직 이탈을 방지하기 위해서는 주관적인 일의 의미감 부여뿐만 아니라 구조적 차원의 괜찮은 일자리 보장이 필수적으로 병행되어야 함을 시사한다.",
+    "keywords": "meaningful work, burnout, turnover intention, occupational stress",
+    "isCitation": false
+  },
+  {
+    "id": "z_WB6PPHTK",
+    "zoteroKey": "WB6PPHTK",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Beyond AI Adoption: Performance Expectancy, Status Loss, and Identity Threat at Work",
+    "authors": "Glauco Cioffi, Alena Mezentseva, Luca Pietrantoni, Marco De Angelis",
+    "firstAffiliation": "University of Bologna",
+    "pubDate": "2026-09-01",
+    "venue": "Computers in Human Behavior Reports",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1016/j.chbr.2026.101347",
+    "abstract": "Workplace artificial intelligence (AI) implementation is often evaluated through adoption and use, yet behavioural engagement may not capture whether employees experience AI as threatening to their professional identity. Integrating the Unified Theory of Acceptance and Use of Technology with identity-threat theory, this study examines whether AI performance expectancy, a core driver of technology adoption, is also associated with AI identity threat, and whether this association operates through perceived loss of status position. Survey data from 202 employed adults across multiple sectors, including both AI users and non-users, were analysed using structural equation modelling with latent variables. AI performance expectancy was positively associated with AI use and negatively associated with AI identity threat. This negative association was both direct and indirect through lower perceived loss of status position; a serial pathway through AI use and status loss was also significant. AI use was associated with lower perceived status loss but was not directly associated with lower AI identity threat. Organisational AI training was associated with higher performance expectancy and AI use, but not with status-loss or identity-threat appraisals. These findings suggest that performance expectancy may carry identity-relevant meaning beyond its conventional role as a utilitarian adoption belief. They also indicate that managing AI identity threat may require attention to how employees interpret AI’s implications for professional status and contribution, not only whether they use AI or receive training. Given the cross-sectional design, results should be interpreted as patterns of association rather than causal effects.",
+    "aiPurpose": "직장 내 AI 도입 환경에서 성과 기대감이 지위 상실 인식과 AI 활용도를 거쳐 직업 정체성 위협에 미치는 심리적 기제를 구조방정식 모형을 통해 검증하고자 하였습니다.",
+    "aiFindings": "구조방정식 모형 분석 결과, AI 성과 기대감은 정체성 위협을 직접적으로 낮출 뿐 아니라 지위 상실 인식을 완화함으로써 간접적으로도 정체성 위협을 감소시키는 것으로 나타났습니다. 반면 단순한 AI 활용이나 조직 차원의 AI 교육은 정체성 위협 평가를 직접적으로 완화하지 못했습니다.",
+    "aiImplications": "AI 도입 시 단순한 기술 활용 교육을 넘어 근로자가 자신의 전문적 지위와 기여 가치가 유지된다고 인식할 수 있도록 돕는 진로 및 직무 심리적 개입이 필수적임을 시사합니다.",
+    "keywords": "Expectancy theory, Identity (music), Association (psychology), Structural equation modeling",
+    "isCitation": false
+  },
+  {
+    "id": "z_VSSHUZTW",
+    "zoteroKey": "VSSHUZTW",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "Future time perspective and its association with employment anxiety among college students: a moderated mediation model based on career adaptability and career decision-making self-efficacy",
+    "authors": "Yang Yang, Li Jiazhu",
+    "firstAffiliation": "Xinyang Normal University",
+    "pubDate": "2026-09-17",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1892183",
+    "abstract": "Background Employment anxiety among college students has become increasingly prominent under intensified employment pressure. This study examined the associations among future time perspective, career adaptability, employment anxiety, and career decision-making self-efficacy, drawing on Social Cognitive Career Theory and Career Construction Theory. Methods A survey was conducted with 1,100 Chinese college students using standardized measures. Partial least squares structural equation modeling was used to analyze the associations among future time perspective, career adaptability, employment anxiety, and career decision-making self-efficacy. Results Future time perspective was negatively associated with employment anxiety and positively associated with career adaptability. Career adaptability was negatively associated with employment anxiety and was involved in the association between future time perspective and employment anxiety. Career decision-making self-efficacy moderated the associations of future time perspective and career adaptability with employment anxiety, with a numerically larger interaction coefficient observed for the association between career adaptability and employment anxiety. The negative indirect association between future time perspective and employment anxiety through career adaptability was more pronounced at higher levels of career decision-making self-efficacy. Multi-group analysis showed that the negative association between career adaptability and employment anxiety was more pronounced among female students. Conclusion The findings clarify the associations among future time perspective, career adaptability, career decision-making self-efficacy, and employment anxiety among Chinese college students. These results may provide evidence for university career counseling and psychological support practices.",
+    "aiPurpose": "This study examined the associations among future time perspective, career adaptability, employment anxiety, and career decision-making self-efficacy among college students.",
+    "aiFindings": "Future time perspective was negatively associated with employment anxiety and positively with career adaptability, with career adaptability mediating this relationship. Career decision-making self-efficacy moderated these associations, and the negative link between career adaptability and employment anxiety was more pronounced for female students.",
+    "aiImplications": "The findings provide evidence for university career counseling and psychological support practices aimed at mitigating employment anxiety among college students.",
+    "keywords": "Association (psychology), Adaptability, Perspective (graphical), Anxiety",
+    "isCitation": false
+  },
+  {
+    "id": "z_QQKTHCPC",
+    "zoteroKey": "QQKTHCPC",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "LLM-Assisted Counseling for Career Adaptability and Psychological Well-Being: A Longitudinal Study among Unemployed Adults in China",
+    "authors": "GENLIANG ZHANG, YIFAN QIAN, Kexin Guan",
+    "firstAffiliation": "Liaoning University",
+    "pubDate": "2026-09-15",
+    "venue": "Journal of Technology in Behavioral Science",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1007/s41347-026-00718-z",
+    "abstract": "초록 없음",
+    "aiPurpose": "초록 미제공",
+    "aiFindings": "초록 미제공",
+    "aiImplications": "제목 및 저널 정보 참조",
+    "keywords": "Adaptability, Anxiety, Longitudinal study, Unemployment",
+    "isCitation": false
+  },
+  {
+    "id": "z_9DUFPAJ3",
+    "zoteroKey": "9DUFPAJ3",
+    "isSavedInZotero": true,
+    "queryLabel": "취약노동/구조적제약",
+    "title": "The Precariat Scale (PRESC): a psychometric tool for assessing precarity across mental, occupational, and sociocultural dimensions",
+    "authors": "Ahmet Keser, MÜJGAN ŞAHİN, Yunus Gökmen",
+    "firstAffiliation": "Hasan Kalyoncu University",
+    "pubDate": "2026-09-01",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1808999",
+    "abstract": "Introduction The precariat is an emerging global demographic comprising unemployed, underemployed, and temporarily employed individuals facing severe socio-economic instability. Despite growing theoretical attention, there is a lack of comprehensive empirical measurement tools. This study addresses this gap by developing and validating the Precariat Scale (PRESC)—a multidimensional instrument designed to assess precarious conditions across three core dimensions: Sociocultural-Economic (SCE), Job Insecurity, Uncertainty and Flexible Working (JIUFW), and Mental Condition (MC). Methods Following a rigorous six-stage scale development protocol, data were collected from 421 participants. Psychometric analyses were conducted on a final sample of 394 participants to evaluate the construct validity, factor structure, and reliability of the scale using polychoric correlation matrices. Results Psychometric evaluations supported a robust, stable three-factor model corresponding to the hypothesized dimensions (SCE, JIUFW, and MC). The scale demonstrated strong internal consistency, construct validity, and overall psychometric reliability. Discussion The PRESC provides a pioneering, empirically validated framework for operationalizing and measuring the multidimensional realities of the precariat. This tool enables researchers and policymakers to quantitatively assess precariousness and investigate its wider socio-economic and psychological implications.",
+    "aiPurpose": "이 연구는 사회문화경제적, 직업 불안정성/불확실성/유연근무, 정신 건강 차원에서 불안정한 조건을 평가하는 다차원 도구인 프레카리아트 척도(PRESC)를 개발하고 타당화하는 것을 목적으로 합니다.",
+    "aiFindings": "심리측정 평가는 PRESC가 가설화된 세 가지 차원(사회문화경제적, 직업 불안정성/불확실성/유연근무, 정신 건강)에 해당하는 견고하고 안정적인 3요인 모델을 지지하며, 강력한 내적 일관성, 구성 타당도 및 전반적인 심리측정 신뢰도를 입증했습니다.",
+    "aiImplications": "이 타당화된 척도는 상담 및 직업 심리학자들이 내담자의 불안정성을 정량적으로 평가하여 직업 불안정성과 관련된 정신 건강 문제에 대한 개입을 알리고, 불안정한 노동의 심리적 영향에 대한 후속 연구를 안내하는 데 활용될 수 있습니다.",
+    "keywords": "Scale (ratio), Operationalization, Construct (python library), Sample (material)",
+    "isCitation": false
+  },
+  {
+    "id": "z_JAA845HZ",
+    "zoteroKey": "JAA845HZ",
+    "isSavedInZotero": true,
+    "queryLabel": "직업심리학",
+    "title": "Profiles of work need satisfaction in Korean workers: cultural patterns and associations with antecedents and outcomes",
+    "authors": "Jihye Kim, Seran Lee",
+    "firstAffiliation": "",
+    "pubDate": "2026-09-01",
+    "venue": "Current Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1007/s12144-026-09934-5",
+    "abstract": "",
+    "aiPurpose": "",
+    "aiFindings": "",
+    "aiImplications": "",
+    "keywords": "인용알림",
+    "isCitation": false
+  },
+  {
+    "id": "z_4JH42C3C",
+    "zoteroKey": "4JH42C3C",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Latent Profiles of Belonging and Support Among First-Generation College Students: Associations With Career Development",
+    "authors": "Yangyang Liu, Byeolbee Um",
+    "firstAffiliation": "California State University, Fresno",
+    "pubDate": "2026-09-10",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261488320",
+    "abstract": "This study used a person-centered approach to examine the patterns of belonging and support in first-generation college students (FGCSs). Using latent profile analysis with a sample of 361 FGCSs, we identified six distinct profiles based on three indicators, namely sense of belonging on campus, on-campus mentoring support, and family support, reflecting the social-emotional experiences guided by the critical cultural wealth model (Garriott, 2020). The six profiles were (1) Thriving ( n = 24; 6.6%), (2) High Support ( n = 149; 41.3%), (3) Moderate Support ( n = 117; 32.4%), (4) Campus-Anchored ( n = 17; 4.7%), (5) Family-Anchored ( n = 34; 9.4%), and (6) Low Support ( n = 20; 5.5%). Significant differences were observed across profiles in career self-efficacy and career engagement. In addition, profiles differed in meaningful involvement in on-campus extracurricular activities. Implications for counselors, educators, and institutional leaders are discussed.",
+    "aiPurpose": "이 연구는 일세대 대학생들(FGCSs)의 소속감과 지지 패턴을 분석하고, 이것이 진로 발달과 어떤 관련이 있는지 알아보고자 하였다.",
+    "aiFindings": "연구는 일세대 대학생의 소속감과 지지 패턴에 따라 6가지 유형을 확인했으며, 이 유형들은 진로 자기효능감, 진로 참여도 및 교내 활동 참여도에서 유의미한 차이를 보였다.",
+    "aiImplications": "이 연구 결과는 상담사와 교육자들에게 일세대 대학생의 진로 발달을 촉진하기 위해 소속감과 지지 패턴을 고려한 맞춤형 개입의 ���요성을 시사한다.",
+    "keywords": "Thriving, Career development, Latent class model, Sample (material)",
+    "isCitation": false
+  },
+  {
+    "id": "z_DSBHKKCJ",
+    "zoteroKey": "DSBHKKCJ",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Unveiling dark preferences: A meta-analytic examination of the Dark Triad and vocational interests",
+    "authors": "Tyler N.A. Fezzey, Peter D. Harms, Marcus Credé, Nicholas R. Lowery",
+    "firstAffiliation": "N/A",
+    "pubDate": "2026-09-01",
+    "venue": "Journal of Vocational Behavior",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1016/j.jvb.2026.104294",
+    "abstract": "초록 없음",
+    "aiPurpose": "초록 미제공",
+    "aiFindings": "초록 미제공",
+    "aiImplications": "제목 및 저널 정보 참조",
+    "keywords": "Dark triad, Vocational education, Triad (sociology), Career counseling",
+    "isCitation": false
+  },
+  {
+    "id": "z_VVX45BWS",
+    "zoteroKey": "VVX45BWS",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Enhancing political ambition in women: A field intervention targeting political self-efficacy and perceived barriers",
+    "authors": "Aleksandra Luksyte, Winny Shen, James W. Beck",
+    "firstAffiliation": "The University of Western Australia",
+    "pubDate": "2026-09-01",
+    "venue": "Journal of Vocational Behavior",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1016/j.jvb.2026.104283",
+    "abstract": "초록 없음",
+    "aiPurpose": "초록 미제공",
+    "aiFindings": "초록 미제공",
+    "aiImplications": "제목 및 저널 정보 참조",
+    "keywords": "Politics, Intervention (counseling), Government (linguistics), Perception",
+    "isCitation": false
+  },
+  {
+    "id": "z_M7W2VXBN",
+    "zoteroKey": "M7W2VXBN",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Exploring Protean Career Attitudes and Career Success in U.S. Women",
+    "authors": "Joanna F. Norman, Kim Nimon",
+    "firstAffiliation": "Winthrop University",
+    "pubDate": "2026-09-04",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261485957",
+    "abstract": "Research on protean careers and career success has generally used unidimensional measures of career satisfaction, which ignore the complex ways individuals conceptualize career success. This study explored the multivariate relationship between the dimensions of protean career ( self-directed and values-driven ) and the dimensions of career success ( recognition , quality work , meaningful work , influence , authenticity , personal life , growth & development , and satisfaction ). A time-separated survey was used to collect data from a sample of U.S. women ( n = 377), and canonical correlation analysis was employed. Authenticity was removed due to lack of discriminant validity. The results revealed a statistically significant multivariate relationship between the protean career and career success dimensions, indicating which career success dimensions are most salient to each protean dimension. Overall, growth and development had the strongest shared variance, and recognition the weakest. For self-directed, growth and development and satisfaction had the strongest shared variance, whereas personal life was the strongest for values-driven. These findings demonstrate that the two protean dimensions are distinct and differentially related to specific domains of career success, providing support for use of multidimensional measures. Collapsing protean career or career success into a higher-order factor masks the distinct and meaningful relationships revealed when separately examining each dimension.",
+    "aiPurpose": "이 연구는 미국의 여성들을 대상으로 자기 주도성 및 가치 지향성 등 프로티언 경력 태도 차원과 인정, 질 높은 업무, 의미 있는 일, 영향력, 진정성, 개인 생활, 성장 및 발전, 만족 등 경력 성공 차원 간의 다변량 관계를 탐색하는 것을 목적으로 합니다.",
+    "aiFindings": "프로티언 경력 태도 차원과 경력 성공 차원 간에 통계적으로 유의미한 다변량 관계가 나타났으며, 전반적으로 성장 및 발전이 가장 강한 공유 분산을 보였습니다. 특히 자기 주도성은 성장 및 발전과 만족에, 가치 지향성은 개인 생활에 가장 강하게 관련되어 있었습니다.",
+    "aiImplications": "이 연구 결과는 진로상담 현장에서 개인의 프로티언 경력 태도에 따라 다차원적인 경력 성공 개념을 고려한 개입의 필요성을 시사하며, 관련 개념 측정 시 다차원적 접근의 중요성을 강조합니다.",
+    "keywords": "Career development, Sample (material), Multivariate analysis, Multivariate statistics",
+    "isCitation": false
+  },
+  {
+    "id": "z_XBSSMQ2D",
+    "zoteroKey": "XBSSMQ2D",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "AI driven adaptive gamification for sustainable workforce development in corporate training",
+    "authors": "Ratna Udgaonkar, Rajesh Vaidya, Ruby Chanda",
+    "firstAffiliation": "Symbiosis International University",
+    "pubDate": "2026-09-04",
+    "venue": "Discover Sustainability",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1007/s43621-026-04554-2",
+    "abstract": "In today’s competitive world, gamification has been widely used to enhance engagement in corporate training. However, gamification often relies on fixed rewards and static challenges, which generate only short-term engagement and fail to sustain intrinsic motivation. This paper explores how AI-driven adaptive gamification address the limitations by personalizing learning experiences through real-time feedback and dynamic challenge adjustment. As per existing literature, this study proposes a theoretically grounded conceptual framework for AI-driven adaptivity in corporate training. It explains how AI-driven gamification enhance autonomy, competence and relatedness. It also considers how AI-driven gamification enhance autonomy, competence and relatedness. It also considers how adaptive mechanisms help optimal skill–challenge balance, drawing on Self-Determination Theory (SDT) and Flow Theory. The proposed framework conceptualises sustainable employee development through ongoing, adaptive, and personalized learning pathways, enabling continuous learning, long-term engagement, and adaptive skill enhancement. The proposed framework has the potential to support organisational initiatives aligned with global sustainability priorities by aligning AI-driven adaptive gamification with the United Nations Sustainable Development Goals, especially SDG 4 (Quality Education) and SDG 8 (Decent Work and Economic Growth), by promoting long- term learning and workforce resilience in corporate environments.",
+    "aiPurpose": "이 논문은 AI 기반 적응형 게임화가 실시간 피드백과 동적 도전 과제 조정을 통해 학습 경험을 개인화하여 기업 교육에서 지속 가능한 인력 개발을 어떻게 지원할 수 있는지 개념적 프레임워크를 제안하는 것을 목적으로 한다.",
+    "aiFindings": "이 연구는 AI 기반 적응형 게임화가 자기결정성 이론 및 몰입 이론에 기반하여 자율성, 유능감, 관계성을 향상시키고 최적의 기술-도전 균형을 유지함으로써 지속적인 학습, 장기적 참여 및 적응적 기술 향상을 통해 지속 가능한 직원 개발을 가능하게 하는 개념적 프레임워크를 제시한다.",
+    "aiImplications": "이 프레임워크는 직업 상담 현장에서 기업 교육 프로그램을 설계하거나 평가할 때 직원들의 동기 부여 및 역량 개발을 위한 AI 기반 솔루션을 적용하는 데 유용한 지침을 제공하며, 관련 후속 연구의 기반이 될 수 있다.",
+    "keywords": "Competence (human resources), Workforce, Sustainability, Adaptive learning",
+    "isCitation": false
+  },
+  {
+    "id": "z_S3PRTT79",
+    "zoteroKey": "S3PRTT79",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Adolescents’ Career Adaptability and Their Perceived Collective Contributions to Career Efficacy Over Time: A Network Analysis",
+    "authors": "Yue Zhao, Hongjian Cao, Hui Xu, Nan Zhou",
+    "firstAffiliation": "University of Macau",
+    "pubDate": "2026-08-31",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261485959",
+    "abstract": "Although career adaptability is well-established as pivot to adolescent career development, the network interconnections among its dimensions remain unexamined. Moreover, while collective contributions to career efficacy (CCCE) from different significant others have been viewed as key contributors to adolescent career adaptability, such associations have been rarely approached from a network perspective, leaving potential differential specificity in such links under-detected. To narrow these gaps, this study employed network analysis to investigate the interconnections among career adaptability dimensions and their associations with CCCE from different sources over time. Three-annual-wave longitudinal data were collected from 1,952 Chinese adolescents (15.54 ± 0.54; 43.9% males) across their senior high school years. Results indicated that curiosity and confidence consistently served core functions in the career adaptability network over time. CCCE from parents and teachers exhibited stronger connections with career confidence than CCCE from peers, while peers’ CCCE was closely related to career curiosity. The findings highlight the importance of cultivating adolescents’ career curiosity and confidence to improve career adaptability. The differential specificity in the links between different sources of CCCE and career adaptability dimensions offers insights for designing interventions in family and school settings that are aimed at promoting adolescents’ career adaptability.",
+    "aiPurpose": "이 연구는 네트워크 분석을 활용하여 청소년의 진로 적응성 차원 간 상호 연결성 및 다양한 출처로부터의 집단적 진로 효능감 기여도와의 연관성을 시간에 따라 탐색하는 것을 목적으로 한다.",
+    "aiFindings": "연구 결과, 호기심과 자신감이 시간 경과에 따라 진로 적응성 네트워크의 핵심 기능을 수행했으며, 부모와 교사의 집단적 진로 효능감은 진로 자신감과 더 강한 연관성을 보인 반면, 또래의 집단적 진로 효능감은 진로 호기심과 밀접하게 관련되어 있었다.",
+    "aiImplications": "이 연구는 청소년의 진로 호기심과 자신감을 함양하는 것이 중요하며, 가족 및 학교 환경에서 청소년의 진로 적응성을 증진하기 위한 개입을 설계하는 데 실질적인 통찰을 제공한다.",
+    "keywords": "Adaptability, Curiosity, Career development, Psychological intervention",
+    "isCitation": false
+  },
+  {
+    "id": "z_XPKQBF5W",
+    "zoteroKey": "XPKQBF5W",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Internalized racism and mental health among Asian Americans: A subgroup meta-analysis.",
+    "authors": "Drexler James, Jacqueline Yi",
+    "firstAffiliation": "University of Minnesota",
+    "pubDate": "2026-08-20",
+    "venue": "Journal of Counseling Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1037/cou0000902",
+    "abstract": "#ERROR!",
+    "aiPurpose": "This meta-analysis investigated the association between internalized racism and mental health among Asian Americans, exploring various moderating factors.",
+    "aiFindings": "Internalized racism (IR) negatively impacts the psychological well-being of Asian Americans, with stronger associations observed when IR is group-directed and manifested as self-hatred or perceived ethnoracial inferiority.",
+    "aiImplications": "The findings underscore the need for culturally specific research to clarify causal mechanisms of internalized racism and to inform effective clinical interventions for Asian Americans.",
+    "keywords": "Mental health, Racism, Ethnic group, Human Females",
+    "isCitation": false
+  },
+  {
+    "id": "z_ANWVT3NA",
+    "zoteroKey": "ANWVT3NA",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Contextual Factors Impacting Different Stages of Voluntary Occupational Change: The Case of Turkey",
+    "authors": "Duygu Biricik Gulseren, Gamze Arman, Ayse Nur Asyali, Soner Cem Gür, Ayça Aksu, Buse Baylar",
+    "firstAffiliation": "York University",
+    "pubDate": "2026-08-04",
+    "venue": "The Career Development Quarterly",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1002/cdq.70035",
+    "abstract": "ABSTRACT Occupational change has become increasingly common in recent decades. However, we know little about how contextual factors shape the voluntary occupational change process. By integrating the Careers in Context Framework (Mayrhofer et al. 2007) and the Transtheoretical Model of Career Change (Barclay et al. 2011), this study examines how contextual factors shape the voluntary occupational change process across different stages. Using the framework analysis based on the qualitative data collected from 22 occupational changers from Turkey, findings showed that context of origin, particularly family, perceived judgments, and social relationships, was influential in the precontemplation/contemplation and preparation/action stages; context of work (work characteristics, fit to work) was influential in precontemplation/contemplation, preparation/action, and maintenance stages; and context of society and culture emerged only in the maintenance stage. Combining the contextual and process theories of careers, this study sheds light on how various levels of context play a role in each stage of the occupational change process.",
+    "aiPurpose": "본 연구는 다양한 맥락적 요인들이 자발적 직업 변화 과정의 여러 단계에 어떻게 영향을 미치는지 탐색하고자 했습니다.",
+    "aiFindings": "가족, 인지된 판단, 사회적 관계와 같은 원천 맥락은 준비이전/준비 및 준비/행동 단계에, 직업 특성과 적합성과 같은 직무 맥락은 모든 단계에 영향을 미쳤으며, 사회문화적 맥락은 유지 단계에서만 나타났습니다.",
+    "aiImplications": "본 연구는 직업 변화 과정의 각 단계에서 다양한 수준의 맥락이 어떻게 작용하는지에 대한 이해를 높여 진로 상담 및 후속 연구에 중요한 시사점을 제공합니다.",
+    "keywords": "Transtheoretical model, Context (archaeology), Process (computing), Turnover",
+    "isCitation": false
+  },
+  {
+    "id": "z_V32U4PC3",
+    "zoteroKey": "V32U4PC3",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Exploring Different Types of Career Anxiety Among Young Adults: A Latent Profile Analysis",
+    "authors": "Alaattin Ciminli, Burak Aydın",
+    "firstAffiliation": "Erzincan Binali Yıldırım University",
+    "pubDate": "2026-07-30",
+    "venue": "The Career Development Quarterly",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1002/cdq.70036",
+    "abstract": "ABSTRACT This study aimed to identify distinct latent profiles of career anxiety among young adults and to examine the predictors of membership in these profiles by relating them to various factors, including academic unit and year of study. The data were collected from a sample of 509 young adults enrolled at universities in Türkiye, comprising 409 females (80.4%) and 100 males (19.6%). The instruments used for data collection included a personal information form, Career Anxiety Scale, Hope Scale, Perceived Social Support Scale, Perfectionism Scale, and the Coping Self‐Efficacy Scale. Latent profile analysis (LPA) was employed to identify latent profiles, while multinomial logistic regression (R3STEP) analysis was conducted to examine the relationships between latent profile membership and sociodemographic variables. The results of the LPA revealed three distinct latent profiles: high anxiety and vulnerable (Profile 1), low anxiety and high psychosocial strength (Profile 2), and moderate group (Profile 3). The findings indicated that when Profile 1 was used as the reference group, academic unit type and class level did not significantly predict membership in Profile 2. However, vocational school status significantly predicted membership in Profile 3. When Profile 2 was used as the reference group, it was observed that both vocational school students and fourth‐year students were significantly less likely to be members of Profile 3.",
+    "aiPurpose": "이 연구는 젊은 성인의 진로 불안 유형을 식별하고, 각 유형에 속할 가능성을 예측하는 요인을 탐색하는 것을 목적으로 합니다.",
+    "aiFindings": "젊은 성인의 진로 불안은 '높은 불안 및 취약', '낮은 불안 및 높은 심리사회적 강점', '중간 수준'의 세 가지 잠재 프로파일로 구분되었으며, 직업학교 소속 여부와 4학년이라는 학년 요인이 특정 불안 프로파일에 속할 가능성을 유의미하게 예측했습니다.",
+    "aiImplications": "이 연구는 진로 상담 현장에서 내담자의 진로 불안 유형을 파악하고, 특히 직업학교 소속 학���이나 4학년 학생과 같은 특정 집단의 특성을 고려한 맞춤형 진로 상담 전략을 개발하는 데 실질적인 도움을 줄 수 있습니다.",
+    "keywords": "Latent class model, Anxiety, Psychosocial, Coping (psychology)",
+    "isCitation": false
+  },
+  {
+    "id": "z_3E438SVZ",
+    "zoteroKey": "3E438SVZ",
+    "isSavedInZotero": true,
+    "queryLabel": "AI·디지털진로",
+    "title": "From Digital Competencies to Job Market Readiness: The Mediating Role of Employability Competencies and the Moderating Role of Labor Market Dynamism",
+    "authors": "Sami Mohammed Alhaderi",
+    "firstAffiliation": "",
+    "pubDate": "2026-07-29",
+    "venue": "Sustainability",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3390/su18157689",
+    "abstract": "Rapid technological changes and evolving labor market demands have increased the importance of identifying the competencies required for successful workforce participation. This study examines how digital competencies (DC) contribute to job market readiness (JMR) among university students and recent graduates in Saudi Arabia by investigating the mediating role of employability competencies (EC) and the moderating role of labor market dynamism (LMD). Drawing on Human Capital Theory and Career Construction Theory, the study develops an integrated framework explaining how individual competencies and labor market conditions jointly shape workforce preparedness. Data were collected using a stratified random sampling approach from 400 participants (248 final-year university students and 152 recent graduates) recruited from universities in Riyadh, Jeddah, Dammam, Medina, and Yanbu using a structured questionnaire. The hypotheses were tested using regression analysis and Hayes’ PROCESS macro, while confirmatory factor analysis was conducted using AMOS 27. The results indicate that DC positively influences both EC and JMR. EC also positively affected JMR and partially mediated the relationship between DC and JMR. Furthermore, LMD significantly strengthened the positive effect of DC on JMR, suggesting that digital competencies are becoming increasingly valuable in dynamic employment environments. This study contributes to the workforce preparedness literature by providing a more comprehensive explanation of how digital competencies are associated with job market readiness through employability competencies and identifying labor market dynamism as a contextual condition associated with the strength of this relationship. The findings offer implications for universities, policymakers, and students seeking to enhance employability outcomes and align workforce development initiatives with Saudi Arabia’s Vision 2030.",
+    "aiPurpose": "",
+    "aiFindings": "",
+    "aiImplications": "",
+    "keywords": "AI×상담",
+    "isCitation": false
+  },
+  {
+    "id": "z_GB4HVX7H",
+    "zoteroKey": "GB4HVX7H",
+    "isSavedInZotero": true,
+    "queryLabel": "관심학자",
+    "title": "Examining the Effects of Different Forms of Marginalization on Women’s Work Experiences Across Time",
+    "authors": "Haram J. Kim, Anne Zhou, Ryan D. Duffy, Yeonwoo Choi, Brittany Bridges, Matthew Steranka",
+    "firstAffiliation": "Texas Tech University",
+    "pubDate": "2026-07-29",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261473592",
+    "abstract": "In the current study, we examined the relations between three forms of marginalization and women’s work-related experiences. A sample of employed women ( N = 648) were surveyed at three time points over a two-month period. Drawing from Psychology of Working Theory (PWT) and Minority Stress Theory (MST), we assessed participants’ experiences of (a) marginalization across their lifetimes as women, (b) sexism in the workplace, and (c) a non-supportive workplace climate for women at Time 1. We used structural equation modeling to examine how these marginalization experiences were linked to Time 2 negative emotions in the workplace (fear and emotional distress) and burnout and Time 3 withdrawal intentions. Results indicated that experiencing a negative workplace climate was the most robust predictor variable, directly predicting withdrawal intentions and indirectly predicting withdrawal intentions via emotional distress. However, although effect sizes were smaller, lifetime experiences of marginalization also predicted distress, fear, and burnout and indirectly predicted withdrawal intentions via emotional distress. The results of this study lend support for using both an MST and PWT lens to understand how marginalization affects women’s workplace experiences. Implications for practice and future research are discussed.",
+    "aiPurpose": "이 연구는 여성들이 경험하는 다양한 형태의 소외 경험(평생의 소외, 직장 내 성차별, 비협조적인 직�� 분위기)이 직장 내 부정적 감정, 번아웃, 이직 의도에 미치는 영향을 시간 흐름에 따라 탐색했습니다.",
+    "aiFindings": "연구 결과, 여성에게 비협조적인 직장 분위기가 이직 의도를 직접적으로 그리고 정서적 고통을 통해 간접적으로 가장 강력하게 예측하는 변수임이 밝혀졌습니다. 또한, 평생에 걸친 소외 경험 역시 정서적 고통, 두려움, 번아웃을 예측하고 이를 통해 이직 의도에도 영향을 미쳤습니다.",
+    "aiImplications": "직장 스트레스나 번아웃, 이직 의도를 겪는 여성 내담자를 상담할 때, 비협조적인 직장 분위기뿐만 아니라 평생에 걸친 소외 경험이 현재 어려움에 미치는 영향을 심층적으로 탐색하고 이를 바탕으로 한 개입이 필요합니다.",
+    "keywords": "Burnout, Structural equation modeling, Emotional exhaustion, Occupational stress",
+    "isCitation": false
+  },
+  {
+    "id": "z_VB5W67TP",
+    "zoteroKey": "VB5W67TP",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "“The World We Want… Let’s All ‘Work’ Together!”: A Career Education Program for Primary Schools",
+    "authors": "Isabella Valbusa, Sara Santilli, Laura Nota, Carlo Bortolami, Maria Cristina Ginevra",
+    "firstAffiliation": "University of Lausanne",
+    "pubDate": "2026-07-26",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261471221",
+    "abstract": "The study developed and initially assessed the efficacy of a career education program for primary school children. The program stimulates children to reflect on the current context, threats related to environmental risks, and the presence of discrimination in work contexts. It also aimed at analyzing the concept of decent work, the rights of workers, and their contribution to the construction of an inclusive, sustainable, and socially just society. 10 classes (167 children, with a mean age of 9.96 years) were randomly assigned to an experimental group or a control group. The analyses conducted found that the career education program promoted children’s critical consciousness of global social and environmental issues, a coherent understanding of work and decent work from an inclusive and sustainable perspective. The career education program also enhanced actual and perceived occupational knowledge, career exploration, and individual and social hope. The theoretical and practical implications are discussed.",
+    "aiPurpose": "초등학생을 대상으로 환경 위험 및 직업 내 차별에 대한 비판적 의식을 높이고 괜찮은 일(Decent Work)의 개념 및 노동자의 권리를 교육하여 포용적이고 지속가능한 사회 건설에 기여하도록 돕는 진로 교육 프로그램을 개발하고 그 효과를 평가하는 것이 목적이다.",
+    "aiFindings": "이 진로 교육 프로그램은 아동의 세계적인 사회 및 환경 문제에 대한 비판적 의식을 증진시키고, 포용적이고 지속가능한 관점에서 일과 괜찮은 일(Decent Work)에 대한 이해를 높였다. 또한, 직업 지식, 진로 탐색 능력, 개인적 및 사회적 희망을 향상시키는 데 기여했다.",
+    "aiImplications": "본 연구는 PWT(Psychology of Working Theory)에서 강조하는 괜찮은 일(Decent Work)과 비판적 의식을 아동기부터 함양하는 진로 교육의 중요성을 보여주며, 진로심리학이 단순히 직업 선택을 넘어 사회 정의와 지속가능성을 지향하는 실천적 역할을 할 수 있음을 시사한다.",
+    "keywords": "Career education, Work (physics), Consciousness, Career development",
+    "isCitation": false
+  },
+  {
+    "id": "z_7XQAQZ8D",
+    "zoteroKey": "7XQAQZ8D",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Neurodivergent Perspectives on Vocational Success: A Qualitative Typology of Self-Positioning",
+    "authors": "Eva-Maria Griesbacher",
+    "firstAffiliation": "Universität für Weiterbildung Krems",
+    "pubDate": "2026-07-23",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261471222",
+    "abstract": "This study explores how neurodivergent individuals define vocational success and how their personal definitions relate to dominant societal ideals. Using an adapted form of Strauss’ and Corbins Grounded Theory Methodology, 16 biographical interviews were conducted with participants identifying with traits of autism, ADHD, or high emotional sensitivity. The analysis revealed a typology of self-positioning toward vocational success: (1) congruent success (alignment of subjective and societal success), (2) discongruent success (external success without internal alignment), (3) divergent success (subjective success without societal recognition), and (4) lack of success (absence of both). These findings illustrate how neurodivergent individuals navigate, resist, or redefine success for themselves before the backdrop of societal success norms. The study contributes to an understanding of how opportunities for vocational success can be structured in ways that are not only socially recognized but also subjectively meaningful for neurodivergent individuals.",
+    "aiPurpose": "이 연구는 신경다양성을 가진 개인이 직업적 성공을 어떻게 정의하며, 이러한 주관적 정의가 지배적인 사회적 이상과 어떻게 관련되는지 탐색하고자 하였다.",
+    "aiFindings": "분석 결과, 신경다양성을 가진 개인이 직업적 성공을 어떻게 자기-정위하는지에 대한 네 가지 유형(일치형, 불일치형, 차이형, 성공부재형)이 도출되었다. 이는 이들이 사회적 성공 규범 속에서 자신만의 방식으로 성공을 탐색, 저항 또는 재정의하는 양상을 보여준다.",
+    "aiImplications": "본 연구는 신경다양성인의 주관적 경험과 다양한 성공 정의를 포괄하는 진로 상담 및 직업 설계의 중요성을 강조하며, PWT와 Decent Work 관점에서 사회적으로 인정받을 뿐 아니라 개인에게도 의미 있는 '괜찮은 일자리(Decent Work)' 기회 제공 방안 모색에 기여한다.",
+    "keywords": "Typology, Vocational education, Grounded theory, Qualitative research",
+    "isCitation": false
+  },
+  {
+    "id": "z_QZK63RAX",
+    "zoteroKey": "QZK63RAX",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Career Development and Family Support Among Sexual Minorities: A Psychology of Working Perspective",
+    "authors": "Shira Marshall, Rachel Gali Cinamon",
+    "firstAffiliation": "Tel Aviv University",
+    "pubDate": "2026-07-23",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261471225",
+    "abstract": "This study expands our understanding of how family mechanisms of marginalization and support shape the career development of sexual minorities. Guided by the Psychology of Working Theory, we conducted semi-structured interviews with 10 Israeli sexual minority young adults. Consensual qualitative research analysis identified five domains: exclusion, barriers, family support, resilience and growth, and identity-work and social roles. Findings highlight the profound effects of exclusionary experiences, particularly within the family, on career development, exacerbating issues such as shame, strained family relationships, and disrupted developmental tasks. Family support and acceptance promoted career development and personal growth, whereas societal and familial rejection hindered career exploration and fostered negative self-perceptions. Our findings highlight the need for family education on the acceptance of young adults as they are and support their career choices. They also underscore the need for comprehensive support systems empowering sexual minorities to navigate their career development while safeguarding their psychological well-being.",
+    "aiPurpose": "본 연구는 PWT(Psychology of Working Theory) 관점에서 성소수자의 가족 내 소외 및 지지 메커니즘이 이들의 진로 발달에 미치는 영향을 탐구하고자 하였다.",
+    "aiFindings": "가족 내 배제 경험은 성소수자의 진로 발달에 부정적인 영향을 미쳐 수치심, 가족 관계의 어려움, 발달 과제 저해 등을 야기하는 반면, 가족의 지지와 수용은 진로 발달과 개인적 성장을 촉진하는 것으로 나타났다.",
+    "aiImplications": "본 연구 결과는 성소수자를 위한 가족 교육의 필요성과 함께, 이들의 심리적 안녕을 보호하며 진로 발달을 지원하는 포괄적인 상담 및 지원 시스템 구축의 중요성을 진로심리학 및 상담심리학 분야에 시사한다.",
+    "keywords": "Career development, Perspective (graphical), Safeguarding, Social support",
+    "isCitation": false
+  },
+  {
+    "id": "z_N55FPDK9",
+    "zoteroKey": "N55FPDK9",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Career Development and Decision-Making in STEM Among Rural Undergraduates: A Social Cognitive Career Theory Perspective",
+    "authors": "Ahmed Al‐Asfour, Bhagyashree Barhate",
+    "firstAffiliation": "N/A",
+    "pubDate": "2026-07-23",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261471228",
+    "abstract": "This study examines the career development trajectories of undergraduate students from rural backgrounds pursuing degrees in science, technology, engineering, and mathematics (STEM), guided by Social Cognitive Career Theory (SCCT). Through a qualitative interpretive approach, the research provides a nuanced analysis of the social, cognitive, and contextual factors shaping students’ academic and professional pathways. Two central themes emerged: To Know the Unknown (Being Inquisitive) , which captures students’ intrinsic curiosity and early exposure to STEM through family, peers, and personal relevance; and Possibility of a Different Career Choice , reflecting the evolving decision-making process influenced by perceived utility, major switching, and career exploration. Findings reveal the critical role of early interest cultivation, strong social support systems, and career awareness in promoting STEM persistence among rural students. This study offers actionable insights for educators, policymakers, and institutions aiming to strengthen a more inclusive and adaptive STEM workforce.",
+    "aiPurpose": "본 연구는 사회인지진로이론(SCCT)을 바탕으로 농촌 출신 학부생들의 STEM 분야 진로 발달 및 의사결정 과정을 탐구하는 것을 목적으로 한다.",
+    "aiFindings": "주요 결과는 내재적 호기심과 초기 STEM 노출이 진로 개발에 중요하며, 진로 의사결정은 지각된 유용성, 전공 변경, 진로 탐색에 따라 진화한다는 것을 보여주었다. 특히 농촌 학생들의 STEM 분야 지속에 있어 초기 흥미 함양, 강력한 사회적 지지 시스템, 그리고 진로 인식이 결정적인 역할을 함을 밝혔다.",
+    "aiImplications": "본 연구는 농촌 학생들의 STEM 분야 진로 지속성을 높이기 위한 초기 흥미 육성, 사회적 지지 강화, 진로 인식 제고의 중요성을 강조하며, 이는 PWT 및 괜찮은 일(Decent Work) 관점에서 개인의 일 만족과 번영을 도모하고, 진로상담 실천에서는 AI 활용을 통한 맞춤형 정보 제공 및 지지 시스템 구축의 가능성을 시사한다.",
+    "keywords": "Social cognitive theory, Career development, Perspective (graphical), Curiosity",
+    "isCitation": false
+  },
+  {
+    "id": "z_E27FF794",
+    "zoteroKey": "E27FF794",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Unveiling the Nexus: Career Optimism as a Mediator Between Protean Career Attitudes and Career Success Among U.S. Women",
+    "authors": "Joanna F. Norman, Tomika W. Greer, Kim Nimon",
+    "firstAffiliation": "Winthrop University",
+    "pubDate": "2026-07-23",
+    "venue": "Journal of Career Development",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/08948453261471217",
+    "abstract": "Career optimism helps individuals sustain motivation and adapt to uncertainty in the workplace. Using data ( n = 279) from a 3-wave survey, we investigated the relationship between protean career attitude and career success when career optimism was a mediator. We observed a statistically significant positive relationship between both dimensions (self-directed and values-driven) of the protean career attitude and career optimism, between career optimism and career success, and between the self-directed dimension and career success when mediated by career optimism. In contrast, we found a statistically significant negative indirect effect between the values-driven dimension and career success when mediated by career optimism. These results reveal the role of the self-directed attitude as a strong predictor of career success among women. Our findings advance understanding of career optimism as a psychological resource that enables positive career outcomes. Implications, limitations, and future research are also discussed.",
+    "aiPurpose": "미국 여성들의 생애 경력에서 유연한 경력 태도(자기 주도성, ���치 지향성)와 경력 성공 간의 관계를 경력 낙관주의의 매개 효과를 중심으로 탐구하고자 하였다.",
+    "aiFindings": "유연한 경력 태도의 두 차원(자기 주도성, 가치 지향성) 모두 경력 낙관주의와 정적 관계를 보였으며, 경력 낙관주의는 경력 성공과 정적 관계를 나타냈다. 특히, 자기 주도적 경력 태도는 경력 낙관주의를 매개하여 경력 성공에 긍정적 영향을 미쳤으나, 가치 지향적 경력 태도는 경력 낙관주의를 매개했을 때 경력 성공에 부적 간접 효과를 보였다.",
+    "aiImplications": "본 연구는 유연한 경력 환경에서 여성의 경력 성공을 위한 핵심적인 심리적 자원으로서 경력 낙관주의의 중요성을 확인했으며, 진로 상담 분야에서 개인의 자기 주도성을 강화하고 경력 낙관주의를 함양하는 맞춤형 개입의 필요성을 시사한다.",
+    "keywords": "Optimism, Dimension (graph theory), Career development, Career counseling",
+    "isCitation": false
+  },
+  {
+    "id": "z_K2D5VK4M",
+    "zoteroKey": "K2D5VK4M",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Financial Coping Following Job Loss: Initial Validation of a Multidimensional Measure and Test of an Expanded Career Self-Management Model",
+    "authors": "Robert W. Lent, Ruogu J. Wang, Stephanie G. Burrows, Emily R. Cygrymus",
+    "firstAffiliation": "University of Maryland, College Park",
+    "pubDate": "2026-07-24",
+    "venue": "Journal of Career Assessment",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1177/10690727261471458",
+    "abstract": "Research on coping with job loss has emphasized job search behavior aimed at re-employment, with comparatively less attention to how individuals manage the psychological and financial challenges associated with unemployment. To address this gap, we developed a multidimensional measure of financial coping and used it in an initial test of an expanded social cognitive model of career self-management (CSM) in the context of job loss. Participants were 554 U.S. adults without full-time employment after leaving a full-time job. Exploratory factor analysis in one randomly selected sub-sample ( n = 250) yielded a 5-factor financial coping structure, which was supported in a confirmatory factor analysis in the second sub-sample ( n = 304). An expanded CSM model, including the financial coping scales, generally fit the data well in predicting emotional functioning and job search progress. However, collectively, the financial coping dimensions explained only modest additional variance beyond established predictors, suggesting that they may reflect context-specific reactions to financial strain rather than broadly adaptive, protective resources. We discuss implications for theory, research, and career practice related to coping with unemployment.",
+    "aiPurpose": "이 연구는 실직 후 재취업 중심의 대처 연구에서 간과되었던 재정적, 심리적 어려움에 대한 대처를 다루기 위해 다차원적 재정 대처 척도를 개발하고, 확장된 진로 자기 관리(CSM) 모델을 검증하는 것을 목적으로 한다.",
+    "aiFindings": "재정 대처는 5가지 요인 구조를 보였으며, 재정 대처 척도를 포함한 확장된 CSM 모델은 정서적 기능 및 구직 진행도를 예측하는 데 적합성이 높았다. 하���만 재정 대처 차원들은 기존 예측 변수들을 넘어 추가적인 설명력을 크게 보이지 않아 광범위한 적응적 자원이라기보다는 재정적 어려움에 대한 상황 특이적 반응일 수 있음을 시사한다.",
+    "aiImplications": "이 연구는 실직자의 재정 대처가 상황 특이적일 수 있음을 보여줌으로써, 진로상담 시 재취업 지원뿐 아니라 재정적 어려움에 대한 심리적·행동적 대처 방안을 개인의 상황에 맞춰 다각적으로 탐색해야 함을 시사한다. 이는 '일의 심리학(PWT)'과 '적절한 일(Decent Work)'의 맥락에서 실직자의 전반적인 삶의 질 향상을 위한 맞춤형 개입의 필요성을 강조하며, 향후 AI 기반 상담 시스템 개발 시 개인화된 재정 대처 전략 추천의 가능성을 제시한다.",
+    "keywords": "Coping (psychology), Confirmatory factor analysis, Exploratory factor analysis, Cognition",
+    "isCitation": false
+  },
+  {
+    "id": "z_8JVCGME3",
+    "zoteroKey": "8JVCGME3",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Facilitating meaningful work: How career wisdom relates to well-being.",
+    "authors": "Hui Xu, Blake A. Allan",
+    "firstAffiliation": "University of Macau",
+    "pubDate": "2026-07-23",
+    "venue": "Journal of Counseling Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1037/cou0000896",
+    "abstract": "#ERROR!",
+    "aiPurpose": "이 연구는 진로 지혜가 일의 의미로움을 통해 직무 만족, 일 몰입, 삶의 만족 등 다양한 웰빙 결과에 미치는 종단적 영향을 탐색하는 것을 목적으로 합니다.",
+    "aiFindings": "주요 결과로, 진로 지혜(시간 1)는 일의 의미로움(시간 2)을 통해 직무 만족 및 일 몰입(시간 3)과 긍정적인 관계를 가졌습니다. 다만, 진로 지혜와 삶의 만족 간의 관계에서 일의 의미로움의 매개 효과는 상대적으로 작게 나타났습니다.",
+    "aiImplications": "본 연구는 진로심리학 및 상담 분야에서 개인의 웰빙 증진을 위한 진로 지혜의 중요성과 특히 일의 의미로움을 개발하는 메커니즘을 밝혀내어, Decent Work와 PWT 관점의 진로상담 개입 방안 마련에 중요한 실천적 시사점을 제공합니다.",
+    "keywords": "Career counseling, Career development, Higher education, Research methodology",
+    "isCitation": false
+  },
+  {
+    "id": "z_JB5KXPPC",
+    "zoteroKey": "JB5KXPPC",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "The relationship between social exclusion and meaning in life among college students: a moderated mediation model",
+    "authors": "Fengjiang Yue",
+    "firstAffiliation": "Taiyuan University of Science and Technology",
+    "pubDate": "2026-07-22",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1879039",
+    "abstract": "Objective To explore the relationship between social exclusion and meaning in life among college students, as well as the roles of loneliness and nostalgia in this relationship. Methods From August to October 2025, a sample of 1714 college students from a university in Taiyuan City was assessed using the Social Exclusion Questionnaire for College Students, the Loneliness Scale, the Indigenous Nostalgia Scale, and the Meaning in Life Scale. Results (1) Social exclusion significantly and negatively predicted college students’ meaning in life. (2) Loneliness partially mediated the relationship between social exclusion and meaning in life. (3) Nostalgia significantly moderated the direct path, the first half of the mediation path (social exclusion → loneliness), and the second half of the mediation path (loneliness → meaning in life) in the mediation model. Conclusion Social exclusion can negatively predict college students’ meaning in life both directly and indirectly through loneliness. Nostalgia moderates the direct effect of social exclusion on meaning in life as well as the first and second halves of the mediating process.",
+    "aiPurpose": "본 연구는 대학생의 사회적 배제와 삶의 의미 간의 관계에서 외로움의 매개 효과와 향수의 조절 효과를 탐색하고자 하였다.",
+    "aiFindings": "주요 결과에 따르면, 사회적 배제는 대학생의 삶의 의미를 직접적으로 감소시켰으며, 외로움을 통해 간접적으로도 삶의 의미를 저해하는 것으로 나타났다. 또한, 향수는 사회적 배제가 삶의 의미에 미치는 ��접 효과와 외로움을 매개로 하는 간접 효과 모두를 조절하는 중요한 역할을 수행했다.",
+    "aiImplications": "본 연구는 대학생 시기 사회적 배제와 외로움으로 인한 삶의 의미 저하가 이들이 향후 PWT(Psychology of Working Theory)에서 강조하는 'Decent Work'를 추구하고 성취하는 데 중요한 장벽으로 작용할 수 있음을 시사한다. 이는 초기 진로 발달 단계에서 사회적 지지와 삶의 의미 탐색이 건강한 노동 가치 형성 및 직업적 안녕감 증진에 필수적임을 강조한다.",
+    "keywords": "Loneliness, Social exclusion, Meaning (existential), Mediation",
+    "isCitation": false
+  },
+  {
+    "id": "z_TIPFW68Q",
+    "zoteroKey": "TIPFW68Q",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "When AI enables and undermines: dual mechanisms linking AI usage to task performance",
+    "authors": "Wenhui Zhang, Po‐Chien Chang, Xinqi Geng",
+    "firstAffiliation": "Guangdong University of Finance",
+    "pubDate": "2026-07-23",
+    "venue": "Humanities and Social Sciences Communications",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1057/s41599-026-08454-8",
+    "abstract": "<title>Abstract</title> Purpose. The growing adoption of AI is reshaping organizational workflows and employee experiences, delivering benefits while presenting novel challenges, reflecting a double-edged sword effect. Although prior studies have identified potential impacts of AI usage on employees, the underlying mechanisms remain insufficiently examined. Guided by self-determination theory, this study investigates the dual pathways—facilitative and inhibitive—by which AI usage impacts employee task performance via motivational and behavioral mechanisms. It further investigates the boundary role of core self-evaluations (CSE) in moderating these effects. Methodology. A three-wave, multi-source field study was conducted involving 409 employee-supervisor pairs from AI-intensive industries in China. Data were collected using leader–employee matched questionnaires. Key constructs—AI usage, motivation types, job crafting, task performance, and CSE—were measured using validated scales. Hypotheses were tested via hierarchical regression, bootstrapping, and moderated mediation analyses using SPSS and Mplus. Findings. Results revealed a dual-chain mediation mechanism: AI usage enhances task performance via autonomous motivation and promotion-focused job crafting, but simultaneously impairs it through controlled motivation and prevention-focused job crafting. Furthermore, CSE significantly moderates both pathways, amplifying the positive and buffering the negative effects. Originality. This study provides understanding of AI usage’s “double-edged sword” effect by identifying parallel motivational-behavioral pathways and the boundary condition of core self-evaluations. The findings enrich self-determination theory in the digital context and offer actionable insights for designing inclusive and personalized AI integration strategies.",
+    "aiPurpose": "이 연구는 인공지능(AI) 사용이 자기결정 이론을 바탕으로 동기적 및 행동적 메커니즘(자율적/통제된 동기, 승진/예방 초점의 직무 재구성)을 통해 직원 직무 성과에 미치는 이중적 영향 경로와 핵심 자기평가의 조절 역할을 규명하고자 합니다.",
+    "aiFindings": "AI 사용은 자율적 동기 및 승진 초점의 직무 재구성을 통해 직무 성과를 향상시키지만, 동시에 통제된 동기 및 예방 초점의 직무 재구성을 통해 성과를 저해합니다. 핵심 자기평가는 이 두 경로 모두에서 긍정적 효과를 증폭하고 부정적 효과를 완충하는 조절 역할을 합니다.",
+    "aiImplications": "PWT(일의 심리학) 및 Decent Work 관점에서, �� 연구는 AI 활용이 근로자의 자율적 동기와 주체적 직무 재구성을 통해 개인의 욕구 충족과 양질의 일 경험에 기여할 수 있지만, 동시에 통제적 동기와 스트레스 유발 직무 재구성을 통해 일의 질을 저해할 수 있음을 보여주며, 핵심 자기평가가 이러한 이중적 영향을 조절하는 중요한 개인적 자원임을 시사합니다.",
+    "keywords": "Dual (grammatical number), Task (project management), Computer science, Artificial intelligence",
+    "isCitation": false
+  },
+  {
+    "id": "z_I2WK9GRV",
+    "zoteroKey": "I2WK9GRV",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "The Relationship Between Career‐Specific Parental Behaviors and Career Decision‐Making Difficulties Among Chinese High School Students: The Role of Self‐Efficacy and Resilience",
+    "authors": "Caizhen Su, Xinmei Huang, Peiting Huang, Xi Zhang, Yu Zhang, Hang Zeng",
+    "firstAffiliation": "Beijing Normal University",
+    "pubDate": "2026-07-01",
+    "venue": "The Career Development Quarterly",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1002/cdq.70032",
+    "abstract": "ABSTRACT Career decision‐making ability in adolescence plays a crucial role in future career development. We proposed a moderated mediation model to explore how parental support, interference, and lack of engagement influence career decision‐making difficulties among high school students, testing the mediating role of career decision‐making self‐efficacy and the moderating role of resilience. Data from 1592 high school students in China were collected. Results showed that parental support negatively predicted career decision‐making difficulties, whereas interference and lack of engagement positively predicted them. Career self‐efficacy partially mediates the effects of parental support on career decision‐making difficulties, but not interference and lack of engagement. The higher the level of resilience, the stronger the positive effect of parental support on students’ career self‐efficacy. However, under conditions of high resilience, lack of engagement exerts a significant negative impact on career self‐efficacy. In contrast, when resilience is low, it does not significantly affect students’ career self‐efficacy.",
+    "aiPurpose": "본 연구는 청소년의 진로 결정 어려움에 대한 부모의 진로 특정 행동(지지, 간섭, 무관심)의 영향과 그 과정에서 진로 결정 자기효능감의 매개 역할, 회복탄력성의 조절 역할을 탐색하는 데 목적이 있습니다.",
+    "aiFindings": "주요 결과는 부모의 지지가 진로 결정 어려움을 감소시키고, 간섭 및 무관심은 이를 증가시킨다는 점을 보여줍니다. 진로 자기효능감은 부모 지지의 영향을 부분적으로 매개하며, 회복탄력성이 높을수록 부모 지지가 진로 자기효능감에 미치는 긍정적 효과가 강화되고, 부모의 무관심은 오히려 진로 자기효능감에 유의미하게 부정적인 영향을 미치는 것으로 나타났습니다.",
+    "aiImplications": "본 연구 결과는 청소년의 건강한 진로 발달을 위해 부모의 지지적 역할의 중요성을 강조하며, PWT(Psychology of Working) 관점에서 개인이 처한 맥락적 요인, 특히 가족 환경이 진로 결정 능력 및 자기효능감에 미치는 영향을 이해하는 데 기여합니다. 진로상담 실천에서는 학생뿐만 아니라 부모를 대상으로 하는 교육 및 상담 개입의 필요성을 시사하며, AI 기반 상담 도구 개발 시 개인의 특성(회복탄력성)과 환경적 요인(부모 행동)을 종합적으로 고려하여 맞춤형 진로 지원 전략을 제공하는 데 활용될 수 있습니다.",
+    "keywords": "Psychological resilience, Mediation, Affect (linguistics), Moderated mediation",
+    "isCitation": false
+  },
+  {
+    "id": "z_X9BWR3VI",
+    "zoteroKey": "X9BWR3VI",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Racially and ethnically diverse college students’ preferences, beliefs, and self-efficacy in mental health treatment: A mixed methods analysis of therapist–client racial/ethnic concordance.",
+    "authors": "Yesenia Aguilar Silvan, Ji Yoon (Gloria) Kim, Junying Huang, Sarah Hamza, Sarah A. Hamza, Lauren C. Ng",
+    "firstAffiliation": "UCLA Health",
+    "pubDate": "2026-06-29",
+    "venue": "Journal of Counseling Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1037/cou0000887",
+    "abstract": "#ERROR!",
+    "aiPurpose": "다인종 및 다민족 대학생들이 정신 건강 치료에 있어 치료자와 내담자의 인종/민족 일치성에 대해 가지는 선호도, 신념, 자기효능감을 탐색하고, 이러한 요인들이 상담 관계에 미치는 영향을 이해하는 것이 이 연구의 목적입니다.",
+    "aiFindings": "연구 결과, 절반 가량의 내담자가 인종/민족적으로 일치하는 치료자를 선호했지만, 치료자의 역량과 문화적 겸손이 일치성 자체보다 폭넓게 우선시되는 경향을 보였습니다. 즉, 일치성 선호는 내담자의 경험과 정체성 기반 스트레스에 따라 미묘하고 상황 의존적이며, 역량 있는 치료자에게로의 접근성이 더 중요하게 다루어졌습니다.",
+    "aiImplications": "이 연구는 진로심리학 및 상담 분야에서 다문화�� 역량과 문화적 겸손을 갖춘 상담자의 중요성을 강조하며, 이는 다양한 배경의 내담자들이 정체성 기반 스트레스를 극복하고 'Decent Work'를 포함한 건강한 진로를 탐색하도록 돕는 데 필수적인 시사점을 제공합니다. 따라서, 내담자의 문화적 배경과 정체성에 부합하는 맞춤형 상담 서비스 제공과 상담자 다양성 확보가 핵심 과제임을 보여줍니다.",
+    "keywords": "Concordance, Cultural humility, Mental health, Cultural competence",
+    "isCitation": false
+  },
+  {
+    "id": "z_EUAW37SE",
+    "zoteroKey": "EUAW37SE",
+    "isSavedInZotero": true,
+    "queryLabel": "저널모니터링",
+    "title": "Amplified (in)visibility: How gender quotas reshape invisible labor and identity in STEM academia",
+    "authors": "Linh-Chi Vo, Diana Santistevan, Anne‐Sophie Thelisson",
+    "firstAffiliation": "N/A",
+    "pubDate": "2026-06-01",
+    "venue": "Journal of Vocational Behavior",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1016/j.jvb.2026.104254",
+    "abstract": "초록 없음",
+    "aiPurpose": "N/A",
+    "aiFindings": "N/A",
+    "aiImplications": "N/A",
+    "keywords": "Identity (music), Gender identity, Employment discrimination, Career development",
+    "isCitation": false
+  },
+  {
+    "id": "z_WCF64U65",
+    "zoteroKey": "WCF64U65",
+    "isSavedInZotero": true,
+    "queryLabel": "AI·디지털진로",
+    "title": "Internal multiplicity, emergent unity, and the case for an IFS-informed AI architecture in psychotherapy: a theoretical review",
+    "authors": "Alex Tsarev",
+    "firstAffiliation": "Valencian International University",
+    "pubDate": "2026-05-29",
+    "venue": "Brain-Apparatus Communication A Journal of Bacomics",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1080/27706710.2026.2678005",
+    "abstract": "Purpose This article pursues three goals: to clarify the conceptual distinction between ontological, functional, and instrumental modeling claims about mental unity and multiplicity; to situate parts-based psychotherapy within contemporary network neuroscience rather than against an outdated unity-versus-multiplicity binary; and to propose an internal family systems (IFS)-informed artificial intelligence (AI) system design for therapist training and psychoeducational support.Materials and methods Conceptual and narrative review drawing on philosophy of mind, contemporary network neuroscience, experimental psychology, and clinical psychotherapy literature. Philosophical positions from Descartes through contemporary analytic and phenomenological accounts are evaluated, followed by systematic review of network neuroscience findings on integration-segregation dynamics, split-brain and dissociation research, and experimental psychology evidence on pluralistic self-modeling. IFS is compared against alternative parts-based frameworks on criteria of structural specificity, relational articulation, and computational tractability.Results The unity-multiplicity binary is shown to be unproductive for both philosophy and neuroscience. Contemporary network neuroscience characterizes cognition as emerging from flexible integration-segregation dynamics among distributed brain networks, framing functional multiplicity as the normal operating condition of mind rather than an anomaly. Among available parts-based frameworks, IFS is identified as the most tractable instrumental modeling template, distinguished by its discrete role taxonomy, formally specifiable interaction dynamics including polarization, blending, and burden-carrying, and its coordinative principle of self-leadership. A three-layer computational design is proposed: a parts layer implementing semi-autonomous dialogue agents with defined activation conditions and behavioral constraints; a self-like integrative layer enforcing coordinative and ethical constraints via constitutional principles; and a safety layer providing crisis detection, boundary maintenance, and prohibition of deep trauma processing. Two target applications are specified and distinguished: structured simulation for therapist training and psychoeducational self-reflection support.Conclusions The mind is best understood as functional multiplicity with emergent, relational unity, in which coordination rather than structure is the source of psychological coherence. IFS provides a structurally clear and relationally articulate template for AI-supported therapist training and psychoeducational tools. The proposed system design is conceptual rather than implemented, and all reported performance illustrations were generated under controlled mock conditions rather than with production language models. Empirical validation, continued growth of the IFS evidence base, and interdisciplinary collaboration among clinicians, philosophers, AI researchers, and ethicists are required before any deployment.",
+    "aiPurpose": "이 논문은 마음의 다중성과 통합성에 대한 개념을 명확히 하고 부분 기반 심리치료를 현대 신경과학적 관점에서 재조명한 뒤, 궁극적으로 치료사 훈련 및 심리교육적 지원을 위한 IFS 기반 AI 시스템 아키텍처를 제안하는 것을 목적으로 한다.",
+    "aiFindings": "마음은 기능적 다중성으로 이해되며, IFS(내면 가족 체계)는 AI 시스템 설계를 위한 가장 실용적인 모델로 확인되었다. 연구는 반자율적 대화 에이전트 계층, 윤리적 제약을 시행하는 통합 계층, 위기 감지 및 경계를 담당하는 안전 계층으로 구성된 3계층 AI 시스템 설계를 제안하며, 이는 치료사 훈련 및 심리교육 지원에 활용될 수 있다.",
+    "aiImplications": "이 연구는 IFS 모델을 활용한 AI 아키텍처 설계를 통해 상담사의 훈련 시뮬레이션 및 일반인의 심리 교육적 자기 성찰 지원�� 위한 기술 기반 상담 서비스의 개발 가능성을 제시하며, 이는 상담 심리 분야에서 AI의 실용적 적용 확장에 중요한 시사점을 제공한다.",
+    "keywords": "Architecture, Feature (linguistics), Perspective (graphical), Component (thermodynamics)",
+    "isCitation": false
+  },
+  {
+    "id": "z_INSQ66NM",
+    "zoteroKey": "INSQ66NM",
+    "isSavedInZotero": true,
+    "queryLabel": "AI·디지털진로",
+    "title": "A Lecturer-Based Assessment of Career Adaptability Levels among Primary Education Students in the Context of Digital Transformation",
+    "authors": "Hien Thi Thanh Nguyen, Chi Thi Hong Le, Chien Dinh Tran, Nam-Phuong Nguyen, Thu Thi Xuan Le",
+    "firstAffiliation": "Hung Vuong University of Ho Chi Minh City",
+    "pubDate": "2026-05-05",
+    "venue": "Journal of Educational and Social Research",
+    "isCore": "일반/신생",
+    "doi": "10.36941/jesr-2026-0338",
+    "abstract": "The digital revolution is transforming the competency requirements for primary school educators, emphasizing digital pedagogy, flexibility, and adaptability. Teacher education programs require detailed proof concerning the present exhibition of career adaptability by preserving primary education students, as evaluated by instructors. The study examined 60 instructors at Hung Vuong University; following the elimination of invalid responses, 58 valid questionnaires were assessed. Instructors assessed the career adaptability of primary education students from three cohorts (K20, K21, K22) utilizing a rubric grounded in a 5-point Likert scale across seven dimensions: career perception, program analysis, digital classroom organization, teaching method adjustment, emotional management, digital technology proficiency, and self-study/self-development. Data were examined descriptively through the utilization of mean scores.K20 exhibited the greatest overall mean scores across all categories (ranging from 3.07 to 4.22), K21 demonstrated moderate levels (from 3.13 to 3.43), while K22 consistently attained the lowest scores (between 2.93 and 3.03). The maximum score among all cohorts was K20’s career perception adjustment (M = 4.22), whereas the minimum was K22’s score in the same dimension (M = 2.93). K21 marginally exceeded K20 and K22 solely in digital technology proficiency (mean of K21 = 3.16, mean of K20 = 3.00, mean of K22 = 2.98). The results indicate moderate adaptation rather than outstanding performance.The findings describe the current state of job adaptability among primary education students amid the digital revolution, reveal significant inequalities among groups, and suggest areas requiring additional training and support. Received: 04 December 2025 / Accepted: 21 April 2026 / Published: May 2026",
+    "aiPurpose": "디지털 전환 시대에 예비 초등 교사들의 진로 적응도를 강사가 평가하고 그 현황을 파악하는 것이 이 연구의 목적입니다.",
+    "aiFindings": "예비 초등 교사들의 전반적인 진로 적응도는 우수하지 않고 보통 수준에 머물렀으며, 학년이 낮을수록 적응도가 낮아지는 경향을 ���였습니다. 특히 디지털 기술 역량은 일부 학년에서 다른 학년을 미미하게 앞섰을 뿐 전반적으로 특출나지 않았습니다.",
+    "aiImplications": "이 연구 결과는 디지털 전환 시대에 예비 초등 교사들의 진로 적응도 향상을 위해 AI 및 기술 기반의 개인 맞춤형 진로 상담, 역량 강화 교육 프로그램 및 심리 지원 서비스 도입의 필요성을 시사합니다.",
+    "keywords": "Adaptability, Context (archaeology), Likert scale, Rubric",
+    "isCitation": false
+  },
+  {
+    "id": "z_G6R2R38U",
+    "zoteroKey": "G6R2R38U",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "How can the acceptance of artificial intelligence be transformed into employability? The sequential effect of a positive attitude toward artificial intelligence and career adaptability",
+    "authors": "Dan Shen, Min Xu, 孟欣, Jie Sun, Zhifeng Zhou",
+    "firstAffiliation": "Yancheng Institute of Technology",
+    "pubDate": "2026-04-17",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1808195",
+    "abstract": "As artificial intelligence is increasingly embedded into education and career development contexts and its applications grow in higher education, how student acceptance of artificial intelligence affects student perception of employability is a major research topic. Based on SCCT, we see generative AI acceptance (GAIA) as a situational occupational resource and study how it affects students' perceived employability (SPE) through positive AI attitude (PAAI) and career adaptability (CA). We used PLS-SEM to model 689 Chinese students. We found that acceptance of artificial intelligence was positively associated with positive attitudes toward artificial intelligence, which in turn promote career adaptability, and subsequently with students' perceived employability. Acceptance of artificial intelligence also indirectly affects perceived employability through successive positive attitudes toward artificial intelligence and career adaptability. This paper further strengthens the theoretical impact of SCCT on digital technology. The findings indicate that acceptance of artificial intelligence was positively associated with perceived employability, both directly and indirectly through positive attitudes toward artificial intelligence and career adaptability. Practically, it emphasizes that universities must develop vocational adaptability resources of students, beyond just technological applications, to support students' readiness to work in AI-driven jobs.",
+    "aiPurpose": "SCCT를 기반으로 학생들이 인공지능(AI) 수용이 AI에 대한 긍정적 태도와 진로 적응성을 통해 인식된 고용 가능성에 어떻게 영향을 미치는지 밝히는 것이다.",
+    "aiFindings": "인공지능 수용은 AI에 대한 긍정적 태도, 진로 적응성을 순차적으로 증진시키며, 이는 학생들의 인식된 고용 가능성으로 이어진다. 또한, 인공지능 수용은 긍정적 AI 태도 및 진로 적응성을 통한 간접 효과��만 아니라 직접적으로도 학생들의 인식된 고용 가능성에 영향을 미치는 것으로 나타났다.",
+    "aiImplications": "상담 시, 학생들이 인공지능 시대의 변화에 대비하여 기술 수용을 넘어 AI에 대한 긍정적 태도를 형성하고 진로 적응성을 강화하여 고용 가능성을 높일 수 있도록 지원해야 한다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  },
+  {
+    "id": "z_UHN6QFTH",
+    "zoteroKey": "UHN6QFTH",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Work Volition and Decent Work: A Meta‐Analysis",
+    "authors": "Bünyamin Atay, Banu Cingöz‐Ulu, Kelsey L. Autin, Blake A. Allan",
+    "firstAffiliation": "TED University",
+    "pubDate": "2026-04-08",
+    "venue": "The Career Development Quarterly",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1002/cdq.70023",
+    "abstract": "ABSTRACT Psychology of Working Theory (PWT) posits that work volition, a person's perceived freedom of work choice despite barriers, allows people to access decent work. As this relationship has received considerable research attention in the last decade, we conducted a meta‐analysis for synthesizing the accumulated evidence to this theoretically proposed relationship. We meta‐analyzed the findings of 43 effect sizes ( N = 18,659) across 42 unique publications. A positive and large summary effect size ( r = 0.48, p &lt; 0.001) showed that work volition was strongly related to decent work. While there is considerable heterogeneity across the results, the strength of this relationship was not moderated by the proposed variables (e.g., cultural dimensions) in this study. Overall, we presented empirical evidence supporting the theoretical association between work volition and decent work postulated by PWT. By identifying a critical error in the current meta‐analysis literature—namely, the practice of treating manifest and latent correlations as equivalent effect sizes—this research also makes a substantial contribution to improving future meta‐analyses within the PWT.",
+    "aiPurpose": "이 메타분석은 PWT(Psychology of Working Theory)에서 제안하는 '일 관련 의지(work volition)'와 '괜찮은 일(decent work)' 간의 이론적 관계에 대한 축적된 증거를 종합하는 것을 목적으로 한다.",
+    "aiFindings": "주요 결과는 '일 관련 의지'와 '괜찮은 일' 사이에 강하고 긍정적인 관계(r = 0.48, p < 0.001)가 있음을 보여주었다. 비록 상당한 이질성이 있었지만, 이 관계의 강도는 문화적 차원과 같은 제안된 변인들에 의해 조절되지 않았다.",
+    "aiImplications": "일 관련 의지가 괜찮은 일과 강하게 연관되어 있으므로, 상담사들은 내담자들이 어려움 속에서도 일 선택에 대한 인지�� 자유를 증진하도록 도와 더 만족스러운 고용을 얻도록 지원할 수 있다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  },
+  {
+    "id": "z_6ZDSAZZE",
+    "zoteroKey": "6ZDSAZZE",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Graduate employability in the AI and globalisation era: implications for higher education institutions",
+    "authors": "Md Sozon, Sataporn Roengtam, Yi Lin Yin",
+    "firstAffiliation": "Universiti Tunku Abdul Rahman",
+    "pubDate": "2026-02-25",
+    "venue": "Journal of Applied Research in Higher Education",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1108/jarhe-11-2025-0983",
+    "abstract": "Purpose Graduate unemployment has emerged as a significant global challenge, underscoring structural misalignments between higher education systems and contemporary labour market demands. This study investigates how artificial intelligence (AI) and globalisation shape graduate employability and the implications for higher education institutions (HEIs). Design/methodology/approach Guided by the Preferred Reporting Items for Systematic Reviews and Meta-Analyses (PRISMA) framework, this study applied explicit inclusion criteria to identify peer-reviewed works published between 2012 and 2025 in the Scopus and Web of Science databases to achieve the research objectives. A total of 107 studies were analysed through a six-step thematic process involving familiarisation, generation of initial codes, theme identification, theme review, theme definition and naming, and synthesis and reporting. Findings Graduate employability is increasingly affected by AI-driven change, intensifying challenges such as skills mismatches, outdated curricula, limited institutional support, and inadequate practical experience. Automation and AI-enabled tools heighten demand for digital literacy, adaptability, and cross-cultural competencies, while global competition and the digital divide complicate workforce entry. At the same time, AI offers opportunities through personalised learning, lifelong skills development, work-integrated education, and ethical technology use. Addressing these dynamics requires HEIs to align curricula with industry needs, strengthen industry partnerships, integrate digital and entrepreneurial skills, and modernise career services. Practical implications The study offers actionable insights for higher education leaders, emphasising the urgency of aligning academic programmes with market realities and reinforcing academia–industry partnerships to prepare graduates for an AI-driven global economy. Originality/value By integrating perspectives on AI and globalisation, this study develops a thematic framework explaining employability dynamics and guiding institutional policy, curriculum reform, and future research.",
+    "aiPurpose": "인공지능(AI)과 세계화가 졸업생의 고용가능성에 미치는 영향 및 고등교육기관에 대한 시사점을 탐구하는 것이 이 연구의 목적입니다.",
+    "aiFindings": "AI 변화로 졸업생의 고용가능성이 기술 불일치, 시대에 뒤떨어진 교육과정 등의 어려움에 직면하며, 디지털, 적응성, 다문화 역량의 중요성이 커지고 있습니다. 동시에 AI는 맞춤형 학습 및 평생 기술 개발의 기회를 제공하므로 고등교육기관은 산업 수요에 맞춰 교육과정을 조정하고 관련 역량을 통합해야 합니다.",
+    "aiImplications": "상담사는 졸업생들이 AI와 세계화 시대에 필요한 디지털, 적응성, 다문화 역량을 개발하고, 변화하는 노동 시장에 맞춰 진로를 계획하며 평생 학습 기회를 탐색하도록 지원해야 합니다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  },
+  {
+    "id": "z_ZNFG3UX9",
+    "zoteroKey": "ZNFG3UX9",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Decent yet indecent! Unveiling dual realities of fairwork in India’s ride-hailing sector",
+    "authors": "Nimra Khan, K.K. Trivedi, Pushpendra Priyadarshi",
+    "firstAffiliation": "Indian Institute of Management Lucknow",
+    "pubDate": "2026-02-23",
+    "venue": "Journal of Services Marketing",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1108/jsm-02-2025-0147",
+    "abstract": "Purpose This study aims to examine the extent to which the employment conditions of gig workers in India’s ride-hailing platforms align with fairwork and decent work standards and the associated consequences on their well-being and performance. Design/methodology/approach The study uses a qualitative methodology and reflexive thematic analysis, both manually and with NVIVO 15 software, to systematically organise important excerpts, produce insights and extract key themes from in-depth interviews and observations of the experiences of 30 Indian ride-hailing drivers. Findings The study highlights the inequitable and opaque employment situation for the gig workers in ride-hailing platform companies. Some key challenges are financial instability due to low fares, inadequate grievance redressal mechanisms and the absence of a collective voice. The drivers valued autonomy, earning opportunities and flexibility despite hazardous conditions, unilateral platform control and the absence of safety nets. Research limitations/implications Highlighting the gig workers’ perception of decent work and fairwork, as well as the ensuing challenges, the findings will help platform companies and policymakers take appropriate measures to ensure equitable and safe employment conditions for the gig workers. Originality/value Highlighting the paradoxes of gig work, this study shares insights into the decent and fairwork status of gig workers.",
+    "aiPurpose": "이 연구는 인도 차량 호출 플랫폼 긱 워커들의 고용 조건이 공정하고 적절한 노동 기준에 부합하는지, 그리고 이것이 그들의 복지 및 성과에 미치는 영향을 탐색하는 것을 목적으로 한다.",
+    "aiFindings": "연구는 긱 워커들이 불공평하고 불투명한 고용 상황에 처해 있으며, 낮은 수입, 고충 처리 미흡, 단체 발언권 부재 등의 어려움을 겪고 있음을 밝혔다. 그럼에도 이들은 위험한 조건 속에서도 자율성, 수입 기회, 유연성을 가치 있게 여겼다.",
+    "aiImplications": "본 연구는 긱 워커들의 복지와 정신 건강을 위한 상담 지원의 필요성을 강조하며, 이들을 위한 공정하고 안전한 노동 환경 구축의 중요성을 시사한다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  },
+  {
+    "id": "z_HX8CP5CU",
+    "zoteroKey": "HX8CP5CU",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "Decent work in terms of perceptions of gender-related career barriers and marginalization: a mediated moderator model",
+    "authors": "Şeyma Bilgiz Öztürk, Ozan Korkmaz",
+    "firstAffiliation": "Guidance (United Kingdom)",
+    "pubDate": "2026-02-21",
+    "venue": "Current Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.1007/s12144-026-09169-4",
+    "abstract": "Decent work is conceptualized as regulations for working conditions, the provision of health and safety services, and the protection of rights and interests that align with human dignity. This comprehensive and remarkable issue is significant for many young people still in the career development process, as it enables them to actively manage their expectations. In the current study, the mediating effect of marginalization and the moderating effect of gender on the relationship between university students’ gender-related career barriers and perception of decent work were examined. 421 individuals participated in the study, of whom 307 (72.9%) were female, and 114 (27.1%) were male. ‘Future Decent Work Scale,’ ‘Gender-Related Career Barriers Scale,’ and ‘Lifetime Experiences of Marginalization Scale’ were used as data collection tools. The first finding confirmed the mediating role of marginalization in the effect of gender-related career barriers on perception of decent work. On the other hand, it was observed that gender did not have a moderating role in the relationship between gender-related career barriers and marginalization. Finally, the differences in gender between the variables were also determined. All these contribute to examining the antecedents of young people’s perception of decent work.",
+    "aiPurpose": "본 연구는 대학생의 성 관련 진로 장벽이 괜찮은 일자리 인식에 미치는 영향에서 주변화의 매개 효과와 성별의 조절 효과를 확인하고자 하였다.",
+    "aiFindings": "성 관련 진로 장벽이 괜찮은 일자리 인식에 미치는 영향에서 주변화의 매개 역할이 확인되었다. 그러나 성별은 성 관련 진로 장벽과 주변화의 관계에서 조절 역할을 하지 않았다.",
+    "aiImplications": "청년들의 괜찮은 일자리 인식을 증진하기 위해 상담 시 성 관련 진로 장벽과 주변화 경험을 통합적으로 다루는 것이 중요하다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  },
+  {
+    "id": "z_DKKUJ3I2",
+    "zoteroKey": "DKKUJ3I2",
+    "isSavedInZotero": true,
+    "queryLabel": "PWT/Decent Work",
+    "title": "The impact of career adapt-abilities on AI anxiety among English majors: a dual perspective analysis based on core self-evaluations at the person- and variable-centered",
+    "authors": "X. Christine Wang",
+    "firstAffiliation": "China West Normal University",
+    "pubDate": "2026-02-20",
+    "venue": "Frontiers in Psychology",
+    "isCore": "SSCI급(Core)",
+    "doi": "10.3389/fpsyg.2026.1767791",
+    "abstract": "The rapid advancement of artificial intelligence (AI) technologies in language services, education, and knowledge production has imposed substantial occupational displacement pressures on English majors, thereby triggering significant AI-related anxiety. However, existing research rarely systematically explores the formation mechanisms of AI anxiety among English majors, especially lacking an in-depth analysis of the protective role of career adapt-abilities and their internal heterogeneity. This study adopts a dual-perspective approach—integrating variable-centered and person-centered analyses—to investigate how career adapt-abilities influence AI anxiety and the mediating role of core self-evaluations. A total of 444 English major students from four comprehensive universities in Sichuan, China, were recruited during July and August 2025. Measurements included the Career Adapt-Abilities Scale, Core Self-Evaluation Scale, and AI Anxiety Scale. Results show that career adapt-abilities significantly and negatively predict AI anxiety, with core self-evaluations partially mediating this relationship. Latent profile analysis identified three distinct career adapt-abilities subgroups—low, medium, and high—with significant differences in core self-evaluations and AI anxiety levels among them. Notably, the low career adapt-abilities group exhibited the highest AI anxiety, while the high group showed the lowest. Both analytic strategies converge to demonstrate that career adapt-abilities constitute an essential psychological resource mitigating AI anxiety in English majors, with core self-evaluations serving as a key cognitive mechanism. This study reveals a dual-pathway influence of career adapt-abilities on AI anxiety, offering a novel theoretical framework for understanding technological anxiety formation. Moreover, the pronounced heterogeneity of career adapt-abilities underscores the necessity for stratified career development education and psychological interventions tailored to diverse student groups, providing practical guidance for optimizing talent cultivation in English major programs.",
+    "aiPurpose": "이 연구는 이중 관점 분석을 통해 영어 전공 학생들의 경력 적응 유연성(career adapt-abilities)이 AI 불안에 미치는 영향과 핵심 자기 평가(core self-evaluations)의 매개 역할을 탐색하고자 했다.",
+    "aiFindings": "경력 적응 유연성은 AI 불안을 유의미하게 감소시키며, 핵심 자기 평가가 이 관계를 부분적으로 매개하는 것으로 나타났다. 또한, 경력 적응 유연성 수준(낮음, 중간, 높음)에 따라 세 가지 하위 그룹이 확인되었으며, 경력 적응 유연성이 낮은 그룹이 가장 높은 AI 불안을 보인 반면, 높은 그룹은 가장 낮은 AI 불안을 보였다.",
+    "aiImplications": "학생들의 다양한 경력 적응 유연성 수준을 고려하여 맞춤형 진로 개발 교육 및 심리적 개입을 제공함으로써 영어 전공 학생들의 AI 불안을 경감시키는 데 기여할 수 있다.",
+    "keywords": "PWT/Decent Work",
+    "isCitation": false
+  }
+];
+
+    // 8 Core Theory Hubs in Vocational & Counseling Psychology
+    const THEORY_HUBS = [
+      { id: 'th_adapt', label: '진로적응성 (Adaptability)', kws: ['adaptab', 'adapt-abil', 'adaptability', '적응성'] },
+      { id: 'th_pwt', label: '양질의 일자리 (Decent Work)', kws: ['decent work', 'pwt', 'psychology of working', '좋은일자리'] },
+      { id: 'th_scct', label: '사회인지진로·효능감 (SCCT)', kws: ['scct', 'social cognitive', 'self-efficacy', '효능감', '자기효능감'] },
+      { id: 'th_precarity', label: '취약노동·불안정 (Precarity)', kws: ['precar', 'vulnerab', 'precariat', '취약노동', '불안정'] },
+      { id: 'th_ai', label: '인공지능·디지털 (AI & Tech)', kws: ['ai', 'artificial intelligence', 'llm', 'generative', 'digital', '인공지능'] },
+      { id: 'th_anxiety', label: '진로불안·소진 (Career Anxiety)', kws: ['anxiety', 'stress', 'burnout', '소진', '불안'] },
+      { id: 'th_meaning', label: '일의 의미·웰빙 (Meaning/Well-being)', kws: ['meaning', 'well-being', 'satisfaction', '의미', '안녕감'] },
+      { id: 'th_diversity', label: '소수자·성별·문화 (Diversity)', kws: ['gender', 'women', 'asian', 'minority', 'sexual', '다문화', '여성'] }
+    ];
+
+    // 2. Build Graph Structure with Radial Initial Positioning
+    const nodes = [];
+    const links = [];
+    const nodeMap = new Map();
+
+    // 6 Category Constellations (arranged in a wide circle for clear spacing)
+    // IMPORTANT: IDs match paper.queryLabel ('저널모니터링', 'PWT/Decent Work', etc.)
+    const categories = [
+      { id: '저널모니터링', label: '주요 학술지' },
+      { id: 'PWT/Decent Work', label: 'PWT · 좋은 일자리' },
+      { id: '직업심리학', label: '직업심리 · SCCT' },
+      { id: '취약노동/구조적제약', label: '취약노동 · 제약' },
+      { id: 'AI·디지털진로', label: 'AI · 디지털진로' },
+      { id: '관심학자', label: '관심 학자 연구' }
+    ];
+
+    // 2 Core Hub Navigation Groups (Categories & Theory Hubs)
+    const RESEARCH_TAG_GROUPS = [
+      {
+        id: 'group_cat',
+        title: '📁 연구 성단 (6대 연구 분야)',
+        tags: categories.map(c => ({
+          id: 'cat_' + c.id,
+          label: c.label,
+          type: 'category',
+          catId: c.id,
+          paperIds: new Set()
+        }))
+      },
+      {
+        id: 'group_theory',
+        title: '💡 8대 이론 축 (이론 및 핵심 개념)',
+        tags: THEORY_HUBS.map(t => ({
+          id: t.id,
+          label: t.label,
+          type: 'theory',
+          kws: t.kws,
+          paperIds: new Set()
+        }))
+      }
+    ];
+
+    const tagMap = new Map();
+    RESEARCH_TAG_GROUPS.forEach(g => {
+      g.tags.forEach(t => tagMap.set(t.id, t));
+    });
+
+    const catRadius = 380;
+    categories.forEach((cat, idx) => {
+      const angle = (idx / categories.length) * 2 * Math.PI;
+      const node = {
+        id: 'cat_' + cat.id,
+        rawCat: cat.id,
+        label: cat.label,
+        type: 'category',
+        radius: 20,
+        color: 'var(--color-cat)',
+        x: Math.cos(angle) * catRadius,
+        y: Math.sin(angle) * catRadius,
+        val: 28
+      };
+      nodes.push(node);
+      nodeMap.set(node.id, node);
+    });
+
+    // 8 Theory Hubs (arranged in inner circle)
+    const thRadius = 200;
+    THEORY_HUBS.forEach((th, idx) => {
+      const angle = (idx / THEORY_HUBS.length) * 2 * Math.PI + (Math.PI / 8);
+      const node = {
+        id: th.id,
+        label: th.label,
+        type: 'theory',
+        radius: 14,
+        color: 'var(--color-theory)',
+        x: Math.cos(angle) * thRadius,
+        y: Math.sin(angle) * thRadius,
+        val: 18
+      };
+      nodes.push(node);
+      nodeMap.set(node.id, node);
+    });
+
+    // 48 Papers
+    RAW_PAPERS.forEach((p, idx) => {
+      const catNode = nodeMap.get('cat_' + p.queryLabel);
+      const baseX = catNode ? catNode.x : 0;
+      const baseY = catNode ? catNode.y : 0;
+      
+      const pNode = {
+        id: p.id,
+        label: p.title,
+        rawCat: p.queryLabel,
+        type: 'paper',
+        radius: 6,
+        color: 'var(--color-paper)',
+        data: p,
+        tags: [],
+        x: baseX + (Math.random() - 0.5) * 160,
+        y: baseY + (Math.random() - 0.5) * 160,
+        val: 8
+      };
+
+      // Match multi-dimensional tags for this paper
+      const paperFullText = `${p.title} ${p.abstract || ''} ${p.aiPurpose || ''} ${p.aiFindings || ''} ${p.aiImplications || ''} ${p.keywords || ''} ${p.queryLabel || ''}`;
+      RESEARCH_TAG_GROUPS.forEach(group => {
+        group.tags.forEach(t => {
+          let isMatch = false;
+          if (t.type === 'category') {
+            isMatch = (p.queryLabel === t.catId);
+          } else if (t.type === 'theory') {
+            isMatch = t.kws.some(k => paperFullText.toLowerCase().includes(k.toLowerCase()));
+          } else if (t.pattern) {
+            isMatch = t.pattern.test(paperFullText);
+          }
+          if (isMatch) {
+            pNode.tags.push(t);
+            t.paperIds.add(p.id);
+          }
+        });
+      });
+
+      nodes.push(pNode);
+      nodeMap.set(pNode.id, pNode);
+
+      // Category Link (guaranteed match)
+      if (catNode) {
+        links.push({
+          source: p.id,
+          target: catNode.id,
+          type: 'category',
+          value: 1.5
+        });
+      }
+
+      // Theory Links
+      const fullText = (p.title + ' ' + (p.abstract || '') + ' ' + (p.keywords || '') + ' ' + (p.aiFindings || '')).toLowerCase();
+      THEORY_HUBS.forEach(th => {
+        const matches = th.kws.some(k => fullText.includes(k));
+        if (matches) {
+          links.push({
+            source: p.id,
+            target: th.id,
+            type: 'theory',
+            value: 1
+          });
+        }
+      });
+    });
+
+    // State variables
+    let alwaysShowLabels = false;
+    let currentZoom = 0.8;
+    let labels = null;
+
+    function updateLabelVisibilityOnZoom(scale) {
+      if (!labels) return;
+      if (alwaysShowLabels) return;
+      labels.style("opacity", d => {
+        if (d.type !== 'paper') return 1;
+        return scale >= 1.6 ? 0.9 : 0;
+      });
+    }
+
+    // 3. D3 Force Simulation Setup (Tuned for Airy Galaxy Layout)
+    const svg = d3.select("#graphSvg");
+    let width = window.innerWidth || 1200;
+    let height = window.innerHeight || 800;
+
+    svg.attr("viewBox", [0, 0, width, height]);
+
+    const g = svg.append("g");
+
+    // Zoom & Pan Behavior
+    const zoom = d3.zoom()
+      .scaleExtent([0.15, 4.5])
+      .on("zoom", (e) => {
+        currentZoom = e.transform.k;
+        g.attr("transform", e.transform);
+        updateLabelVisibilityOnZoom(currentZoom);
+      });
+
+    svg.call(zoom);
+
+    // Force Simulation with High Repulsion to prevent overlapping
+    const simulation = d3.forceSimulation(nodes)
+      .force("link", d3.forceLink(links).id(d => d.id).distance(d => d.type === 'category' ? 90 : 160).strength(0.5))
+      .force("charge", d3.forceManyBody().strength(d => {
+        if (d.type === 'category') return -1200;
+        if (d.type === 'theory') return -650;
+        return -140;
+      }))
+      .force("collision", d3.forceCollide().radius(d => d.radius + 16).iterations(2))
+      .force("center", d3.forceCenter(0, 0).strength(0.04))
+      .velocityDecay(0.35);
+
+    // Draw Subtle Links
+    const link = g.append("g")
+      .selectAll("line")
+      .data(links)
+      .join("line")
+      .attr("stroke", "var(--line-color)")
+      .attr("stroke-width", 0.9)
+      .attr("stroke-opacity", 0.5);
+
+    // Draw Nodes Group
+    const node = g.append("g")
+      .selectAll("g")
+      .data(nodes)
+      .join("g")
+      .attr("class", d => "node-group " + d.type)
+      .call(drag(simulation));
+
+    // Hub Outer Halo Ring
+    node.filter(d => d.type !== 'paper')
+      .append("circle")
+      .attr("r", d => d.radius + 6)
+      .attr("fill", "none")
+      .attr("stroke", d => d.type === 'category' ? 'var(--color-cat-glow)' : 'var(--color-theory-glow)')
+      .attr("stroke-width", 2);
+
+    // Main Node Circle
+    node.append("circle")
+      .attr("r", d => d.radius)
+      .attr("fill", d => d.color)
+      .attr("stroke", d => d.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff')
+      .attr("stroke-width", d => d.type === 'paper' ? 1 : 2)
+      .style("box-shadow", "0 0 10px rgba(0,0,0,0.5)");
+
+    // Smart Labels (Hubs ALWAYS visible, Papers hidden by default)
+    labels = node.append("text")
+      .text(d => {
+        if (d.type === 'category') return d.label;
+        if (d.type === 'theory') return '#' + d.label.split(' ')[0];
+        return d.label.length > 24 ? d.label.substring(0, 22) + '…' : d.label;
+      })
+      .attr("x", d => d.radius + 6)
+      .attr("y", 4)
+      .attr("fill", d => d.type === 'paper' ? "var(--text)" : "#ffffff")
+      .attr("font-size", d => d.type === 'category' ? "13px" : (d.type === 'theory' ? "11.5px" : "10px"))
+      .attr("font-weight", d => d.type === 'category' ? 800 : (d.type === 'theory' ? 700 : 400))
+      .attr("pointer-events", "none")
+      .style("text-shadow", "0 2px 6px rgba(0,0,0,0.9)")
+      .style("opacity", d => d.type === 'paper' ? 0 : 1); // Hidden for papers by default!
+
+    // Initial Zoom Transform (now safe since labels and state variables are declared)
+    svg.call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(0.8));
+
+    // Ticking
+    simulation.on("tick", () => {
+      link
+        .attr("x1", d => d.source.x)
+        .attr("y1", d => d.source.y)
+        .attr("x2", d => d.target.x)
+        .attr("y2", d => d.target.y);
+
+      node.attr("transform", d => `translate(${d.x},${d.y})`);
+    });
+
+    // Drag Helper
+    function drag(sim) {
+      function dragstarted(event) {
+        if (!event.active) sim.alphaTarget(0.3).restart();
+        event.subject.fx = event.subject.x;
+        event.subject.fy = event.subject.y;
+      }
+      function dragged(event) {
+        event.subject.fx = event.x;
+        event.subject.fy = event.y;
+      }
+      function dragended(event) {
+        if (!event.active) sim.alphaTarget(0);
+        event.subject.fx = null;
+        event.subject.fy = null;
+      }
+      return d3.drag()
+        .on("start", dragstarted)
+        .on("drag", dragged)
+        .on("end", dragended);
+    }
+
+    // 4. Label Mode Toggle (Hover Only vs Always Show)
+    const btnToggleLabels = document.getElementById("btnToggleLabels");
+
+    btnToggleLabels.onclick = () => {
+      alwaysShowLabels = !alwaysShowLabels;
+      if (alwaysShowLabels) {
+        btnToggleLabels.classList.add("active");
+        btnToggleLabels.textContent = "🏷️ 라벨: 항상 표시 중";
+        labels.style("opacity", 1);
+      } else {
+        btnToggleLabels.classList.remove("active");
+        btnToggleLabels.textContent = "🏷️ 라벨: 호버 시 표시";
+        updateLabelVisibilityOnZoom(currentZoom);
+      }
+    };
+
+    // 5. Persistent Pinned Selection & Highlight Engine
+    let selectedNode = null;
+    const tooltip = document.getElementById("graphTooltip");
+
+    function highlightSubgraph(d) {
+      const connectedNodeIds = new Set();
+      connectedNodeIds.add(d.id);
+
+      links.forEach(l => {
+        if (l.source.id === d.id) connectedNodeIds.add(l.target.id);
+        if (l.target.id === d.id) connectedNodeIds.add(l.source.id);
+      });
+
+      // Dim non-connected nodes strongly
+      node.style("opacity", n => connectedNodeIds.has(n.id) ? 1 : 0.05);
+
+      // Selected node special active ring & connected borders
+      node.selectAll("circle")
+        .attr("stroke", function(n) {
+          if (n.id === d.id) return "var(--color-highlight)";
+          if (connectedNodeIds.has(n.id)) return "#ffffff";
+          return n.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff';
+        })
+        .attr("stroke-width", function(n) {
+          if (n.id === d.id) return 3.5;
+          if (connectedNodeIds.has(n.id)) return 2;
+          return n.type === 'paper' ? 1 : 2;
+        });
+
+      // Light up connected links with laser glow
+      link
+        .attr("stroke", l => (l.source.id === d.id || l.target.id === d.id) ? "var(--line-highlight)" : "var(--line-color)")
+        .attr("stroke-width", l => (l.source.id === d.id || l.target.id === d.id) ? 2.5 : 0.9)
+        .attr("stroke-opacity", l => (l.source.id === d.id || l.target.id === d.id) ? 1 : 0.02);
+
+      // Reveal labels of all connected nodes
+      labels.style("opacity", n => {
+        if (connectedNodeIds.has(n.id)) return 1;
+        if (alwaysShowLabels) return 0.15;
+        return 0;
+      });
+    }
+
+    function resetGraphHighlight() {
+      selectedNode = null;
+      node.style("opacity", 1);
+      node.selectAll("circle")
+        .attr("stroke", d => d.type === 'paper' ? 'rgba(255,255,255,0.4)' : '#ffffff')
+        .attr("stroke-width", d => d.type === 'paper' ? 1 : 2);
+      link
+        .attr("stroke", "var(--line-color)")
+        .attr("stroke-width", 0.9)
+        .attr("stroke-opacity", 0.5);
+      updateLabelVisibilityOnZoom(currentZoom);
+    }
+
+    // Hover Events (Preview when not pinned)
+    node.on("mouseenter", (event, d) => {
+      if (!selectedNode) {
+        highlightSubgraph(d);
+      }
+
+      // Show Rich Tooltip
+      tooltip.style.display = "block";
+      if (d.type === 'paper') {
+        const p = d.data;
+        tooltip.innerHTML = `
+          <div class="tooltip-header">
+            <span class="tooltip-badge">${p.queryLabel}</span>
+            <span class="tooltip-venue">${escapeHtml(p.venue)} · ${escapeHtml(p.pubDate)}</span>
+          </div>
+          <div class="tooltip-title">${escapeHtml(p.title)}</div>
+          ${p.aiFindings ? `
+            <div class="tooltip-findings">
+              <strong>💡 주요 결과:</strong> ${escapeHtml(p.aiFindings)}
+            </div>
+          ` : ''}
+          ${p.aiImplications ? `
+            <div class="tooltip-implications">
+              <strong>🧭 상담 시사점:</strong> ${escapeHtml(p.aiImplications)}
+            </div>
+          ` : ''}
+          <div class="tooltip-hint">${selectedNode && selectedNode.id === d.id ? '선택됨 (클릭 시 해제)' : '클릭하여 고정 선택 및 브리프 열람 ↗'}</div>
+        `;
+      } else {
+        const count = links.filter(l => l.source.id === d.id || l.target.id === d.id).length;
+        tooltip.innerHTML = `
+          <div class="tooltip-title" style="margin-bottom:4px;">${d.type === 'category' ? '📁 ' : '#'}${escapeHtml(d.label)}</div>
+          <div style="font-size:0.78rem; color:var(--text-muted);">연결된 연구 논문: <strong>${count}편</strong></div>
+          <div class="tooltip-hint" style="margin-top:6px;">${selectedNode && selectedNode.id === d.id ? '선택됨 (클릭 시 해제)' : '클릭하여 해당 허브 논문 고정 ↗'}</div>
+        `;
+      }
+
+      positionTooltip(event);
+    })
+    .on("mousemove", (event) => {
+      positionTooltip(event);
+    })
+    .on("mouseleave", () => {
+      tooltip.style.display = "none";
+      // ONLY reset highlight if NO node is currently clicked/pinned!
+      if (!selectedNode) {
+        resetGraphHighlight();
+      }
+    });
+
+    function positionTooltip(event) {
+      const padding = 16;
+      let x = event.clientX + padding;
+      let y = event.clientY + padding;
+      if (x + 390 > window.innerWidth) x = event.clientX - 390;
+      if (y + 220 > window.innerHeight) y = event.clientY - 200;
+      tooltip.style.left = x + "px";
+      tooltip.style.top = y + "px";
+    }
+
+    // 6. Click Node -> Persistent Selection Locking + Inspector Drawer
+    const drawer = document.getElementById("inspectorDrawer");
+
+    node.on("click", (event, d) => {
+      event.stopPropagation();
+
+      // Toggle off if clicking the already selected node
+      if (selectedNode && selectedNode.id === d.id) {
+        resetGraphHighlight();
+        drawer.classList.remove("open");
+        return;
+      }
+
+      // Lock selection
+      selectedNode = d;
+      highlightSubgraph(d);
+
+      if (d.type === 'paper') {
+        openInspector(d.data);
+      } else {
+        openHubInspector(d);
+      }
+    });
+
+    function openInspector(p) {
+      document.getElementById("drawerBadge").textContent = p.queryLabel;
+      document.getElementById("drawerVenue").textContent = (p.venue || "") + " · " + (p.isCore || "SSCI급");
+      document.getElementById("drawerTitle").textContent = p.title;
+      document.getElementById("drawerMeta").innerHTML = `
+        저자: ${escapeHtml(p.authors)} ${p.firstAffiliation ? '(' + escapeHtml(p.firstAffiliation) + ')' : ''}<br>
+        발행: ${escapeHtml(p.pubDate)}
+      `;
+
+      // Render multi-dimensional research tag pills
+      const pNode = nodeMap.get(p.id);
+      const tagsEl = document.getElementById("drawerTagsList");
+      if (pNode && pNode.tags && pNode.tags.length > 0) {
+        tagsEl.innerHTML = pNode.tags.map(t => `<span class="drawer-tag-pill" onclick="window.selectTagById('${t.id}')">#${escapeHtml(t.label)}</span>`).join('');
+        tagsEl.style.display = "flex";
+      } else {
+        tagsEl.innerHTML = '';
+        tagsEl.style.display = "none";
+      }
+
+      document.getElementById("drawerAiBox").innerHTML = `
+        ${p.aiPurpose ? `<div class="brief-row"><span class="brief-key">[연구 목적]</span> <span class="brief-val">${escapeHtml(p.aiPurpose)}</span></div>` : ''}
+        ${p.aiFindings ? `<div class="brief-row"><span class="brief-key">[주요 결과]</span> <span class="brief-val">${escapeHtml(p.aiFindings)}</span></div>` : ''}
+        ${p.aiImplications ? `<div class="brief-row"><span class="brief-key">[상담 시사점]</span> <span class="brief-val">${escapeHtml(p.aiImplications)}</span></div>` : ''}
+        ${(!p.aiPurpose && !p.aiFindings && !p.aiImplications) ? '<div class="brief-val">서재에 수록된 연구입니다. 아래 원문 초록을 참조해 주세요.</div>' : ''}
+      `;
+
+      document.getElementById("drawerAbstract").textContent = p.abstract || "원문 초록 미등록 (저널 원문 페이지를 참조해 주세요)";
+      const doiUrl = p.doi ? (p.doi.startsWith("http") ? p.doi : "https://doi.org/" + p.doi) : "#";
+      const doiBtn = document.getElementById("drawerDoi");
+      doiBtn.href = doiUrl;
+      doiBtn.style.display = "inline-flex";
+
+      drawer.classList.add("open");
+    }
+
+    // Hub (Category or Theory) Inspector Drawer
+    function openHubInspector(d) {
+      document.getElementById("drawerTagsList").style.display = "none";
+      const connectedPapers = links
+        .filter(l => l.source.id === d.id || l.target.id === d.id)
+        .map(l => l.source.id === d.id ? l.target : l.source)
+        .filter(n => n.type === 'paper');
+
+      document.getElementById("drawerBadge").textContent = d.type === 'category' ? '연구 성단 허브' : '핵심 이론 허브';
+      document.getElementById("drawerVenue").textContent = `연결된 논문 총 ${connectedPapers.length}편`;
+      document.getElementById("drawerTitle").textContent = (d.type === 'category' ? '📁 ' : '#') + d.label;
+      document.getElementById("drawerMeta").innerHTML = `이 허브와 연결된 연구들을 맵 상에서 고정 하이라이트하고 있습니다.<br><span style="color:var(--color-highlight);">💡 맵의 빈 공간을 클릭하거나 ESC를 누르면 선택이 해제됩니다.</span>`;
+
+      document.getElementById("drawerAiBox").innerHTML = `
+        <div style="font-weight:700; margin-bottom:10px; color:var(--text); font-size:0.86rem;">연결 논문 목록 (${connectedPapers.length}편):</div>
+        <div class="hub-paper-list">
+          ${connectedPapers.map((p, i) => {
+            const d = p.data || {};
+            const year = (d.pubDate || '').substring(0, 4);
+            const venue = d.venue || '학술지 정보 미등록';
+            const authors = d.authors || '저자 미상';
+            return `
+              <div class="hub-paper-item" onclick="window.selectPaperById('${p.id}')">
+                <div style="display:flex; align-items:baseline; gap:7px;">
+                  <span style="color:var(--color-highlight); font-weight:800; font-size:0.75rem; flex-shrink:0;">${i+1}</span>
+                  <div style="font-weight:650; color:var(--text); font-size:0.84rem; line-height:1.45; word-break:keep-all;">
+                    ${escapeHtml(p.label)}
+                  </div>
+                </div>
+                <div style="margin-top:6px; font-size:0.74rem; color:var(--text-muted); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:4px; border-top:1px dashed var(--border); padding-top:5px;">
+                  <span>👤 ${escapeHtml(authors)}</span>
+                  <span style="font-style:italic; color:var(--color-paper);">📖 ${escapeHtml(venue)} ${year ? '(' + year + ')' : ''}</span>
+                </div>
+              </div>
+            `;
+          }).join('')}
+        </div>
+      `;
+
+      document.getElementById("drawerAbstract").textContent = "이 허브에 포함된 논문들은 현재 맵 상에서 환하게 불이 켜져 있으며, 목록 중 하나를 클릭하면 해당 논문으로 즉시 포커스됩니다.";
+      document.getElementById("drawerDoi").style.display = "none";
+
+      drawer.classList.add("open");
+    }
+
+    // Jump to paper from hub list or URL
+    window.selectPaperById = function(paperId) {
+      const pNode = nodeMap.get(paperId);
+      if (pNode) {
+        selectedNode = pNode;
+        highlightSubgraph(pNode);
+        openInspector(pNode.data);
+      }
+    };
+
+    // Auto-focus paper if paperId query parameter is present (from index.html)
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetPaperId = urlParams.get("paperId");
+    if (targetPaperId) {
+      setTimeout(() => {
+        const pNode = nodeMap.get(targetPaperId);
+        if (pNode) {
+          window.selectPaperById(targetPaperId);
+          if (typeof pNode.x === "number" && typeof pNode.y === "number") {
+            svg.transition().duration(900).call(
+              zoom.transform,
+              d3.zoomIdentity.translate(width / 2, height / 2).scale(1.5).translate(-pNode.x, -pNode.y)
+            );
+          }
+        }
+      }, 600);
+    }
+
+    // Close on Drawer ✕ button
+    document.getElementById("drawerCloseBtn").onclick = () => {
+      resetGraphHighlight();
+      drawer.classList.remove("open");
+    };
+
+    // Deselect and reset on Canvas Click
+    svg.on("click", (event) => {
+      resetGraphHighlight();
+      drawer.classList.remove("open");
+    });
+
+    // Deselect and reset on ESC key
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        resetGraphHighlight();
+        drawer.classList.remove("open");
+      }
+    });
+
+    // 7. Tag Navigator Sidebar Logic
+    let currentActiveTagId = null;
+
+    function renderTagNavigator() {
+      const container = document.getElementById("tagTreeContainer");
+      if (!container) return;
+
+      let html = '';
+      RESEARCH_TAG_GROUPS.forEach(group => {
+        const activeTags = group.tags.filter(t => t.paperIds && t.paperIds.size > 0);
+        if (activeTags.length === 0) return;
+
+        html += `
+          <div class="tag-group" data-group-id="${group.id}">
+            <div class="tag-group-title" onclick="window.toggleTagGroup(this)">
+              <span>${group.title}</span>
+              <span class="group-arrow">▼</span>
+            </div>
+            <div class="tag-group-list">
+              ${activeTags.map(t => `
+                <div class="tag-item" id="tag_item_${t.id}" data-tag-id="${t.id}" onclick="window.selectTagById('${t.id}')">
+                  <div class="tag-label-wrap">
+                    <span style="opacity:0.6; font-size:0.75rem;">#</span>
+                    <span>${escapeHtml(t.label)}</span>
+                  </div>
+                  <span class="tag-count">${t.paperIds.size}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      });
+
+      container.innerHTML = html;
+      const countEl = document.getElementById("sidebarActiveCount");
+      if (countEl) countEl.textContent = `${RAW_PAPERS.length}편`;
+    }
+
+    window.toggleTagGroup = function(headerEl) {
+      const list = headerEl.nextElementSibling;
+      const arrow = headerEl.querySelector(".group-arrow");
+      if (!list) return;
+      list.classList.toggle("hidden");
+      if (arrow) {
+        arrow.textContent = list.classList.contains("hidden") ? "▶" : "▼";
+      }
+    };
+
+    window.selectTagById = function(tagId) {
+      if (currentActiveTagId === tagId) {
+        window.resetAllTagFilters();
+        return;
+      }
+      currentActiveTagId = tagId;
+
+      // Find tag definition
+      let targetTag = null;
+      for (const g of RESEARCH_TAG_GROUPS) {
+        for (const t of g.tags) {
+          if (t.id === tagId) {
+            targetTag = t;
+            break;
+          }
+        }
+        if (targetTag) break;
+      }
+      if (!targetTag) return;
+
+      // Update sidebar UI active state
+      document.querySelectorAll(".tag-item").forEach(el => el.classList.remove("active"));
+      const activeEl = document.getElementById("tag_item_" + tagId);
+      if (activeEl) {
+        activeEl.classList.add("active");
+        const parentList = activeEl.closest(".tag-group-list");
+        if (parentList) {
+          parentList.classList.remove("hidden");
+          const parentArrow = parentList.previousElementSibling?.querySelector(".group-arrow");
+          if (parentArrow) parentArrow.textContent = "▼";
+        }
+      }
+
+      const activeLabel = document.getElementById("activeFilterLabel");
+      if (activeLabel) activeLabel.textContent = `${targetTag.label} (${targetTag.paperIds.size}편)`;
+      const activeCount = document.getElementById("sidebarActiveCount");
+      if (activeCount) activeCount.textContent = `${targetTag.paperIds.size}편`;
+
+      // Find the corresponding Hub Node on canvas and trigger full subgraph highlight + drawer
+      const hubNodeId = targetTag.type === 'category' ? ('cat_' + targetTag.catId) : targetTag.id;
+      const hubNode = nodeMap.get(hubNodeId);
+
+      if (hubNode) {
+        selectedNode = hubNode;
+        highlightSubgraph(hubNode);
+        openHubInspector(hubNode);
+      } else {
+        // Fallback matching
+        const matchingIds = new Set(targetTag.paperIds);
+        node.style("opacity", n => matchingIds.has(n.id) ? 1 : 0.04);
+        labels.style("opacity", n => matchingIds.has(n.id) ? 1 : 0);
+      }
+    };
+
+    window.resetAllTagFilters = function() {
+      currentActiveTagId = null;
+      document.querySelectorAll(".tag-item").forEach(el => el.classList.remove("active"));
+      const activeLabel = document.getElementById("activeFilterLabel");
+      if (activeLabel) activeLabel.textContent = "전체 서재 표시 중";
+      const activeCount = document.getElementById("sidebarActiveCount");
+      if (activeCount) activeCount.textContent = `${RAW_PAPERS.length}편`;
+
+      resetGraphHighlight();
+    };
+
+    const btnResetTags = document.getElementById("btnResetTags");
+    if (btnResetTags) {
+      btnResetTags.onclick = () => window.resetAllTagFilters();
+    }
+
+    // Sidebar Collapsible Toggles
+    const tagSidebar = document.getElementById("tagSidebar");
+    const btnCollapseSidebar = document.getElementById("btnCollapseSidebar");
+    const btnOpenSidebar = document.getElementById("btnOpenSidebar");
+    const hudBottomLeft = document.getElementById("hudBottomLeft");
+
+    if (btnCollapseSidebar) {
+      btnCollapseSidebar.onclick = () => {
+        tagSidebar.classList.add("collapsed");
+        btnOpenSidebar.classList.add("visible");
+        if (hudBottomLeft) hudBottomLeft.classList.add("shifted");
+      };
+    }
+
+    if (btnOpenSidebar) {
+      btnOpenSidebar.onclick = () => {
+        tagSidebar.classList.remove("collapsed");
+        btnOpenSidebar.classList.remove("visible");
+        if (hudBottomLeft) hudBottomLeft.classList.remove("shifted");
+      };
+    }
+
+    // Real-time Tag & Paper Search Input
+    const tagSearchInput = document.getElementById("tagSearchInput");
+    if (tagSearchInput) {
+      tagSearchInput.addEventListener("input", (e) => {
+        const q = e.target.value.toLowerCase().trim();
+        
+        // Filter sidebar tags
+        const tagItems = document.querySelectorAll(".tag-item");
+        tagItems.forEach(item => {
+          const label = item.querySelector(".tag-label-wrap")?.textContent.toLowerCase() || "";
+          if (!q || label.includes(q)) {
+            item.style.display = "flex";
+          } else {
+            item.style.display = "none";
+          }
+        });
+
+        // Filter and highlight graph nodes
+        if (!q) {
+          if (!currentActiveTagId) {
+            resetGraphHighlight();
+          }
+          return;
+        }
+
+        const matchIds = new Set();
+        nodes.forEach(d => {
+          let text = d.label;
+          if (d.data) {
+            text += ' ' + (d.data.authors || '') + ' ' + (d.data.venue || '') + ' ' + (d.data.keywords || '') + ' ' + (d.data.aiFindings || '') + ' ' + (d.data.abstract || '');
+          }
+          if (text.toLowerCase().includes(q)) matchIds.add(d.id);
+        });
+
+        node.style("opacity", d => matchIds.has(d.id) ? 1 : 0.05);
+        labels.style("opacity", d => matchIds.has(d.id) ? 1 : 0);
+        node.selectAll("circle")
+          .attr("stroke", d => matchIds.has(d.id) ? "var(--color-highlight)" : "rgba(255,255,255,0.2)")
+          .attr("stroke-width", d => matchIds.has(d.id) ? 3 : 1);
+      });
+    }
+
+    // Initial render of tag navigator
+    renderTagNavigator();
+
+    // 9. Zoom Controls
+    document.getElementById("btnZoomIn").onclick = () => {
+      svg.transition().duration(300).call(zoom.scaleBy, 1.35);
+    };
+
+    document.getElementById("btnZoomOut").onclick = () => {
+      svg.transition().duration(300).call(zoom.scaleBy, 0.7);
+    };
+
+    document.getElementById("btnFit").onclick = () => {
+      svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.translate(width / 2, height / 2).scale(0.8));
+    };
+
+    document.getElementById("btnResetPhysics").onclick = () => {
+      simulation.alpha(0.8).restart();
+    };
+
+    // 10. Dark/Light Theme Toggle
+    const themeBtn = document.getElementById("themeToggleBtn");
+    let isLight = localStorage.getItem("scholar_theme_map") === "light";
+    if (isLight) {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+
+    themeBtn.onclick = () => {
+      isLight = !isLight;
+      if (isLight) {
+        document.documentElement.setAttribute("data-theme", "light");
+        localStorage.setItem("scholar_theme_map", "light");
+      } else {
+        document.documentElement.removeAttribute("data-theme");
+        localStorage.setItem("scholar_theme_map", "dark");
+      }
+    };
+
+    // Window Resize
+    window.addEventListener("resize", () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      svg.attr("viewBox", [0, 0, width, height]);
+    });
+
+    function escapeHtml(str) {
+      if (!str) return "";
+      return String(str).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+    }
+  </script>
+</body>
+</html>

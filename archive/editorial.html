@@ -1,0 +1,1595 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <title>The Spark Review | 주간 학술·정책 인텔리전스</title>
+
+  <!-- Google Fonts: index.html 100% 동일 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700;900&family=Pretendard:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js for Minimalist Academic Graphs -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <style>
+    /* ==========================================================================
+       DESIGN TOKENS (index.html 100% Identical Academic Monochrome Palette)
+       ========================================================================== */
+    :root {
+      --navy: #111111;
+      --ink: #1c1c1c;
+      --muted: #666666;
+      --line: #e2e2e2;
+      --paper: #ffffff;
+      --paper-subtle: #f9f9f9;
+      --sky: #f0f0f0;
+      --max: 1100px;
+      
+      --accent-core: #111111;
+      --accent-core-bg: #f3f4f6;
+      --color-highlight: #b45309;
+    }
+
+    [data-theme="dark"] {
+      --navy: #090909;
+      --ink: #eeeeee;
+      --muted: #999999;
+      --line: #2a2a2a;
+      --paper: #121212;
+      --paper-subtle: #1a1a1a;
+      --sky: #242424;
+      
+      --accent-core: #ffffff;
+      --accent-core-bg: #262626;
+      --color-highlight: #d97706;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Pretendard, -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo", sans-serif;
+      color: var(--ink);
+      background: var(--paper);
+      font-size: 15px;
+      line-height: 1.72;
+      transition: background-color 0.2s ease, color 0.2s ease;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+
+    .shell {
+      max-width: var(--max);
+      margin: auto;
+      padding: 0 32px;
+    }
+
+    /* Top Sticky Header */
+    header.site-header {
+      background: var(--navy);
+      color: #ffffff;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav {
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand span {
+      color: #888888;
+      font-weight: 400;
+      font-size: 0.88rem;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-status {
+      font-size: 0.82rem;
+      color: #dddddd;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      background: rgba(255, 255, 255, 0.07);
+      padding: 4px 12px;
+      border-radius: 20px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-weight: 500;
+    }
+
+    .status-dot {
+      width: 6.5px;
+      height: 6.5px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.6);
+    }
+
+    .btn-nav {
+      font-size: 0.8rem;
+      color: #cccccc;
+      border: 1px solid #444444;
+      padding: 4px 10px;
+      border-radius: 4px;
+      transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-nav:hover {
+      color: #ffffff;
+      border-color: #888888;
+      background: #222222;
+    }
+
+    .btn-nav-map-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 5px 13px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(99, 102, 241, 0.16));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #38bdf8;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      text-decoration: none;
+      letter-spacing: -0.01em;
+      transition: all 0.2s ease;
+    }
+
+    .btn-nav-map-pill:hover {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.28), rgba(99, 102, 241, 0.28));
+      border-color: #38bdf8;
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    .nav-pulse-dot {
+      width: 6.5px;
+      height: 6.5px;
+      border-radius: 50%;
+      background: #38bdf8;
+      box-shadow: 0 0 6px #38bdf8;
+      animation: navPulse 2s infinite ease-in-out;
+    }
+
+    @keyframes navPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .btn-theme-toggle {
+      background: transparent;
+      border: 1px solid #444444;
+      color: #ffffff;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .btn-theme-toggle:hover {
+      background: #222222;
+      border-color: #666666;
+    }
+
+    /* ==========================================================================
+       HERO MASTHEAD (Dynamic Mount Target)
+       ========================================================================== */
+    .intro {
+      background: var(--paper);
+      color: var(--ink);
+      padding: 48px 0 40px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 48px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-size: 0.74rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .intro h1 {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: clamp(2.1rem, 3.6vw, 3rem);
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -0.035em;
+      margin: 10px 0 16px;
+    }
+
+    .intro-lead-quote {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.15rem;
+      line-height: 1.68;
+      color: var(--ink);
+      border-left: 2px solid var(--ink);
+      padding-left: 18px;
+      margin: 0 0 16px;
+    }
+
+    .intro-desc {
+      color: var(--muted);
+      font-size: 0.94rem;
+      line-height: 1.72;
+      margin: 0;
+    }
+
+    .intro-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .tag-chip {
+      background: var(--sky);
+      color: var(--muted);
+      border-radius: 3px;
+      padding: 3px 8px;
+      font-size: 0.74rem;
+      font-weight: 500;
+      border: 1px solid var(--line);
+    }
+
+    .brief-summary-box {
+      border-left: 2px solid var(--ink);
+      padding-left: 22px;
+      color: var(--muted);
+      font-size: 0.88rem;
+      line-height: 1.65;
+    }
+
+    .brief-summary-box strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.96rem;
+      margin-bottom: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .brief-meta-list {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.84rem;
+    }
+
+    .brief-meta-list li {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px dashed var(--line);
+      padding-bottom: 4px;
+    }
+
+    .brief-meta-list span.val {
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .brief-links {
+      display: flex;
+      gap: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .brief-links a {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       STICKY TABLE OF CONTENTS
+       ========================================================================== */
+    .sticky-toc-bar {
+      position: sticky;
+      top: 60px;
+      z-index: 90;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
+      transition: background-color 0.2s ease, border-color 0.2s ease;
+    }
+
+    .toc-inner {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 0;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+
+    .toc-label {
+      font-size: 0.75rem;
+      font-weight: 800;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-right: 6px;
+    }
+
+    .toc-link {
+      font-size: 0.82rem;
+      color: var(--muted);
+      padding: 4px 10px;
+      border-radius: 3px;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+
+    .toc-link:hover {
+      color: var(--ink);
+      background: var(--sky);
+      border-color: var(--line);
+    }
+
+    /* ==========================================================================
+       MONOGRAPH READING LAYOUT & SECTIONS
+       ========================================================================== */
+    main {
+      padding: 48px 0 96px;
+      background: var(--paper);
+    }
+
+    .reading-section {
+      margin-bottom: 72px;
+    }
+
+    .reading-section-header {
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 14px;
+      margin-bottom: 28px;
+    }
+
+    .section-num {
+      font-size: 0.74rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      margin: 0 0 6px;
+    }
+
+    .section-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .editorial-essay {
+      font-size: 0.96rem;
+      line-height: 1.82;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .editorial-essay p {
+      margin: 0 0 16px;
+    }
+
+    .editorial-essay p:last-child {
+      margin-bottom: 0;
+    }
+
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .kpi-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 18px 20px;
+    }
+
+    .kpi-label {
+      font-size: 0.74rem;
+      font-weight: 700;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .kpi-val {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 2.1rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1.2;
+      margin: 6px 0 4px;
+    }
+
+    .kpi-val span {
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: var(--muted);
+      margin-left: 2px;
+    }
+
+    .kpi-sub {
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .audit-box {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--ink);
+      border-radius: 0 4px 4px 0;
+      padding: 22px 26px;
+      margin-bottom: 36px;
+    }
+
+    .audit-box h4 {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--ink);
+      margin: 0 0 10px;
+    }
+
+    .audit-box p {
+      font-size: 0.86rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin: 0 0 10px;
+    }
+
+    .audit-box p:last-child {
+      margin-bottom: 0;
+    }
+
+    .audit-box strong {
+      color: var(--ink);
+    }
+
+    .audit-box a {
+      color: var(--ink);
+      text-decoration: underline;
+    }
+
+    .charts-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-bottom: 36px;
+    }
+
+    .chart-box {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 20px 24px;
+    }
+
+    .chart-title {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin: 0 0 2px;
+    }
+
+    .chart-subtitle {
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+
+    /* ==========================================================================
+       PAPER CARDS
+       ========================================================================== */
+    .paper-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 28px 32px;
+      margin-bottom: 28px;
+    }
+
+    .paper-card-meta {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--muted);
+      font-size: 0.78rem;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    .pill {
+      color: var(--ink);
+      background: var(--sky);
+      padding: 2px 7px;
+      border-radius: 2px;
+      font-weight: 600;
+      font-size: 0.72rem;
+    }
+
+    .pill.core {
+      background: var(--accent-core);
+      color: var(--paper);
+      font-weight: 700;
+    }
+
+    .journal-name {
+      margin-left: auto;
+      font-style: italic;
+      color: var(--muted);
+      font-size: 0.82rem;
+    }
+
+    .paper-card h3 {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.3rem;
+      line-height: 1.45;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+      word-break: keep-all;
+    }
+
+    .paper-card h3 a:hover {
+      text-decoration: underline;
+    }
+
+    .authors-row {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .card-theory-strip {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      font-size: 0.82rem;
+    }
+
+    .card-theory-strip strong {
+      display: block;
+      color: var(--ink);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 2px;
+    }
+
+    .card-theory-strip span {
+      color: var(--muted);
+    }
+
+    .card-svg-container {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 12px;
+      margin-bottom: 16px;
+    }
+
+    .card-svg-header {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .ai-brief-card {
+      background: var(--paper-subtle);
+      border-left: 2px solid var(--ink);
+      padding: 16px 20px;
+      border-radius: 0 3px 3px 0;
+      margin-bottom: 16px;
+      font-size: 0.9rem;
+      line-height: 1.72;
+    }
+
+    .ai-row {
+      margin-bottom: 8px;
+    }
+
+    .ai-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .ai-label {
+      font-weight: 700;
+      color: var(--ink);
+      font-size: 0.84rem;
+      margin-right: 6px;
+      letter-spacing: -0.01em;
+    }
+
+    .ai-text {
+      color: var(--muted);
+    }
+
+    .ai-text.critique {
+      color: var(--ink);
+    }
+
+    .card-archive-link {
+      font-size: 0.82rem;
+      color: var(--muted);
+      border-top: 1px dashed var(--line);
+      padding-top: 12px;
+      margin-bottom: 12px;
+    }
+
+    .card-archive-link strong {
+      color: var(--ink);
+    }
+
+    .apa-citation-box {
+      font-size: 0.78rem;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      padding: 8px 12px;
+      border-radius: 3px;
+      color: var(--muted);
+      word-break: break-all;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-copy-apa {
+      font-family: Pretendard, sans-serif;
+      font-size: 0.74rem;
+      font-weight: 600;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 3px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      color: var(--ink);
+      shrink-to-fit: 0;
+    }
+
+    .btn-copy-apa:hover {
+      background: var(--sky);
+      border-color: #888;
+    }
+
+    /* ==========================================================================
+       POLICY CARDS
+       ========================================================================== */
+    .policy-bridge-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      margin-bottom: 28px;
+      overflow: hidden;
+    }
+
+    .policy-card-top {
+      padding: 16px 24px;
+      background: var(--paper-subtle);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .policy-tag-badge {
+      font-size: 0.74rem;
+      font-weight: 800;
+      color: var(--paper);
+      background: var(--ink);
+      padding: 2px 7px;
+      border-radius: 2px;
+    }
+
+    .policy-card-top h3 {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.18rem;
+      font-weight: 700;
+      margin: 0;
+      color: var(--ink);
+    }
+
+    .policy-connected-paper {
+      font-size: 0.8rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .policy-card-body {
+      padding: 24px 28px;
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+    }
+
+    .policy-col-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      margin: 0 0 12px;
+    }
+
+    .stat-snippet-box {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 16px;
+      font-size: 0.88rem;
+      line-height: 1.7;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .stat-snippet-box strong {
+      color: var(--ink);
+    }
+
+    .academic-implication-box {
+      border-left: 2px solid var(--ink);
+      padding-left: 16px;
+      font-size: 0.88rem;
+      line-height: 1.72;
+      color: var(--muted);
+    }
+
+    .academic-implication-box strong {
+      color: var(--ink);
+    }
+
+    /* ==========================================================================
+       RESEARCH AGENDAS
+       ========================================================================== */
+    .agenda-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 30px 34px;
+      margin-bottom: 32px;
+    }
+
+    .agenda-eyebrow {
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+    }
+
+    .agenda-title {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin: 6px 0 16px;
+      line-height: 1.4;
+      color: var(--ink);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 12px;
+    }
+
+    .agenda-content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      font-size: 0.9rem;
+      line-height: 1.72;
+      margin-bottom: 20px;
+    }
+
+    .agenda-block strong {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .agenda-block p {
+      margin: 0;
+      color: var(--muted);
+      white-space: pre-line;
+    }
+
+    .agenda-svg-box {
+      background: var(--paper-subtle);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      padding: 16px;
+      margin-bottom: 14px;
+    }
+
+    .agenda-footer {
+      font-size: 0.82rem;
+      color: var(--muted);
+      text-align: right;
+      border-top: 1px dashed var(--line);
+      padding-top: 10px;
+    }
+
+    /* ==========================================================================
+       MANUSCRIPT INTRO EXCERPTS
+       ========================================================================== */
+    .intro-excerpt-card {
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 4px;
+      padding: 26px 30px;
+      margin-bottom: 24px;
+    }
+
+    .intro-excerpt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 12px;
+    }
+
+    .intro-excerpt-title {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 1.12rem;
+      font-weight: 700;
+      color: var(--ink);
+      margin: 0;
+    }
+
+    .intro-quote-text {
+      font-family: "Noto Serif KR", Batang, serif;
+      font-size: 0.95rem;
+      line-height: 1.84;
+      color: var(--ink);
+      background: var(--paper-subtle);
+      border-left: 3px solid var(--ink);
+      padding: 16px 22px;
+      border-radius: 0 4px 4px 0;
+      margin: 0 0 10px;
+      word-break: keep-all;
+    }
+
+    .intro-excerpt-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    .btn-copy-quote {
+      font-size: 0.76rem;
+      font-weight: 600;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--line);
+      padding: 4px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: 0.15s ease;
+    }
+
+    .btn-copy-quote:hover {
+      background: var(--sky);
+      border-color: #888;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 40px 0;
+      background: var(--navy);
+      color: #888888;
+      font-size: 0.82rem;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-brand {
+      color: #cccccc;
+      font-weight: 700;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 16px;
+    }
+
+    .footer-links a {
+      color: #888888;
+      text-decoration: underline;
+    }
+
+    .footer-links a:hover {
+      color: #ffffff;
+    }
+
+    /* Dark Mode SVG Overrides */
+    [data-theme="dark"] svg text {
+      fill: #e2e8f0 !important;
+    }
+    [data-theme="dark"] svg rect[fill="#111111"] {
+      fill: #222222 !important;
+    }
+
+    @media (max-width: 900px) {
+      .intro-grid,
+      .kpi-row,
+      .charts-row,
+      .policy-card-body,
+      .agenda-content-grid,
+      .card-theory-strip {
+        grid-template-columns: 1fr;
+      }
+      .shell {
+        padding: 0 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Sticky Header (Consistent across entire system) -->
+  <header class="site-header">
+    <div class="shell">
+      <div class="nav">
+        <div class="brand" id="brandTitle">
+          이세란 교수 연구 서재 <span>The Spark Review · Loading...</span>
+        </div>
+        <div class="nav-right">
+          <div class="nav-status">
+            <span class="status-dot"></span>
+            <span id="headerStatusText">주간 학술·정책 인텔리전스</span>
+          </div>
+          <a href="index.html" class="btn-nav" title="서재 목록으로 이동">
+            <span>← 서재 목록 보기</span>
+          </a>
+          <a href="map.html" class="btn-nav-map-pill" title="지식 네트워크 맵으로 보기">
+            <span class="nav-pulse-dot"></span>
+            <span>🕸️ 지식 맵 ↗</span>
+          </a>
+          <button class="btn-theme-toggle" id="themeToggleBtn">다크모드</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Editorial Hero Section (Populated Dynamically from Meta) -->
+  <section class="intro" id="heroSection">
+    <div class="shell intro-grid">
+      <div id="heroLeftCol">
+        <div class="eyebrow" id="heroEyebrow">
+          <span>Editor-in-Chief's Weekly Intelligence</span>
+        </div>
+        <h1 id="heroTitle">THE SPARK REVIEW</h1>
+        <p class="intro-lead-quote" id="heroLeadQuote">로딩 중...</p>
+        <p class="intro-desc" id="heroDesc">데이터를 불러오고 있습니다.</p>
+        <div class="intro-tags" id="heroTags"></div>
+      </div>
+
+      <div class="brief-summary-box" id="heroSummaryBox">
+        <strong>주간 파이프라인 모니터링 요약</strong>
+        <p>비심리학 거시담론 및 일반 경영윤리 문헌을 필터링하고 연구실 후속 연구에 즉각 투입 가능한 문헌을 선별했습니다.</p>
+        <ul class="brief-meta-list" id="heroMetaList"></ul>
+        <div class="brief-links">
+          <a href="https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/edit" target="_blank" rel="noopener noreferrer">📊 구글 시트 원본 ↗</a>
+          <a href="index.html">📚 누적 보관 서재 ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sticky Table of Contents -->
+  <nav class="sticky-toc-bar">
+    <div class="shell toc-inner">
+      <span class="toc-label">Index</span>
+      <a href="#sec-editorial" class="toc-link">Ⅰ. 편집장 총론</a>
+      <a href="#sec-funnel" class="toc-link">Ⅱ. 퍼널 &amp; 저널 지형</a>
+      <a href="#sec-papers" class="toc-link">Ⅲ. 주간 엄선 7선 해부</a>
+      <a href="#sec-policy" class="toc-link">Ⅳ. 국책 정책 교차 브리핑</a>
+      <a href="#sec-agendas" class="toc-link">Ⅴ. 연구실 기획 아젠다 3선</a>
+      <a href="#sec-intros" class="toc-link">Ⅵ. 서론 인용 예시 문단</a>
+    </div>
+  </nav>
+
+  <!-- Main Monograph Reading Flow -->
+  <main class="shell">
+
+    <!-- PART Ⅰ: EDITORIAL ESSAY & AUDIT -->
+    <section id="sec-editorial" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅰ</span>
+        <h2 class="section-title">편집장 총론</h2>
+        <div class="section-desc" id="editorialSubDesc">주간 상담·직업심리학 학술 지형 총평 및 연구실 관점 진단</div>
+      </div>
+
+      <div class="editorial-essay" id="editorialEssayContainer"></div>
+      <div class="audit-box" id="editorialAuditContainer"></div>
+    </section>
+
+    <!-- PART Ⅱ: FUNNEL & CHARTS -->
+    <section id="sec-funnel" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅱ</span>
+        <h2 class="section-title">퍼널 지표 &amp; 학술지 지형</h2>
+        <div class="section-desc">단계별 문헌 필터링 현황 및 연구실 Zotero 서재(48편) 저널 분포</div>
+      </div>
+
+      <div class="kpi-row" id="kpiContainer"></div>
+
+      <div class="charts-row">
+        <div class="chart-box">
+          <h4 class="chart-title">주간 연구 트랙별 수집 vs. 최종 채택 분포</h4>
+          <div class="chart-subtitle">10월 3주차 수집 문헌(45편)의 단계별 필터링 현황</div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="weeklyFunnelChart"></canvas>
+          </div>
+        </div>
+
+        <div class="chart-box">
+          <h4 class="chart-title">연구 서재 누적 컬렉션(48편) 핵심 학술지 분포</h4>
+          <div class="chart-subtitle">교수님께서 집중 보관하신 주요 타깃 SSCI 저널 비중</div>
+          <div style="height: 240px; position: relative;">
+            <canvas id="journalDistChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PART Ⅲ: CORE PAPERS -->
+    <section id="sec-papers" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅲ</span>
+        <h2 class="section-title">주간 엄선 채택 논문 7선 심층 해부</h2>
+        <div class="section-desc">SSCI급 코어 논문 7편의 이론적 프레임워크, 분석 기법, 편집장 방법론 비평</div>
+      </div>
+
+      <div id="papersListContainer"></div>
+    </section>
+
+    <!-- PART Ⅳ: POLICY BRIDGES -->
+    <section id="sec-policy" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅳ</span>
+        <h2 class="section-title">학술 연구 × 국내 국책연구·정책 지표 교차 브리핑</h2>
+        <div class="section-desc">NRF 과제 및 학술지 서론(연구 필요성)에 즉시 인용할 수 있는 실증 데이터 매칭</div>
+      </div>
+
+      <div id="policyListContainer"></div>
+    </section>
+
+    <!-- PART Ⅴ: RESEARCH AGENDAS -->
+    <section id="sec-agendas" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅴ</span>
+        <h2 class="section-title">연구실 기획 후속 아젠다 3선</h2>
+        <div class="section-desc">주간 저장 논문과 Zotero 서재를 융합하여 즉시 착수 가능한 개념적 구조방정식 모형</div>
+      </div>
+
+      <div id="agendaListContainer"></div>
+    </section>
+
+    <!-- PART Ⅵ: MANUSCRIPT INTRO EXCERPTS -->
+    <section id="sec-intros" class="reading-section">
+      <div class="reading-section-header">
+        <span class="section-num">Part Ⅵ</span>
+        <h2 class="section-title">학술지·NRF 과제 서론(Introduction) 인용 예시 문단</h2>
+        <div class="section-desc">주간 SSCI 논문 인용(APA 7판)과 최신 국책 실증 지표가 완성형으로 결합된 초안 문단</div>
+      </div>
+
+      <div id="introListContainer"></div>
+    </section>
+
+  </main>
+
+  <!-- Footer (Consistent across entire system) -->
+  <footer>
+    <div class="shell footer-inner">
+      <div>
+        <span class="footer-brand">THE SPARK REVIEW</span> · 이세란 교수 연구 서재 주간 인텔리전스
+      </div>
+      <div class="footer-links">
+        <a href="index.html">서재 목록</a>
+        <span>·</span>
+        <a href="map.html">지식 네트워크 맵</a>
+        <span>·</span>
+        <a href="https://docs.google.com/spreadsheets/d/1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY/edit" target="_blank" rel="noopener noreferrer">구글 시트 원본</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ==========================================================================
+       DATA DRIVER & RENDERING ENGINE
+       ========================================================================== -->
+  <script>
+    const SPREADSHEET_ID = "1pisWbhT4MS8sqvrz4_uFTRhSGDEWqcnyyIO9hISJstY";
+    const SHEET3_NAME = "시트3";
+    const LOCAL_FALLBACK_FILE = "weekly_editorial_data.json";
+
+    // 1. Fetch Sheet3 data with automatic fallback
+    async function loadEditorialData() {
+      // Try Google Sheets Live Fetch
+      try {
+        const url = `https://docs.google.com/spreadsheets/d/${SPREADSHEET_ID}/gviz/tq?sheet=${encodeURIComponent(SHEET3_NAME)}&tqx=out:json`;
+        const res = await fetch(url);
+        if (res.ok) {
+          const text = await res.text();
+          if (text.includes("google.visualization.Query.setResponse")) {
+            const raw = text.substring(text.indexOf("{"), text.lastIndexOf("}") + 1);
+            const json = JSON.parse(raw);
+            if (json.table && json.table.rows && json.table.rows.length > 0) {
+              const parsedRows = parseGvizRows(json.table);
+              if (parsedRows.length >= 5) {
+                console.log("Loaded live data from Google Sheets 시트3:", parsedRows.length, "rows");
+                return parsedRows;
+              }
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Google Sheets live fetch failed, falling back to local dataset:", err.message);
+      }
+
+      // Fallback: Local JSON
+      try {
+        const res = await fetch(LOCAL_FALLBACK_FILE);
+        if (res.ok) {
+          const data = await res.json();
+          console.log("Loaded data from local fallback JSON:", data.rows?.length || 0, "rows");
+          return data.rows || [];
+        }
+      } catch (err) {
+        console.error("Local JSON fetch failed:", err);
+      }
+
+      return [];
+    }
+
+    function parseGvizRows(table) {
+      const colKeys = ['type', 'id', 'cluster', 'title', 'authors_source', 'journal_meta', 'theory_method', 'findings', 'critique', 'connection', 'citation_text', 'diagram_svg'];
+      return table.rows.map(r => {
+        const obj = {};
+        colKeys.forEach((k, idx) => {
+          obj[k] = r.c && r.c[idx] && r.c[idx].v !== null ? String(r.c[idx].v) : "";
+        });
+        return obj;
+      }).filter(r => r.type && r.type.trim() !== "");
+    }
+
+    // 2. Render Functions
+    function renderEditorial(rows) {
+      if (!rows || rows.length === 0) return;
+
+      const meta = rows.find(r => r.type === "meta") || {};
+      const editorial = rows.find(r => r.type === "editorial") || {};
+      const papers = rows.filter(r => r.type === "paper");
+      const policies = rows.filter(r => r.type === "policy");
+      const agendas = rows.filter(r => r.type === "agenda");
+      const intros = rows.filter(r => r.type === "intro");
+
+      // ── Meta & Masthead ──
+      const brand = document.getElementById("brandTitle");
+      if (brand) brand.innerHTML = `이세란 교수 연구 서재 <span>The Spark Review · ${meta.title || 'Issue 42'}</span>`;
+
+      const eyebrow = document.getElementById("heroEyebrow");
+      if (eyebrow) eyebrow.innerHTML = `<span>Editor-in-Chief's Weekly Intelligence</span> <span>·</span> <span>${meta.title || 'Issue 42'} (${meta.authors_source || '2026. 10. 17'})</span>`;
+
+      const quote = document.getElementById("heroLeadQuote");
+      if (quote) quote.textContent = meta.findings || "";
+
+      const desc = document.getElementById("heroDesc");
+      if (desc) desc.textContent = meta.critique || "";
+
+      const tagsWrap = document.getElementById("heroTags");
+      if (tagsWrap && meta.theory_method) {
+        const tags = meta.theory_method.split(",").map(t => t.trim());
+        tagsWrap.innerHTML = tags.map(t => `<span class="tag-chip">${t}</span>`).join("");
+      }
+
+      const metaList = document.getElementById("heroMetaList");
+      if (metaList) {
+        const counts = (meta.connection || "45,29,7,3").split(",").map(s => s.trim());
+        metaList.innerHTML = `
+          <li><span>주간 수집 문헌</span> <span class="val">${counts[0] || '45'}편</span></li>
+          <li><span>1차 적합성 통과</span> <span class="val">${counts[1] || '29'}편 (64.4%)</span></li>
+          <li><span>코어 심층 채택</span> <span class="val">${counts[2] || '7'}편 (15.5%)</span></li>
+          <li><span>국책 정책 연계</span> <span class="val">${counts[3] || '3'}건</span></li>
+        `;
+      }
+
+      // ── Part Ⅰ: Editorial ──
+      const essayContainer = document.getElementById("editorialEssayContainer");
+      if (essayContainer && editorial.findings) {
+        const paragraphs = editorial.findings.split("\n\n");
+        essayContainer.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
+      }
+
+      const auditContainer = document.getElementById("editorialAuditContainer");
+      if (auditContainer) {
+        auditContainer.innerHTML = `
+          <h4>🔍 편집실 데이터 감사 (Data Audit) 알림</h4>
+          <p>${editorial.critique || ''}</p>
+          <p>${editorial.connection || ''}</p>
+        `;
+      }
+
+      // ── Part Ⅱ: KPI Row ──
+      const kpiContainer = document.getElementById("kpiContainer");
+      if (kpiContainer) {
+        const counts = (meta.connection || "45,29,7,3").split(",").map(s => s.trim());
+        kpiContainer.innerHTML = `
+          <div class="kpi-card">
+            <div class="kpi-label">주간 총 수집 문헌</div>
+            <div class="kpi-val">${counts[0] || '45'}<span>편</span></div>
+            <div class="kpi-sub">6개 연구 트랙 자동 유입 (누적 671편)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">1차 AI 적합성 통과</div>
+            <div class="kpi-val">64.4<span>%</span></div>
+            <div class="kpi-sub">${counts[1] || '29'}편 통과 (비심리학·경영 배제)</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">코어 심층 채택</div>
+            <div class="kpi-val">${counts[2] || '7'}<span>편</span></div>
+            <div class="kpi-sub">SSCI Q1급 중심 엄선 채택</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">국책 실증 지표 연계</div>
+            <div class="kpi-val">${counts[3] || '3'}<span>건</span></div>
+            <div class="kpi-sub">KRIVET·KEIS·한국은행·문체부</div>
+          </div>
+        `;
+      }
+
+      // ── Part Ⅲ: Papers ──
+      const papersContainer = document.getElementById("papersListContainer");
+      if (papersContainer) {
+        papersContainer.innerHTML = papers.map((p, idx) => {
+          const jParts = (p.journal_meta || "").split("|").map(s => s.trim());
+          const jName = jParts[0] || "";
+          const jDate = jParts[2] || "";
+          const jDoi = jParts[4] || "#";
+          const tmParts = (p.theory_method || "").split("|").map(s => s.trim());
+          const theory = tmParts[0] || "";
+          const method = tmParts[1] || "";
+
+          return `
+            <article class="paper-card">
+              <div class="paper-card-meta">
+                <span class="pill core">${p.cluster ? p.cluster.split("·")[0].trim() : 'CORE'}</span>
+                <span class="pill">${p.cluster ? p.cluster.split("·")[1]?.trim() || '' : ''}</span>
+                <span class="journal-name">${jName} (${jDate})</span>
+              </div>
+              <h3>
+                <a href="${jDoi}" target="_blank" rel="noopener noreferrer">${p.title}</a>
+              </h3>
+              <div class="authors-row">${p.authors_source}</div>
+
+              <div class="card-theory-strip">
+                <div>
+                  <strong>이론 프레임워크 (Theoretical Lens)</strong>
+                  <span>${theory}</span>
+                </div>
+                <div>
+                  <strong>표본 및 분석 기법 (Methodology)</strong>
+                  <span>${method}</span>
+                </div>
+              </div>
+
+              ${p.diagram_svg ? `
+                <div class="card-svg-container">
+                  <div class="card-svg-header">Analytical Path Model</div>
+                  ${p.diagram_svg}
+                </div>
+              ` : ''}
+
+              <div class="ai-brief-card">
+                <div class="ai-row">
+                  <span class="ai-label">핵심 실증 발견:</span>
+                  <span class="ai-text">${p.findings}</span>
+                </div>
+                <div class="ai-row">
+                  <span class="ai-label">편집장 방법론 비평:</span>
+                  <span class="ai-text critique">${p.critique}</span>
+                </div>
+              </div>
+
+              <div class="card-archive-link">
+                <strong>🔗 서재 아카이브 연계:</strong> ${p.connection}
+              </div>
+              <div class="apa-citation-box">
+                <span>${p.citation_text}</span>
+                <button class="btn-copy-apa" onclick="copyCitation(this)">복사</button>
+              </div>
+            </article>
+          `;
+        }).join("");
+      }
+
+      // ── Part Ⅳ: Policy ──
+      const policyContainer = document.getElementById("policyListContainer");
+      if (policyContainer) {
+        policyContainer.innerHTML = policies.map((pol, idx) => `
+          <article class="policy-bridge-card">
+            <div class="policy-card-top">
+              <div style="display:flex; align-items:center; gap:8px;">
+                <span class="policy-tag-badge">CROSS-INSIGHT 0${idx+1}</span>
+                <h3>${pol.title}</h3>
+              </div>
+              <div class="policy-connected-paper">${pol.authors_source}</div>
+            </div>
+            <div class="policy-card-body">
+              <div>
+                <div class="policy-col-title">국내 국책연구 핵심 실증 수치</div>
+                <div class="stat-snippet-box">
+                  <p style="margin: 0; white-space: pre-line;">${pol.findings}</p>
+                </div>
+              </div>
+              <div>
+                <div class="policy-col-title">이론적 접목 및 NRF 제안서 시사점</div>
+                <div class="academic-implication-box">
+                  <strong>학술적 접목점:</strong>
+                  <p style="margin: 6px 0 0;">${pol.critique}</p>
+                </div>
+              </div>
+            </div>
+          </article>
+        `).join("");
+      }
+
+      // ── Part Ⅴ: Agendas ──
+      const agendaContainer = document.getElementById("agendaListContainer");
+      if (agendaContainer) {
+        agendaContainer.innerHTML = agendas.map((ag) => `
+          <article class="agenda-card">
+            <div class="agenda-eyebrow">${ag.cluster}</div>
+            <h3 class="agenda-title">${ag.title}</h3>
+            <div class="agenda-content-grid">
+              <div class="agenda-block">
+                <strong>연구 기획 배경 및 정합성</strong>
+                <p>${ag.findings}</p>
+              </div>
+              <div class="agenda-block">
+                <strong>권장 표본 및 검증 방법론</strong>
+                <p>${ag.theory_method}</p>
+              </div>
+            </div>
+            ${ag.diagram_svg ? `
+              <div class="agenda-svg-box">
+                ${ag.diagram_svg}
+              </div>
+            ` : ''}
+            <div class="agenda-footer">
+              <strong>권장 투고처:</strong> ${ag.connection}
+            </div>
+          </article>
+        `).join("");
+      }
+
+      // ── Part Ⅵ: Intros ──
+      const introContainer = document.getElementById("introListContainer");
+      if (introContainer) {
+        introContainer.innerHTML = intros.map((it) => `
+          <article class="intro-excerpt-card">
+            <div class="intro-excerpt-header">
+              <h4 class="intro-excerpt-title">${it.title}</h4>
+              <button class="btn-copy-quote" onclick="copyText(this)">문단 복사</button>
+            </div>
+            <blockquote class="intro-quote-text">${it.citation_text}</blockquote>
+            <div class="intro-excerpt-footer">
+              <span>* 적용 연구: ${it.connection}</span>
+            </div>
+          </article>
+        `).join("");
+      }
+    }
+
+    // 3. Theme & Utilities
+    function setupTheme() {
+      const savedTheme = localStorage.getItem("scholar_theme") || "light";
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      updateThemeBtn(savedTheme);
+
+      const btn = document.getElementById("themeToggleBtn");
+      if (btn) {
+        btn.addEventListener("click", () => {
+          const current = document.documentElement.getAttribute("data-theme");
+          const next = current === "dark" ? "light" : "dark";
+          document.documentElement.setAttribute("data-theme", next);
+          localStorage.setItem("scholar_theme", next);
+          updateThemeBtn(next);
+          initCharts();
+        });
+      }
+    }
+
+    function updateThemeBtn(theme) {
+      const btn = document.getElementById("themeToggleBtn");
+      if (btn) {
+        btn.textContent = theme === "dark" ? "라이트모드" : "다크모드";
+      }
+    }
+
+    function copyCitation(btn) {
+      const text = btn.previousElementSibling.textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = "복사됨 ✓";
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    function copyText(btn) {
+      const card = btn.closest(".intro-excerpt-card");
+      const text = card.querySelector(".intro-quote-text").textContent.trim();
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = "복사됨 ✓";
+        setTimeout(() => { btn.textContent = orig; }, 2000);
+      });
+    }
+
+    let funnelChart = null;
+    let journalChart = null;
+
+    function initCharts() {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      const textColor = isDark ? "#cccccc" : "#555555";
+      const gridColor = isDark ? "rgba(255, 255, 255, 0.08)" : "rgba(0, 0, 0, 0.06)";
+
+      const funnelCtx = document.getElementById("weeklyFunnelChart")?.getContext("2d");
+      if (funnelCtx) {
+        if (funnelChart) funnelChart.destroy();
+        funnelChart = new Chart(funnelCtx, {
+          type: "bar",
+          data: {
+            labels: ["PWT/Decent", "취약노동/구조", "진로발달/적응", "진로평가/RIASEC", "관심학자(Autin)", "저널모니터링"],
+            datasets: [
+              {
+                label: "수집 (45편)",
+                data: [12, 9, 8, 7, 5, 4],
+                backgroundColor: isDark ? "#333333" : "#e2e2e2",
+                borderRadius: 2
+              },
+              {
+                label: "채택 (7편)",
+                data: [2, 1, 1, 1, 1, 1],
+                backgroundColor: isDark ? "#f0f0f0" : "#111111",
+                borderRadius: 2
+              }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: "bottom",
+                labels: { color: textColor, font: { family: "Pretendard", size: 11 }, boxWidth: 12 }
+              }
+            },
+            scales: {
+              x: {
+                grid: { display: false },
+                ticks: { color: textColor, font: { family: "Pretendard", size: 10 } }
+              },
+              y: {
+                grid: { color: gridColor },
+                ticks: { color: textColor, font: { family: "Pretendard", size: 10 }, stepSize: 2 }
+              }
+            }
+          }
+        });
+      }
+
+      const journalCtx = document.getElementById("journalDistChart")?.getContext("2d");
+      if (journalCtx) {
+        if (journalChart) journalChart.destroy();
+        journalChart = new Chart(journalCtx, {
+          type: "bar",
+          data: {
+            labels: ["JVB", "JCP", "CDQ", "JCA", "Applied Psych", "Frontiers"],
+            datasets: [{
+              label: "보관 서재 수록 편수",
+              data: [14, 9, 8, 6, 5, 6],
+              backgroundColor: isDark ? ["#ffffff", "#cccccc", "#aaaaaa", "#888888", "#666666", "#444444"] : ["#111111", "#333333", "#555555", "#777777", "#999999", "#bbbbbb"],
+              borderRadius: 2
+            }]
+          },
+          options: {
+            indexAxis: "y",
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: {
+                grid: { color: gridColor },
+                ticks: { color: textColor, font: { family: "Pretendard", size: 10 } }
+              },
+              y: {
+                grid: { display: false },
+                ticks: { color: textColor, font: { family: "Pretendard", size: 10 } }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    // 4. Initialize Framework on DOMContentLoaded
+    document.addEventListener("DOMContentLoaded", async () => {
+      setupTheme();
+      const rows = await loadEditorialData();
+      renderEditorial(rows);
+      setTimeout(initCharts, 100);
+    });
+  </script>
+</body>
+</html>
