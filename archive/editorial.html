@@ -655,7 +655,7 @@
       </div>
       <div class="nav-actions">
         <a href="index.html" class="nav-link">서재 목록</a>
-        <a href="editorial.html" class="nav-link active">Weekly Newsletter (10.11 ~ 10.17)</a>
+        <a href="editorial.html" class="nav-link active" id="navNewsletterLink">Weekly Newsletter (11.01 ~ 11.07)</a>
         <a href="map.html" class="nav-link">지식맵</a>
         <button id="themeToggleBtn" class="btn-toggle-theme" type="button">다크모드</button>
       </div>
@@ -697,18 +697,18 @@
       <div class="reading-section-header">
         <span class="section-num">Part Ⅰ</span>
         <h2 class="section-title">주간 학술 문헌 모니터링 개요 및 필터링 퍼널</h2>
-        <div class="section-desc">Semantic Scholar API 파이프라인에서 수집된 45편 중 연구실 핵심 정합 7편 선별 과정</div>
+        <div class="section-desc" id="overviewDesc">Semantic Scholar API 파이프라인에서 수집된 35편 중 연구실 핵심 정합 7편 선별 과정</div>
       </div>
 
       <div class="stat-grid" id="statGrid">
         <div class="stat-card">
           <div class="stat-label">주간 유입 문헌</div>
-          <div class="stat-val" id="statIngested">45<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
+          <div class="stat-val" id="statIngested">35<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
           <div class="stat-sub">Semantic Scholar 6개 트랙</div>
         </div>
         <div class="stat-card">
           <div class="stat-label">AI 1차 필터링 제외</div>
-          <div class="stat-val" id="statExcluded">29<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
+          <div class="stat-val" id="statExcluded">22<span style="font-size:1.1rem; font-weight:500;"> 편</span></div>
           <div class="stat-sub">일반 의학·경영학·서평 제외</div>
         </div>
         <div class="stat-card">
@@ -737,7 +737,7 @@
         <div class="chart-box">
           <div class="chart-box-header">
             <span>누적 연구 서재 저널별 분포 (상위 6개지)</span>
-            <span style="font-size:11px; color:var(--muted);">누적 48편 기준</span>
+            <span id="cumulCountLabel" style="font-size:11px; color:var(--muted);">누적 76편 기준</span>
           </div>
           <div class="chart-wrapper">
             <canvas id="journalDistChart"></canvas>

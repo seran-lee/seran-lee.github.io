@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>[미리보기] 이세란 교수 홈페이지 - 따뜻한 무드 샘플</title>
+  
+  <!-- Font & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  
+  <style>
+    /* 기본 테마 정의: 테라코타 & 크림 (안 A - 기본 활성화) */
+    :root {
+      --primary: #C06C4E;
+      --primary-hover: #A75538;
+      --primary-subtle: #F7ECE6;
+      --primary-subtle-text: #96482F;
+      --bg-page: #FAF7F2;
+      --bg-card: #FFFFFF;
+      --border-color: #EFE8DD;
+      --text-main: #2C2420;
+      --text-sub: #675B54;
+      --text-muted: #8E8179;
+      --shadow-warm: 0 12px 35px -8px rgba(140, 95, 65, 0.09);
+      --glow: rgba(192, 108, 78, 0.12);
+      --theme-name: "안 A: 웜 테라코타 & 크림";
+    }
+
+    /* 테마 B: 세이지 그린 & 리넨 */
+    [data-theme="sage"] {
+      --primary: #4E7361;
+      --primary-hover: #3D5D4E;
+      --primary-subtle: #EBF2EE;
+      --primary-subtle-text: #315242;
+      --bg-page: #F6F8F5;
+      --bg-card: #FFFFFF;
+      --border-color: #E2E8E3;
+      --text-main: #1F2622;
+      --text-sub: #546159;
+      --text-muted: #7E8C84;
+      --shadow-warm: 0 12px 35px -8px rgba(60, 90, 75, 0.09);
+      --glow: rgba(78, 115, 97, 0.12);
+      --theme-name: "안 B: 세이지 그린 & 리넨";
+    }
+
+    /* 테마 C: 소프트 로즈우드 & 바닐라 */
+    [data-theme="rosewood"] {
+      --primary: #A85D68;
+      --primary-hover: #8F4751;
+      --primary-subtle: #F9ECEE;
+      --primary-subtle-text: #873C47;
+      --bg-page: #FDF8F7;
+      --bg-card: #FFFFFF;
+      --border-color: #EFE3E5;
+      --text-main: #2A2123;
+      --text-sub: #665659;
+      --text-muted: #8F7D80;
+      --shadow-warm: 0 12px 35px -8px rgba(140, 70, 85, 0.09);
+      --glow: rgba(168, 93, 104, 0.12);
+      --theme-name: "안 C: 소프트 로즈우드 & 바닐라";
+    }
+
+    /* 테마 D: 기존 원본 사이트 (쿨 블루) */
+    [data-theme="original"] {
+      --primary: #607AFB;
+      --primary-hover: #4B66EE;
+      --primary-subtle: #EFF2FE;
+      --primary-subtle-text: #415DDC;
+      --bg-page: #F5F6F8;
+      --bg-card: #FFFFFF;
+      --border-color: #E2E8F0;
+      --text-main: #0F172A;
+      --text-sub: #475569;
+      --text-muted: #64748B;
+      --shadow-warm: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      --glow: rgba(96, 122, 251, 0.1);
+      --theme-name: "기존 사이트 (비교용 쿨 블루)";
+    }
+
+    body {
+      font-family: "Noto Serif KR", serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      transition: background-color 0.35s ease, color 0.35s ease;
+    }
+
+    .font-sans-kr {
+      font-family: "Noto Sans KR", sans-serif;
+    }
+
+    .font-display {
+      font-family: "Outfit", "Noto Serif KR", serif;
+    }
+
+    /* 다이내믹 컬러 바인딩 유틸리티 */
+    .theme-primary-bg { background-color: var(--primary) !important; }
+    .theme-primary-hover:hover { background-color: var(--primary-hover) !important; }
+    .theme-primary-text { color: var(--primary) !important; }
+    .theme-primary-border { border-color: var(--primary) !important; }
+    .theme-subtle-bg { background-color: var(--primary-subtle) !important; }
+    .theme-subtle-text { color: var(--primary-subtle-text) !important; }
+    .theme-border { border-color: var(--border-color) !important; }
+    .theme-card-bg { background-color: var(--bg-card) !important; }
+    .theme-warm-shadow { box-shadow: var(--shadow-warm) !important; }
+    .theme-text-sub { color: var(--text-sub) !important; }
+    .theme-text-muted { color: var(--text-muted) !important; }
+
+    /* 인터랙션 */
+    .pill-tag {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .pill-tag:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px var(--glow);
+    }
+    
+    .profile-glow {
+      position: relative;
+    }
+    .profile-glow::after {
+      content: '';
+      position: absolute;
+      inset: -12px;
+      border-radius: 9999px;
+      background: radial-gradient(circle, var(--glow) 0%, transparent 70%);
+      z-index: -1;
+      transition: background 0.4s ease;
+    }
+
+    /* 상단 플로팅 테마 전환바 */
+    .theme-switcher-bar {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- 🌟 테마 실시간 비교 스위처 (사용자 프리뷰용) 🌟 -->
+  <aside class="sticky top-0 z-50 w-full bg-white/90 border-b theme-border theme-switcher-bar shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-2.5 flex flex-wrap items-center justify-between gap-3 font-sans-kr">
+      <div class="flex items-center gap-2">
+        <span class="inline-flex items-center justify-center w-6 h-6 rounded-full theme-subtle-bg theme-primary-text text-xs font-bold">✨</span>
+        <span class="text-xs font-bold tracking-tight text-stone-800">실시간 무드 전환:</span>
+        <span id="current-theme-label" class="text-xs font-medium px-2 py-0.5 rounded-md theme-subtle-bg theme-primary-text">안 A: 웜 테라코타 & 크림 (추천)</span>
+      </div>
+      
+      <!-- 테마 선택 버튼 그룹 -->
+      <div class="flex items-center gap-1.5 overflow-x-auto text-xs py-0.5" id="theme-btn-group">
+        <button onclick="setTheme('terracotta')" id="btn-terracotta" class="px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-[#C06C4E] text-white shadow-sm ring-2 ring-offset-1 ring-[#C06C4E]">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#FAF7F2]"></span>
+          <span>안 A: 웜 테라코타 (추천)</span>
+        </button>
+
+        <button onclick="setTheme('sage')" id="btn-sage" class="px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-stone-100 text-stone-700 hover:bg-stone-200">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#4E7361]"></span>
+          <span>안 B: 세이지 그린</span>
+        </button>
+
+        <button onclick="setTheme('rosewood')" id="btn-rosewood" class="px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-stone-100 text-stone-700 hover:bg-stone-200">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#A85D68]"></span>
+          <span>안 C: 소프트 로즈우드</span>
+        </button>
+
+        <button onclick="setTheme('original')" id="btn-original" class="px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-stone-100 text-stone-700 hover:bg-stone-200 border border-slate-300">
+          <span class="w-2.5 h-2.5 rounded-full bg-[#607AFB]"></span>
+          <span>기존 쿨 블루 (비교)</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- GNB (Global Navigation Bar) -->
+  <header class="w-full border-b theme-border backdrop-blur-md sticky top-[49px] z-40 transition-colors" style="background-color: rgba(255, 255, 255, 0.75);">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <div class="flex items-center justify-between whitespace-nowrap">
+        <div class="flex items-center gap-3">
+          <div class="theme-primary-text transition-colors">
+            <span class="material-symbols-outlined text-2xl">auto_stories</span>
+          </div>
+          <a href="#" class="text-lg font-bold tracking-tight hover:opacity-80 transition-opacity">Seran Lee (이세란)</a>
+        </div>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium font-sans-kr">
+          <a href="#" class="theme-primary-text font-bold">Home</a>
+          <a href="#" class="theme-text-sub hover:opacity-80 transition-colors">Research</a>
+          <a href="#" class="theme-text-sub hover:opacity-80 transition-colors">Publications</a>
+          <a href="#" class="theme-text-sub hover:opacity-80 transition-colors">Contact</a>
+        </nav>
+        <div class="md:hidden">
+          <span class="material-symbols-outlined cursor-pointer">menu</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Container -->
+  <main class="max-w-4xl mx-auto px-6 py-10 lg:py-16 flex-1 w-full">
+    
+    <!-- Hero Section -->
+    <section class="flex flex-col md:flex-row items-center gap-10 py-6 mb-8" id="hero">
+      <div class="shrink-0 profile-glow">
+        <div class="size-48 md:size-56 rounded-full border-4 theme-card-bg theme-warm-shadow overflow-hidden bg-stone-100 transition-all">
+          <img alt="이세란 교수 프로필" class="w-full h-full object-cover" src="./assets/images/main_profile.png" onerror="this.src='https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80'"/>
+        </div>
+      </div>
+      
+      <div class="flex flex-col text-center md:text-left">
+        <div class="inline-flex items-center justify-center md:justify-start gap-2 mb-2 font-sans-kr">
+          <span class="px-2.5 py-0.5 rounded-full text-xs font-semibold uppercase tracking-wider theme-subtle-bg theme-subtle-text">
+            Assistant Professor
+          </span>
+          <span class="text-xs theme-text-muted">한남대학교 상담심리학과</span>
+        </div>
+        
+        <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight mb-3 font-display">
+          Seran Lee <span class="text-2xl md:text-3xl font-medium theme-text-sub font-sans-kr">(이세란)</span>
+        </h1>
+        
+        <p class="text-base md:text-lg theme-text-sub font-medium leading-relaxed max-w-xl font-sans-kr">
+          상담심리 전문가로서 일의 심리학, 소외계층 진로, 디지털·AI 상담 연구와 교육에 힘쓰고 있습니다.
+        </p>
+
+        <!-- Action Buttons -->
+        <div class="flex flex-wrap justify-center md:justify-start items-center gap-3 mt-7 font-sans-kr">
+          <a href="contact.html" class="flex items-center gap-2 theme-primary-bg theme-primary-hover text-white px-6 py-3 rounded-xl font-medium theme-warm-shadow hover:-translate-y-0.5 transition-all text-sm">
+            <span class="material-symbols-outlined text-base">mail</span>
+            <span>Contact Me</span>
+          </a>
+          
+          <a href="https://scholar.google.co.kr/citations?user=2pMO6LQAAAAJ" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2 theme-card-bg theme-text-sub hover:opacity-80 border theme-border px-4 py-3 rounded-xl font-medium theme-warm-shadow hover:-translate-y-0.5 transition-all text-sm">
+            <span class="material-symbols-outlined text-base theme-primary-text">school</span>
+            <span>Google Scholar</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Me Section -->
+    <section class="grid md:grid-cols-3 gap-8 items-start border-t theme-border pt-12 mt-6" id="about">
+      <div class="md:col-span-1">
+        <div class="flex items-center gap-2.5">
+          <div class="w-1.5 h-6 rounded-full theme-primary-bg"></div>
+          <h2 class="text-xl md:text-2xl font-bold tracking-tight uppercase font-display">About Me</h2>
+        </div>
+        <p class="text-xs theme-text-muted mt-2 font-sans-kr">연구 철학 및 주요 탐구 주제</p>
+      </div>
+      <div class="md:col-span-2 space-y-5 text-base md:text-lg leading-relaxed font-sans-kr">
+        <div class="p-6 rounded-2xl theme-card-bg theme-warm-shadow border theme-border">
+          <p class="theme-text-sub leading-relaxed">
+            구조적 제약으로 소외된 이들의 심리적 사각지대를 연구합니다. 일의 심리학(Psychology of Working) 관점을 기반으로 국내 취약 계층의 진로 발달과 괜찮은 일(Decent Work) 획득 과정을 탐구하며, 동시에 디지털 매체와 AI 기술을 상담에 접목해 서비스 접근성과 치료적 실효성을 높이는 연구를 진행합니다.
+          </p>
+          <div class="border-t theme-border mt-5 pt-4 text-sm theme-text-muted italic">
+            "I explore psychological blind spots among those marginalized by structural constraints. Based on the Psychology of Working perspective, I examine career development and the attainment of Decent Work among underserved populations, while integrating digital media and AI into counseling."
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Research Interests Section (포근한 뱃지 스타일) -->
+    <section class="mt-14 p-8 rounded-2xl theme-card-bg border theme-border theme-warm-shadow" id="interests">
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h3 class="text-lg md:text-xl font-bold uppercase tracking-wider font-display">Research Interests</h3>
+          <p class="text-xs theme-text-muted font-sans-kr mt-1">주요 관심 연구 분야 및 키워드</p>
+        </div>
+        <span class="material-symbols-outlined text-2xl theme-primary-text opacity-80">psychology</span>
+      </div>
+      
+      <div class="flex flex-wrap gap-2.5 font-sans-kr">
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          🌾 Psychology of Working
+        </span>
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          ✨ Decent Work
+        </span>
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          🤝 Marginalization
+        </span>
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          💡 Digital & AI Counseling
+        </span>
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          🧭 Career Intervention
+        </span>
+        <span class="pill-tag px-4 py-2 rounded-xl text-sm font-medium theme-subtle-bg theme-subtle-text border border-transparent cursor-default">
+          🌱 Counseling Psychology
+        </span>
+      </div>
+    </section>
+
+    <!-- Academic History & Career Section -->
+    <section class="grid md:grid-cols-2 gap-10 pt-14" id="history">
+      <!-- Education -->
+      <div class="p-6 md:p-8 rounded-2xl theme-card-bg border theme-border theme-warm-shadow">
+        <h3 class="text-lg font-bold mb-6 flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg theme-subtle-bg theme-primary-text flex items-center justify-center">
+            <span class="material-symbols-outlined text-lg">school</span>
+          </span>
+          <span>Education</span>
+        </h3>
+        <div class="space-y-6 font-sans-kr">
+          <div class="pl-4 border-l-2 theme-border relative hover:translate-x-1 transition-transform">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full theme-primary-bg"></div>
+            <p class="text-xs font-bold theme-primary-text uppercase tracking-wider">Ph.D.</p>
+            <h4 class="font-bold text-base mt-0.5">School and Career Psychology</h4>
+            <p class="text-sm theme-text-muted">Yonsei University</p>
+          </div>
+
+          <div class="pl-4 border-l-2 theme-border relative hover:translate-x-1 transition-transform">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full theme-primary-bg"></div>
+            <p class="text-xs font-bold theme-primary-text uppercase tracking-wider">M.A.</p>
+            <h4 class="font-bold text-base mt-0.5">School and Career Psychology</h4>
+            <p class="text-sm theme-text-muted">Yonsei University</p>
+          </div>
+
+          <div class="pl-4 border-l-2 theme-border relative hover:translate-x-1 transition-transform">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full theme-primary-bg"></div>
+            <p class="text-xs font-bold theme-primary-text uppercase tracking-wider">B.A.</p>
+            <h4 class="font-bold text-base mt-0.5">Counseling Psychology</h4>
+            <p class="text-sm theme-text-muted">Handong Global University</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Career -->
+      <div class="p-6 md:p-8 rounded-2xl theme-card-bg border theme-border theme-warm-shadow">
+        <h3 class="text-lg font-bold mb-6 flex items-center gap-2.5">
+          <span class="w-8 h-8 rounded-lg theme-subtle-bg theme-primary-text flex items-center justify-center">
+            <span class="material-symbols-outlined text-lg">work_outline</span>
+          </span>
+          <span>Career</span>
+        </h3>
+        <div class="space-y-6 font-sans-kr">
+          <div class="pl-4 border-l-2 theme-border relative hover:translate-x-1 transition-transform">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full theme-primary-bg"></div>
+            <span class="inline-block px-2 py-0.5 rounded text-[10px] font-bold theme-subtle-bg theme-subtle-text uppercase mb-1">현재</span>
+            <h4 class="font-bold text-base">조교수 (Assistant Professor)</h4>
+            <p class="text-sm theme-text-sub">한남대학교 상담심리학과</p>
+            <p class="text-xs theme-text-muted mt-0.5">Hannam University, Dept. of Counseling Psychology</p>
+          </div>
+
+          <div class="pl-4 border-l-2 theme-border relative hover:translate-x-1 transition-transform">
+            <div class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full theme-primary-bg"></div>
+            <p class="text-xs font-bold theme-text-muted uppercase tracking-wider">자격</p>
+            <h4 class="font-bold text-base mt-0.5">상담심리사 1급</h4>
+            <p class="text-sm theme-text-muted">한국상담심리학회</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full border-t theme-border py-10 mt-16 font-sans-kr transition-colors">
+    <div class="max-w-4xl mx-auto px-6 text-center space-y-4">
+      <div class="flex justify-center gap-6 text-xs uppercase tracking-widest font-medium">
+        <a href="https://scholar.google.co.kr/citations?user=2pMO6LQAAAAJ" target="_blank" class="theme-text-muted hover:opacity-80 transition-opacity">Google Scholar</a>
+        <span class="text-stone-300">•</span>
+        <a href="https://counselpsy.hannam.ac.kr/" target="_blank" class="theme-text-muted hover:opacity-80 transition-opacity">HNU Counseling Psychology</a>
+        <span class="text-stone-300">•</span>
+        <a href="mailto:seran.lee@hnu.kr" class="theme-text-muted hover:opacity-80 transition-opacity">Email</a>
+      </div>
+      <p class="text-xs theme-text-muted tracking-tight">
+        © 2026 Seran Lee (이세란). Academic Research Portfolio.
+      </p>
+    </div>
+  </footer>
+
+  <!-- 테마 전환 스크립트 -->
+  <script>
+    const THEMES = {
+      terracotta: {
+        id: 'terracotta',
+        label: '안 A: 웜 테라코타 & 크림 (추천)',
+        btnBg: 'bg-[#C06C4E]',
+        btnText: 'text-white',
+        ring: 'ring-2 ring-offset-1 ring-[#C06C4E]'
+      },
+      sage: {
+        id: 'sage',
+        label: '안 B: 세이지 그린 & 리넨',
+        btnBg: 'bg-[#4E7361]',
+        btnText: 'text-white',
+        ring: 'ring-2 ring-offset-1 ring-[#4E7361]'
+      },
+      rosewood: {
+        id: 'rosewood',
+        label: '안 C: 소프트 로즈우드 & 바닐라',
+        btnBg: 'bg-[#A85D68]',
+        btnText: 'text-white',
+        ring: 'ring-2 ring-offset-1 ring-[#A85D68]'
+      },
+      original: {
+        id: 'original',
+        label: '기존 사이트 (비교용 쿨 블루)',
+        btnBg: 'bg-[#607AFB]',
+        btnText: 'text-white',
+        ring: 'ring-2 ring-offset-1 ring-[#607AFB]'
+      }
+    };
+
+    function setTheme(themeKey) {
+      // 1. Root data-theme 속성 변경
+      if (themeKey === 'terracotta') {
+        document.documentElement.removeAttribute('data-theme');
+      } else {
+        document.documentElement.setAttribute('data-theme', themeKey);
+      }
+
+      // 2. 상단 라벨 텍스트 변경
+      const labelEl = document.getElementById('current-theme-label');
+      if (labelEl) {
+        labelEl.textContent = THEMES[themeKey].label;
+      }
+
+      // 3. 버튼 활성화 상태 갱신
+      Object.keys(THEMES).forEach(key => {
+        const btn = document.getElementById(`btn-${key}`);
+        if (!btn) return;
+        
+        if (key === themeKey) {
+          btn.className = `px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 ${THEMES[key].btnBg} ${THEMES[key].btnText} shadow-sm ${THEMES[key].ring}`;
+        } else {
+          btn.className = 'px-3 py-1.5 rounded-full font-medium transition-all flex items-center gap-1.5 bg-stone-100 text-stone-700 hover:bg-stone-200';
+        }
+      });
+    }
+  </script>
+</body>
+</html>
