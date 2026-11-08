@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-11-07",
+  "updated_at": "2026-11-08",
   "author": {
-    "cited_by_count": 102,
+    "cited_by_count": 108,
     "h_index": 4,
     "i10_index": 2,
     "works_count": 12
   },
   "works": {
     "https://doi.org/10.1037/cou0000368": {
-      "cited_by_count": 76,
+      "cited_by_count": 81,
       "counts_by_year": [
         {
           "year": 2026,
-          "cited_by_count": 17
+          "cited_by_count": 19
         },
         {
           "year": 2025,
@@ -20,16 +20,16 @@
         },
         {
           "year": 2024,
-          "cited_by_count": 11
+          "cited_by_count": 12
         }
       ]
     },
     "https://doi.org/10.3389/fpsyg.2021.611464": {
-      "cited_by_count": 14,
+      "cited_by_count": 15,
       "counts_by_year": [
         {
           "year": 2026,
-          "cited_by_count": 2
+          "cited_by_count": 3
         },
         {
           "year": 2025,
