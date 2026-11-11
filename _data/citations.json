@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-11-10",
+  "updated_at": "2026-11-11",
   "author": {
     "cited_by_count": 108,
     "h_index": 4,
     "i10_index": 2,
-    "works_count": 12
+    "works_count": 13
   },
   "works": {
     "https://doi.org/10.1037/cou0000368": {
@@ -114,6 +114,10 @@
       "counts_by_year": []
     },
     "https://doi.org/10.1007/s12144-026-09934-5": {
+      "cited_by_count": 0,
+      "counts_by_year": []
+    },
+    "https://doi.org/10.1037/e515672026-001": {
       "cited_by_count": 0,
       "counts_by_year": []
     }
